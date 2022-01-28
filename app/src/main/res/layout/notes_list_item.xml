@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: check if height needs to be wrap_content instead -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+        THIS WILL BE USED AS THE LAYOUT FILE FOR THE NoteRecyclerView() TO DISPLAY
+        THE NOTES IN MainActivity()
+                                                        -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
