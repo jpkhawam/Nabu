@@ -5,11 +5,10 @@
     android:id="@+id/material_card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="7dp"
+    android:layout_margin="3dp"
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    android:padding="6dp"
     app:cardBackgroundColor="@color/md_theme_dark_background"
     app:cardCornerRadius="10dp"
     app:cardElevation="0dp"
@@ -19,15 +18,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/note_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
-            android:fontFamily="sans-serif-condensed-medium"
+
+            android:fontFamily="sans-serif-medium"
             android:textColor="#FFF"
             android:textSize="17sp"
             android:visibility="gone" />
@@ -40,18 +39,16 @@
             android:layout_marginTop="7dp"
             android:visibility="gone"
             app:dividerColor="#99978C8C"
-            app:dividerInsetEnd="30dp"
-            app:dividerInsetStart="10dp" />
+            app:dividerInsetEnd="30dp" />
 
         <TextView
             android:id="@+id/note_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif-light"
             android:maxHeight="250dp"
             android:textColor="#FFF"
             android:visibility="gone" />

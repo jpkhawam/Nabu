@@ -55,6 +55,12 @@ public class NotesRecyclerViewAdapter
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
             return true;
         });
+        holder.materialCardView.setOnClickListener(view -> {
+            if (holder.materialCardView.isChecked()) {
+                holder.materialCardView.setChecked(false);
+            }
+            // else go to note view
+        });
     }
 
     @Override
