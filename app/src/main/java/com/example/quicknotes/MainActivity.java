@@ -22,10 +22,11 @@ public class MainActivity extends AppCompatActivity {
         notes.add(new Note("Note 1", "Note 1 content"));
         notes.add(new Note(getString(R.string.lorem_ipsum_title), getString(R.string.lorem_ipsum_short)));
         notes.add(new Note("Note 2", "Note 2 content"));
-        notes.add(new Note(getString(R.string.lorem_ipsum_title), getString(R.string.lorem_ipsum)));
         notes.add(new Note("Note 3", "Note 3 content"));
-        notes.add(new Note("Note 4", "Note 4 content"));
         notes.add(new Note(getString(R.string.lorem_ipsum_title), getString(R.string.lorem_ipsum_short)));
+        notes.add(new Note(null, "This note doesn't have a title"));
+        notes.add(new Note(null, "This note also doesn't have a title and it looks fine"));
+        notes.add(new Note("This note has a title only", null));
 
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
         adapter.setNotes(notes);

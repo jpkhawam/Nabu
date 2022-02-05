@@ -10,14 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.divider.MaterialDivider;
 
 import java.util.ArrayList;
 
 public class NotesRecyclerViewAdapter
         extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
 
-    private ArrayList<Note> notes = new ArrayList<>();
     private final Context context;
+    private ArrayList<Note> notes = new ArrayList<>();
 
     public NotesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -39,8 +40,17 @@ public class NotesRecyclerViewAdapter
         // here is where we can modify the attributes of the note in main activity view
         // and set on click listeners, and set the display
         // you can access them from the holder directly
-        holder.noteTitle.setText(notes.get(position).getTitle());
-        holder.noteContent.setText(notes.get(position).getContent());
+        if (notes.get(position).getTitle() != null) {
+            holder.noteTitle.setText(notes.get(position).getTitle());
+            holder.noteTitle.setVisibility(View.VISIBLE);
+        }
+        if (notes.get(position).getContent() != null) {
+            holder.noteContent.setText(notes.get(position).getContent());
+            holder.noteContent.setVisibility(View.VISIBLE);
+        }
+        if (holder.noteTitle.getVisibility() == View.VISIBLE && holder.noteContent.getVisibility() == View.VISIBLE) {
+            holder.materialDivider.setVisibility(View.VISIBLE);
+        }
         holder.materialCardView.setOnLongClickListener(view -> {
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
             return true;
@@ -62,11 +72,14 @@ public class NotesRecyclerViewAdapter
         private final TextView noteTitle;
         private final TextView noteContent;
         private final MaterialCardView materialCardView;
+        private final MaterialDivider materialDivider;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             materialCardView = itemView.findViewById(R.id.material_card_view);
             noteTitle = itemView.findViewById(R.id.note_title);
             noteContent = itemView.findViewById(R.id.note_content);
+            materialDivider = itemView.findViewById(R.id.divider);
         }
     }
 

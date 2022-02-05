@@ -18,7 +18,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/note_title"
@@ -28,31 +29,32 @@
             android:layout_marginTop="7dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:textColor="#FFF"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:visibility="gone" />
 
         <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="3dp"
-            android:textAlignment="center"
-            app:dividerColor="@color/md_theme_dark_onSecondary"
-            app:dividerInsetEnd="16dp"
-            app:dividerInsetStart="16dp" />
+            android:layout_below="@+id/note_title"
+            android:layout_marginTop="7dp"
+            android:visibility="gone"
+            app:dividerColor="#99978C8C"
+            app:dividerInsetEnd="30dp"
+            app:dividerInsetStart="10dp" />
 
         <TextView
             android:id="@+id/note_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/note_title"
+            android:layout_below="@id/divider"
             android:layout_marginStart="10dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
             android:fontFamily="sans-serif-medium"
             android:maxHeight="250dp"
-            android:textColor="#FFF" />
+            android:textColor="#FFF"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
