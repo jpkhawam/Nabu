@@ -4,10 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
@@ -37,9 +39,12 @@ public class NotesRecyclerViewAdapter
         // here is where we can modify the attributes of the note in main activity view
         // and set on click listeners, and set the display
         // you can access them from the holder directly
-        // for example
-        // holder.parentLayout.setOnClickListener(v -> {});
-        // (this onClick is set for one element only since each element gets one layout)
+        holder.noteTitle.setText(notes.get(position).getTitle());
+        holder.noteContent.setText(notes.get(position).getContent());
+        holder.materialCardView.setOnLongClickListener(view -> {
+            holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
+            return true;
+        });
     }
 
     @Override
@@ -48,18 +53,21 @@ public class NotesRecyclerViewAdapter
     }
 
     public void setNotes(ArrayList<Note> notes) {
-        //TODO: fill this method
+        // TODO: needs to be reworked
+        this.notes = notes;
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private ConstraintLayout parentLayout;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView noteTitle;
+        private final TextView noteContent;
+        private final MaterialCardView materialCardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            parentLayout = itemView.findViewById(R.id.noteConstraintLayout);
+            materialCardView = itemView.findViewById(R.id.material_card_view);
+            noteTitle = itemView.findViewById(R.id.note_title);
+            noteContent = itemView.findViewById(R.id.note_content);
         }
-        //TODO: finish this class
-
     }
 
 }

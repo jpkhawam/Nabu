@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- TODO: check if dimensions needs to be wrap_content or match_parent -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/material_card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/noteConstraintLayout">
+    android:layout_margin="7dp"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="6dp"
+    app:cardBackgroundColor="@color/md_theme_dark_background"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#99978C8C"
+    app:strokeWidth="1dp">
 
-    <!--
-        THIS WILL BE USED AS THE LAYOUT FILE FOR THE NoteRecyclerView() TO DISPLAY
-        THE NOTES IN MainActivity()
-                                                        -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textColor="#FFF"
+            android:textSize="17sp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="3dp"
+            android:textAlignment="center"
+            app:dividerColor="@color/md_theme_dark_onSecondary"
+            app:dividerInsetEnd="16dp"
+            app:dividerInsetStart="16dp" />
+
+        <TextView
+            android:id="@+id/note_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/note_title"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:maxHeight="250dp"
+            android:textColor="#FFF" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
