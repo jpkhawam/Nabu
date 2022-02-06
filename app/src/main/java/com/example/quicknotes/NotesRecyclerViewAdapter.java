@@ -4,18 +4,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.divider.MaterialDivider;
 
 import java.util.ArrayList;
 
 public class NotesRecyclerViewAdapter
         extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
 
-    private ArrayList<Note> notes = new ArrayList<>();
     private final Context context;
+    private ArrayList<Note> notes = new ArrayList<>();
 
     public NotesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -37,9 +40,30 @@ public class NotesRecyclerViewAdapter
         // here is where we can modify the attributes of the note in main activity view
         // and set on click listeners, and set the display
         // you can access them from the holder directly
-        // for example
-        // holder.parentLayout.setOnClickListener(v -> {});
-        // (this onClick is set for one element only since each element gets one layout)
+        if (notes.get(position).getTitle() != null) {
+            holder.noteTitle.setText(notes.get(position).getTitle());
+            holder.noteTitle.setVisibility(View.VISIBLE);
+        }
+        if (notes.get(position).getContent() != null) {
+            holder.noteContent.setText(notes.get(position).getContent());
+            holder.noteContent.setVisibility(View.VISIBLE);
+        }
+        if (holder.noteTitle.getVisibility() == View.VISIBLE && holder.noteContent.getVisibility() == View.VISIBLE) {
+            holder.materialDivider.setVisibility(View.VISIBLE);
+        }
+        holder.materialCardView.setOnLongClickListener(view -> {
+            holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
+            return true;
+        });
+        holder.materialCardView.setOnClickListener(view -> {
+            if (holder.materialCardView.isChecked()) {
+                holder.materialCardView.setChecked(false);
+            }
+            // else go to note view
+        });
+        if (notes.get(position).getBackgroundColor() != 0) {
+            holder.materialCardView.setBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
+        }
     }
 
     @Override
@@ -47,19 +71,27 @@ public class NotesRecyclerViewAdapter
         return notes.size();
     }
 
-    public void setNotes(ArrayList<Note> notes) {
-        //TODO: fill this method
-        notifyDataSetChanged();
+    public void addNote(Note note) {
+        this.notes.add(note);
+        // TODO:
+        //  JP: i am not sure which item needs to have a listener for this event
+        notifyItemInserted(notes.size());
+        // if it doesn't work try notifyDataSetChanged()
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private ConstraintLayout parentLayout;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView noteTitle;
+        private final TextView noteContent;
+        private final MaterialCardView materialCardView;
+        private final MaterialDivider materialDivider;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            parentLayout = itemView.findViewById(R.id.noteConstraintLayout);
+            materialCardView = itemView.findViewById(R.id.material_card_view);
+            noteTitle = itemView.findViewById(R.id.note_title);
+            noteContent = itemView.findViewById(R.id.note_content);
+            materialDivider = itemView.findViewById(R.id.divider);
         }
-        //TODO: finish this class
-
     }
 
 }
