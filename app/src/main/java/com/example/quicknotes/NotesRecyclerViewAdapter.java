@@ -70,6 +70,12 @@ public class NotesRecyclerViewAdapter
     public int getItemCount() {
         return notes.size();
     }
+        
+    // remove this function later
+    public void setNotes(ArrayList<Note> notes) {
+        this.notes = notes;
+        notifyDataSetChanged();
+    }
 
     public void addNote(Note note) {
         this.notes.add(note);
