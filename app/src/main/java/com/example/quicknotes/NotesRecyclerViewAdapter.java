@@ -1,6 +1,7 @@
 package com.example.quicknotes;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ public class NotesRecyclerViewAdapter
 
     private final Context context;
     private ArrayList<Note> notes = new ArrayList<>();
+    private static boolean IS_CHECKING_NOTES = false;
+    private static int NUMBER_OF_NOTES_CHECKED = 0;
 
     public NotesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -53,22 +56,33 @@ public class NotesRecyclerViewAdapter
         }
         holder.materialCardView.setOnLongClickListener(view -> {
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
+            IS_CHECKING_NOTES = true;
+            NUMBER_OF_NOTES_CHECKED++;
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
-            if (holder.materialCardView.isChecked()) {
-                holder.materialCardView.setChecked(false);
+            if (IS_CHECKING_NOTES) {
+                if (!holder.materialCardView.isChecked())
+                    NUMBER_OF_NOTES_CHECKED++;
+                else
+                    NUMBER_OF_NOTES_CHECKED--;
+                holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
+                if (NUMBER_OF_NOTES_CHECKED == 0)
+                    IS_CHECKING_NOTES = false;
             }
             // else go to note view
         });
-        if (notes.get(position).getBackgroundColor() != 0) {
-            holder.materialCardView.setBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
-        }
     }
 
     @Override
     public int getItemCount() {
         return notes.size();
+    }
+
+    // remove this function later
+    public void setNotes(ArrayList<Note> notes) {
+        this.notes = notes;
+        notifyDataSetChanged();
     }
 
     public void addNote(Note note) {
