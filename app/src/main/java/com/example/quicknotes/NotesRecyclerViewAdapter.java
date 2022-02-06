@@ -20,7 +20,7 @@ public class NotesRecyclerViewAdapter
 
     private final Context context;
     private ArrayList<Note> notes = new ArrayList<>();
-    private static boolean IS_CHECKING_NOTES = false;
+    private static boolean USER_IS_CHECKING_NOTES = false;
     private static int NUMBER_OF_NOTES_CHECKED = 0;
 
     public NotesRecyclerViewAdapter(Context context) {
@@ -56,19 +56,19 @@ public class NotesRecyclerViewAdapter
         }
         holder.materialCardView.setOnLongClickListener(view -> {
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-            IS_CHECKING_NOTES = true;
+            USER_IS_CHECKING_NOTES = true;
             NUMBER_OF_NOTES_CHECKED++;
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
-            if (IS_CHECKING_NOTES) {
+            if (USER_IS_CHECKING_NOTES) {
                 if (!holder.materialCardView.isChecked())
                     NUMBER_OF_NOTES_CHECKED++;
                 else
                     NUMBER_OF_NOTES_CHECKED--;
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
                 if (NUMBER_OF_NOTES_CHECKED == 0)
-                    IS_CHECKING_NOTES = false;
+                    USER_IS_CHECKING_NOTES = false;
             }
             // else go to note view
         });
