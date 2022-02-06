@@ -61,6 +61,9 @@ public class NotesRecyclerViewAdapter
             }
             // else go to note view
         });
+        if (notes.get(position).getBackgroundColor() != 0) {
+            holder.materialCardView.setBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
+        }
     }
 
     @Override
@@ -68,10 +71,12 @@ public class NotesRecyclerViewAdapter
         return notes.size();
     }
 
-    public void setNotes(ArrayList<Note> notes) {
-        // TODO: needs to be reworked
-        this.notes = notes;
-        notifyDataSetChanged();
+    public void addNote(Note note) {
+        this.notes.add(note);
+        // TODO:
+        //  JP: i am not sure which item needs to have a listener for this event
+        notifyItemInserted(notes.size());
+        // if it doesn't work try notifyDataSetChanged()
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
