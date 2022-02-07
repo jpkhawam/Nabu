@@ -5,12 +5,12 @@
     android:id="@+id/material_card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
+    android:layout_margin="4dp"
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="@color/md_theme_dark_background"
-    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="?android:colorBackground"
+    app:cardCornerRadius="15dp"
     app:cardElevation="0dp"
     app:strokeColor="#99978C8C"
     app:strokeWidth="1dp">
@@ -25,10 +25,9 @@
             android:id="@+id/note_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:fontFamily="sans-serif-medium"
-            android:textColor="#FFF"
-            android:textSize="17sp"
+            android:fontFamily="@font/open_sans"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="16sp"
             android:visibility="gone" />
 
         <com.google.android.material.divider.MaterialDivider
@@ -39,7 +38,7 @@
             android:layout_marginTop="7dp"
             android:visibility="gone"
             app:dividerColor="#99978C8C"
-            app:dividerInsetEnd="30dp" />
+            app:dividerInsetEnd="25dp" />
 
         <TextView
             android:id="@+id/note_content"
@@ -48,9 +47,10 @@
             android:layout_below="@id/divider"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/noto_sans_regular"
             android:maxHeight="250dp"
-            android:textColor="#FFF"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="14sp"
             android:visibility="gone" />
 
     </RelativeLayout>

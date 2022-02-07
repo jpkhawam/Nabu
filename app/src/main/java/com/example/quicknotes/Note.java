@@ -9,6 +9,7 @@ public class Note {
     private String title;
     private String content;
     private LocalDateTime dateEdited;
+    private int backgroundColor;
 
     public Note() {
         this.dateCreated = LocalDateTime.now();
@@ -17,6 +18,13 @@ public class Note {
     public Note(String title, String content) {
         this.title = title;
         this.content = content;
+        this.dateCreated = LocalDateTime.now();
+    }
+
+    public Note(String title, String content, int backgroundColor) {
+        this.title = title;
+        this.content = content;
+        this.backgroundColor = backgroundColor;
         this.dateCreated = LocalDateTime.now();
     }
 
@@ -36,6 +44,14 @@ public class Note {
     public void setContent(String content) {
         this.content = content;
         setDateEdited(LocalDateTime.now());
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     public String getDateCreated() {
