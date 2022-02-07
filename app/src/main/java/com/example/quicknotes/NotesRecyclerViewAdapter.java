@@ -1,7 +1,6 @@
 package com.example.quicknotes;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,10 @@ import java.util.ArrayList;
 public class NotesRecyclerViewAdapter
         extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
 
-    private final Context context;
-    private ArrayList<Note> notes = new ArrayList<>();
     private static boolean USER_IS_CHECKING_NOTES = false;
     private static int NUMBER_OF_NOTES_CHECKED = 0;
+    private final Context context;
+    private ArrayList<Note> notes = new ArrayList<>();
 
     public NotesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -72,6 +71,9 @@ public class NotesRecyclerViewAdapter
             }
             // else go to note view
         });
+        if (notes.get(position).getBackgroundColor() != 0) {
+            holder.materialCardView.setCardBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
+        }
     }
 
     @Override
