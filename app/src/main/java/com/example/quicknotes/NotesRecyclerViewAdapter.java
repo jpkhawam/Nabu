@@ -54,9 +54,12 @@ public class NotesRecyclerViewAdapter
             holder.materialDivider.setVisibility(View.VISIBLE);
         }
         holder.materialCardView.setOnLongClickListener(view -> {
+            if (!holder.materialCardView.isChecked())
+                NUMBER_OF_NOTES_CHECKED++;
+            else
+                NUMBER_OF_NOTES_CHECKED--;
+            USER_IS_CHECKING_NOTES = NUMBER_OF_NOTES_CHECKED > 0;
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-            USER_IS_CHECKING_NOTES = true;
-            NUMBER_OF_NOTES_CHECKED++;
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
@@ -79,12 +82,6 @@ public class NotesRecyclerViewAdapter
     @Override
     public int getItemCount() {
         return notes.size();
-    }
-        
-    // remove this function later
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
-        notifyDataSetChanged();
     }
 
     // remove this function later
