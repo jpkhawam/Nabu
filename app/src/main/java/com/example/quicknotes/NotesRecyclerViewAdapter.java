@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.divider.MaterialDivider;
 
 import java.util.ArrayList;
 
@@ -29,29 +28,37 @@ public class NotesRecyclerViewAdapter
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // create a new View via the layout inflater
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.notes_list_item, parent, false);
-        // and return a new ViewHolder object instantiated with this view
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // here is where we can modify the attributes of the note in main activity view
-        // and set on click listeners, and set the display
-        // you can access them from the holder directly
+        // and set on click listeners, you can access elements from the holder
         if (notes.get(position).getTitle() != null) {
             holder.noteTitle.setText(notes.get(position).getTitle());
             holder.noteTitle.setVisibility(View.VISIBLE);
         }
         if (notes.get(position).getContent() != null) {
-            holder.noteContent.setText(notes.get(position).getContent());
+            String noteContent = notes.get(position).getContent();
+            if (noteContent.length() > 200) {
+                StringBuilder contentPreview = new StringBuilder();
+                Character current_character;
+                for (int i = 0; i < 200; i++) {
+                    current_character = noteContent.charAt(i);
+                    if (current_character.equals(' ') && i > 150)
+                        break;
+                    contentPreview.append(noteContent.charAt(i));
+                }
+                contentPreview = new StringBuilder(contentPreview.toString().concat("..."));
+                holder.noteContent.setText(contentPreview.toString());
+            } else {
+                holder.noteContent.setText(notes.get(position).getContent());
+            }
             holder.noteContent.setVisibility(View.VISIBLE);
-        }
-        if (holder.noteTitle.getVisibility() == View.VISIBLE && holder.noteContent.getVisibility() == View.VISIBLE) {
-            holder.materialDivider.setVisibility(View.VISIBLE);
         }
         holder.materialCardView.setOnLongClickListener(view -> {
             if (!holder.materialCardView.isChecked())
@@ -72,7 +79,7 @@ public class NotesRecyclerViewAdapter
                 if (NUMBER_OF_NOTES_CHECKED == 0)
                     USER_IS_CHECKING_NOTES = false;
             }
-            // else go to note view
+            // TODO: else go to note activity view
         });
         if (notes.get(position).getBackgroundColor() != 0) {
             holder.materialCardView.setCardBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
@@ -84,7 +91,7 @@ public class NotesRecyclerViewAdapter
         return notes.size();
     }
 
-    // remove this function later
+    // TODO: remove this function later
     public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
         notifyDataSetChanged();
@@ -102,14 +109,12 @@ public class NotesRecyclerViewAdapter
         private final TextView noteTitle;
         private final TextView noteContent;
         private final MaterialCardView materialCardView;
-        private final MaterialDivider materialDivider;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             materialCardView = itemView.findViewById(R.id.material_card_view);
             noteTitle = itemView.findViewById(R.id.note_title);
             noteContent = itemView.findViewById(R.id.note_content);
-            materialDivider = itemView.findViewById(R.id.divider);
         }
     }
 
