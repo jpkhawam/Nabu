@@ -1,5 +1,5 @@
 <resources>
-
+    <!-- Temporary custom theme. JP / Yellow -->
     <style name="Theme.QuickNotes" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -17,8 +17,7 @@
         <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
         <item name="colorOnError">@color/md_theme_light_onError</item>
         <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
-        <item name="android:colorBackground">@color/md_theme_light_primaryContainer</item>
-        <item name="android:navigationBarColor">@color/md_theme_light_tertiary</item>
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
         <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
         <item name="colorSurface">@color/md_theme_light_surface</item>
         <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
@@ -30,5 +29,4 @@
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
     </style>
 
-    <color name="colorTitle">#1F1F1F</color>
 </resources>
