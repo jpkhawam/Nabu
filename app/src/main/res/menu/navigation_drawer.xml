@@ -1,4 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/group1">
+        <item
+            android:id="@+id/notes"
+            android:icon="@drawable/ic_lamp"
+            android:title="@string/notes" />
+        <item
+            android:id="@+id/reminders"
+            android:icon="@drawable/ic_bell"
+            android:title="@string/reminders" />
+    </group>
+
+    <group android:id="@+id/group2">
+        <item
+            android:id="@+id/labels"
+            android:icon="@drawable/ic_label"
+            android:title="@string/labels" />
+        <item
+            android:id="@+id/new_label"
+            android:icon="@drawable/ic_add"
+            android:title="@string/new_label" />
+    </group>
+
+    <group android:id="@+id/group3">
+        <item
+            android:id="@+id/archive"
+            android:icon="@drawable/ic_archive"
+            android:title="@string/archive" />
+        <item
+            android:id="@+id/trash"
+            android:icon="@drawable/ic_trash"
+            android:title="@string/trash" />
+    </group>
 
 </menu>
