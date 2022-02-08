@@ -31,7 +31,7 @@
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="3dp"
             android:fontFamily="@font/open_sans_semi_bold"
-            android:textColor="?attr/colorOnBackground"
+            android:textColor="@color/colorTitle"
             android:textSize="16sp"
             android:visibility="gone" />
 

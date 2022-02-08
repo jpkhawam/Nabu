@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
             notes.add(new Note(null, "This note doesn't have a title"));
             notes.add(new Note(null, "This note also doesn't have a title and it looks fine"));
             notes.add(new Note("This note has a title only", null));
-            notes.add(new Note("This note has a color", "yes it does", R.color.md_theme_light_onSurfaceVariant));
         }
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
         adapter.setNotes(notes);
