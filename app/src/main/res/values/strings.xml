@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">QuickNotes</string>
     <string name="create_new_note">Create New Note</string>
+
+    <string name="notes">Notes</string>
+    <string name="reminders">Reminders</string>
+    <string name="labels">Labels</string>
+    <string name="new_label">Create new label</string>
+    <string name="archive">Archive</string>
+    <string name="trash">Trash</string>
+
+    <string name="open_nav_drawer">Navigation Drawer Open</string>
+    <string name="close_nav_drawer">Navigation Drawer Close</string>
 </resources>
