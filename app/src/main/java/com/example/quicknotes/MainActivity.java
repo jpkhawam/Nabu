@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private RecyclerView notesRecyclerView;
     private Toolbar toolbar;
-
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
