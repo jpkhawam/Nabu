@@ -5,12 +5,12 @@
         <item
             android:id="@+id/notes"
             android:contentDescription="@string/go_back_to_home_page"
-            android:icon="@drawable/ic_note_light"
+            android:icon="@drawable/ic_note_dark"
             android:title="@string/notes" />
         <item
             android:id="@+id/reminders"
             android:contentDescription="@string/view_notes_that_have_reminders"
-            android:icon="@drawable/ic_bell_light"
+            android:icon="@drawable/ic_bell_dark"
             android:title="@string/reminders" />
     </group>
 
@@ -37,17 +37,17 @@
         <item
             android:id="@+id/archive"
             android:contentDescription="@string/go_to_archive"
-            android:icon="@drawable/ic_archive_light"
+            android:icon="@drawable/ic_archive_dark"
             android:title="@string/archive" />
         <item
             android:id="@+id/trash"
             android:contentDescription="@string/go_to_trash"
-            android:icon="@drawable/ic_trash_light"
+            android:icon="@drawable/ic_trash_dark"
             android:title="@string/trash" />
         <item
             android:id="@+id/settings"
             android:contentDescription="@string/go_to_settings"
-            android:icon="@drawable/ic_settings_light"
+            android:icon="@drawable/ic_settings_dark"
             android:title="@string/settings" />
     </group>
 

@@ -32,7 +32,7 @@
             android:layout_marginBottom="3dp"
             android:fontFamily="@font/open_sans_semi_bold"
             android:textColor="@color/colorTitle"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:visibility="gone" />
 
         <TextView

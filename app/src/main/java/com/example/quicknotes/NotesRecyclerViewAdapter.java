@@ -44,12 +44,12 @@ public class NotesRecyclerViewAdapter
         }
         if (notes.get(position).getContent() != null) {
             String noteContent = notes.get(position).getContent();
-            if (noteContent.length() > 200) {
+            if (noteContent.length() > 170) {
                 StringBuilder contentPreview = new StringBuilder();
                 Character current_character;
-                for (int i = 0; i < 200; i++) {
+                for (int i = 0; i < 170; i++) {
                     current_character = noteContent.charAt(i);
-                    if (current_character.equals(' ') && i > 150)
+                    if (current_character.equals(' ') && i > 130)
                         break;
                     contentPreview.append(noteContent.charAt(i));
                 }

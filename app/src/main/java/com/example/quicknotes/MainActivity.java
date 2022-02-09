@@ -21,6 +21,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.open_nav_drawer,
+                R.string.close_nav_drawer
+        );
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         ArrayList<Note> notes = new ArrayList<>();
         {
@@ -37,24 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
         adapter.setNotes(notes);
         notesRecyclerView.setAdapter(adapter);
-
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.open_nav_drawer,
-                R.string.close_nav_drawer
-        );
-
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
