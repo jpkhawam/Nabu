@@ -14,4 +14,11 @@
 
     <string name="open_nav_drawer">Navigation Drawer Open</string>
     <string name="close_nav_drawer">Navigation Drawer Close</string>
+    <string name="go_back_to_home_page">Go back to home page</string>
+    <string name="view_notes_that_have_reminders">View notes that have reminders</string>
+    <string name="all_note_labels">All note labels</string>
+    <string name="go_to_archive">Go to archive</string>
+    <string name="go_to_trash">Go to trash</string>
+    <string name="go_to_settings">Go to settings</string>
+    <string name="settings">Settings</string>
 </resources>
