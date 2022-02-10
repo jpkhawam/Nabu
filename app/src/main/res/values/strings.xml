@@ -1,16 +1,14 @@
 <resources>
     <string name="app_name">Quick Notes</string>
-    <string name="create_new_note">Create New Note</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo quam, scelerisque et risus nec, laoreet lacinia nisi. Aliquam eu pharetra risus, sed finibus tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus. In porttitor feugiat fermentum. Fusce posuere vitae erat sit amet hendrerit. Suspendisse et pretium diam. Phasellus non orci venenatis, viverra leo eu, ultricies tellus. Cras pharetra, dolor a tempor ultrices, enim neque semper lacus, condimentum facilisis risus lectus at massa.</string>
-    <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo quam, scelerisque et risus nec, laoreet lacinia nisi.</string>
-    <string name="lorem_ipsum_title">Lorem Ipsum</string>
 
+    <!-- Drawer menu -->
     <string name="notes">Notes</string>
     <string name="reminders">Reminders</string>
     <string name="labels">Labels</string>
     <string name="new_label">Create new label</string>
     <string name="archive">Archive</string>
     <string name="trash">Trash</string>
+    <string name="settings">Settings</string>
 
     <string name="open_nav_drawer">Navigation Drawer Open</string>
     <string name="close_nav_drawer">Navigation Drawer Close</string>
@@ -20,5 +18,11 @@
     <string name="go_to_archive">Go to archive</string>
     <string name="go_to_trash">Go to trash</string>
     <string name="go_to_settings">Go to settings</string>
-    <string name="settings">Settings</string>
+
+
+    <!-- Temporary placeholders -->
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo quam, scelerisque et risus nec, laoreet lacinia nisi. Aliquam eu pharetra risus, sed finibus tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus. In porttitor feugiat fermentum. Fusce posuere vitae erat sit amet hendrerit. Suspendisse et pretium diam. Phasellus non orci venenatis, viverra leo eu, ultricies tellus. Cras pharetra, dolor a tempor ultrices, enim neque semper lacus, condimentum facilisis risus lectus at massa.</string>
+    <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo quam, scelerisque et risus nec, laoreet lacinia nisi.</string>
+    <string name="lorem_ipsum_title">Lorem Ipsum</string>
+
 </resources>
