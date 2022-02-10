@@ -24,5 +24,12 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo quam, scelerisque et risus nec, laoreet lacinia nisi. Aliquam eu pharetra risus, sed finibus tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus. In porttitor feugiat fermentum. Fusce posuere vitae erat sit amet hendrerit. Suspendisse et pretium diam. Phasellus non orci venenatis, viverra leo eu, ultricies tellus. Cras pharetra, dolor a tempor ultrices, enim neque semper lacus, condimentum facilisis risus lectus at massa.</string>
     <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo quam, scelerisque et risus nec, laoreet lacinia nisi.</string>
     <string name="lorem_ipsum_title">Lorem Ipsum</string>
+    <string name="go_back">Go back</string>
+    <string name="pin">Pin</string>
+    <string name="pin_the_current_note">Pin the current note</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="add_a_reminder_to_current_note">Add a reminder to current note</string>
+    <string name="send_to_archive">Send to archive</string>
+    <string name="send_the_current_note_to_archive">Send the current note to archive</string>
 
 </resources>
