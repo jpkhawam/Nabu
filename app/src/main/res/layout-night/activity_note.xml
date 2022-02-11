@@ -1,31 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            style="?attr/collapsingToolbarLayoutMediumStyle"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/collapsingToolbarLayoutLargeSize">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/noteTopBar"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                style="?attr/collapsingToolbarLayoutMediumStyle"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:titleTextAppearance="?attr/textAppearanceLabelMedium"
-                app:title="Note title"
-                android:elevation="0dp"
-                app:menu="@menu/note_top_menu"
-                app:navigationContentDescription="@string/go_back_to_home_page"
-                app:navigationIcon="@drawable/ic_back_dark" />
+                android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
+                android:background="?android:colorBackground">
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/noteTopBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:elevation="0dp"
+                    app:menu="@menu/note_top_menu"
+                    app:navigationContentDescription="@string/go_back_to_home_page"
+                    app:navigationIcon="@drawable/ic_back_dark"
+                    app:title="Note title"
+                    app:titleMargin="10dp"
+                    app:titleTextAppearance="?attr/textAppearanceLabelMedium" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layoutDirection="rtl"
+        app:menu="@menu/note_bottom_menu"
+        app:navigationIcon="@drawable/ic_more_dark"
+        app:navigationIconTint="?colorControlNormal"
+        android:backgroundTint="@color/design_default_color_secondary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
