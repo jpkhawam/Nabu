@@ -43,5 +43,9 @@
     <string name="make_a_copy">Make a copy</string>
     <string name="share_this_note">Share this note</string>
     <string name="share_note">Share note</string>
+    <string name="paste_from_clipboard">Paste from clipboard</string>
+    <string name="paste">Paste</string>
+    <string name="copy">Copy</string>
+    <string name="copy_note_content_to_clipboard">Copy note content to clipboard</string>
 
 </resources>

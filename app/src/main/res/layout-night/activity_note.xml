@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:isScrollContainer="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -18,6 +19,7 @@
                 android:id="@+id/noteTopBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="?android:colorBackground"
                 android:elevation="0dp"
                 app:menu="@menu/note_top_menu"
                 app:navigationContentDescription="@string/go_back_to_home_page"
@@ -28,7 +30,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textFieldTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:boxStrokeWidth="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_note_title"
@@ -43,11 +46,11 @@
 
         <!--
               TODO:
-                  1- The height of the content input goes over the bottom app bar
-                  so with a long enough text it is impossible to scroll all the way
-                  2- Fix the horrendous scrolling if possible
-                  3- We should remove the labels and make it that when the user presses
-                  anywhere on screen we set the focus to content
+                  1- The bottom bar jumps over the keyboard, wtf?
+                  we could keep it, i added copy and paste so it makes sense?
+                  2- Make screen scroll past the title
+                  3- It is impossible to know where to press to enter title and content
+                  but having borders is kinda ugly
                                                                                 -->
 
         <com.google.android.material.textfield.TextInputLayout
@@ -56,12 +59,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:boxStrokeColor="?android:colorBackground"
-            app:boxStrokeWidth="0dp">
+            app:boxStrokeWidth="0dp"
+            android:isScrollContainer="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:paddingBottom="20dp"
                 android:fontFamily="@font/noto_sans_regular"
                 android:textAlignment="viewStart"
                 android:textAppearance="?attr/textAppearanceBodyMedium"

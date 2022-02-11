@@ -43,11 +43,11 @@
 
         <!--
               TODO:
-                  1- The height of the content input goes over the bottom app bar
-                  so with a long enough text it is impossible to scroll all the way
-                  2- Fix the horrendous scrolling if possible
-                  3- We should make it that when the user presses
-                  anywhere on screen we set the focus to content
+                  1- The bottom bar jumps over the keyboard, wtf?
+                  we could keep it, i added copy and paste so it makes sense?
+                  2- Make screen scroll past the title
+                  3- It is impossible to know where to press to enter title and content
+                  but having borders is kinda ugly
                                                                                 -->
 
         <com.google.android.material.textfield.TextInputLayout

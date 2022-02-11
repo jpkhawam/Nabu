@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/note_paste"
+        android:contentDescription="@string/paste_from_clipboard"
+        android:icon="@drawable/ic_paste_light"
+        android:title="@string/paste"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/note_copy"
+        android:contentDescription="@string/copy"
+        android:icon="@drawable/ic_copy_light"
+        android:title="@string/copy_note_content_to_clipboard"
+        app:showAsAction="always" />
     <item
         android:id="@+id/note_color"
         android:contentDescription="@string/assign_color_to_this_note"
         android:icon="@drawable/ic_color_light"
         android:title="@string/color"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
     <item
         android:id="@+id/note_label"
         android:contentDescription="@string/add_label_to_this_note"
         android:icon="@drawable/ic_label_light"
         android:title="@string/label"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>
