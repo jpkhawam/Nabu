@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomappbar.BottomAppBar;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -34,6 +35,29 @@ public class NoteActivity extends AppCompatActivity {
                     return false;
             }
         });
+
+        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
+
+        bottomAppBar.setNavigationOnClickListener(view -> {
+            // TODO:
+            //  @joesabbagh1 this is where to open the bottom sheet fragment
+        });
+
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.note_color:
+                    // give note color options
+                    // this also can be a bottom sheet fragment
+                    return true;
+                case R.id.note_label:
+                    // give note label options
+                    // also bottom sheet fragment
+                    return true;
+                default:
+                    return false;
+            }
+        });
+
     }
 
 }
