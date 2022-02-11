@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/note_pin"
+        android:contentDescription="@string/pin_the_current_note"
+        android:icon="@drawable/ic_pin_dark"
+        android:title="@string/pin"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/note_add_reminder"
+        android:contentDescription="@string/add_a_reminder_to_current_note"
+        android:icon="@drawable/ic_bell_dark"
+        android:title="@string/add_reminder"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/note_send_to_archive"
+        android:contentDescription="@string/send_the_current_note_to_archive"
+        android:icon="@drawable/ic_archive_dark"
+        android:title="@string/send_to_archive"
+        app:showAsAction="ifRoom" />
+</menu>

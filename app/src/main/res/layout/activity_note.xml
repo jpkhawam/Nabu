@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/noteTopBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="0dp"
+                app:menu="@menu/note_top_menu"
+                app:navigationContentDescription="@string/go_back_to_home_page"
+                app:navigationIcon="@drawable/ic_back_light" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_note_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/open_sans_semi_bold"
+                android:textAlignment="viewStart"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--
+              TODO:
+                  1- The bottom bar jumps over the keyboard, wtf?
+                  we could keep it, i added copy and paste so it makes sense?
+                  2- Make screen scroll past the title
+                  3- It is impossible to know where to press to enter title and content
+                  but having borders is kinda ugly
+                                                                                -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:boxStrokeColor="?android:colorBackground"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_note_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_regular"
+                android:textAlignment="viewStart"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- display this on the bottom of the screen right above bottom bar
+        <TextView
+            android:id="@+id/note_date_edited"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date edited: DD/MM/YYYY HH:MM"
+            android:layout_gravity="bottom"
+            /> -->
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:layoutDirection="rtl"
+        app:menu="@menu/note_bottom_menu"
+        app:navigationIcon="@drawable/ic_more_dark"
+        app:navigationIconTint="?colorControlNormal" />
+
+    <!-- use these for bottom sheet, i'm not sure in which file they should be
+
+    <FrameLayout
+        android:id="@+id/standard_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <TextView
+            android:id="@+id/note_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/delete_this_note"
+            android:text="@string/delete"
+            app:drawableStartCompat="@drawable/ic_trash_light" />
+
+        <TextView
+            android:id="@+id/note_send_to_archive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/send_the_current_note_to_archive"
+            android:text="@string/send_to_archive"
+            app:drawableStartCompat="@drawable/ic_archive_light" />
+
+        <TextView
+            android:id="@+id/note_make_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/make_a_copy_of_this_note"
+            android:text="@string/make_a_copy"
+            app:drawableStartCompat="@drawable/ic_copy_light" />
+
+        <TextView
+            android:id="@+id/note_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/share_this_note"
+            android:text="@string/share_note"
+            app:drawableStartCompat="@drawable/ic_share_light" />
+
+    </FrameLayout>
+
+    -->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
