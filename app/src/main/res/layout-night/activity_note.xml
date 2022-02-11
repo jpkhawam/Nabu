@@ -14,27 +14,69 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                style="?attr/collapsingToolbarLayoutMediumStyle"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/noteTopBar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
-                android:background="?android:colorBackground">
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/noteTopBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:elevation="0dp"
-                    app:menu="@menu/note_top_menu"
-                    app:navigationContentDescription="@string/go_back_to_home_page"
-                    app:navigationIcon="@drawable/ic_back_dark"
-                    app:title="Note title"
-                    app:titleMargin="10dp"
-                    app:titleTextAppearance="?attr/textAppearanceLabelMedium" />
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="0dp"
+                app:menu="@menu/note_top_menu"
+                app:navigationContentDescription="@string/go_back_to_home_page"
+                app:navigationIcon="@drawable/ic_back_dark" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_note_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/open_sans_semi_bold"
+                android:textAlignment="viewStart"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--
+              TODO:
+                  1- The height of the content input goes over the bottom app bar
+                  so with a long enough text it is impossible to scroll all the way
+                  2- Fix the horrendous scrolling if possible
+                  3- We should remove the labels and make it that when the user presses
+                  anywhere on screen we set the focus to content
+                                                                                -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:boxStrokeColor="?android:colorBackground"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_note_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_regular"
+                android:textAlignment="viewStart"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- display this on the bottom of the screen right above bottom bar
+        <TextView
+            android:id="@+id/note_date_edited"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date edited: DD/MM/YYYY HH:MM"
+            android:layout_gravity="bottom"
+            /> -->
 
     </LinearLayout>
 
@@ -44,10 +86,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
         android:layoutDirection="rtl"
         app:menu="@menu/note_bottom_menu"
         app:navigationIcon="@drawable/ic_more_dark"
-        app:navigationIconTint="?colorControlNormal"
-        android:backgroundTint="@color/design_default_color_secondary" />
+        app:navigationIconTint="?colorControlNormal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
