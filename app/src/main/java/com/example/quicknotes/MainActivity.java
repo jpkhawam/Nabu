@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent incomingIntent = getIntent();
+
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
@@ -49,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
-        notes = new ArrayList<>();
-        {
-            notes.add(new Note("Background noise",  "The headphones were on. They had been utilized on purpose. She could hear her mom yelling in the background, but couldn't make out exactly what the yelling was about. That was exactly why she had put them on. She knew her mom would enter her room at any minute, and she could pretend that she hadn't heard any of the previous yelling."));
+        if (notes == null) {
+            notes = new ArrayList<>();
+            notes.add(new Note("Background noise", "The headphones were on. They had been utilized on purpose. She could hear her mom yelling in the background, but couldn't make out exactly what the yelling was about. That was exactly why she had put them on. She knew her mom would enter her room at any minute, and she could pretend that she hadn't heard any of the previous yelling."));
             notes.add(new Note("Grocery shopping list", "Milk\nEggs\nCheese\nBread"));
             notes.add(new Note(null, "reminder to call back mom"));
             notes.add(new Note("Email password backup", "passwordpassword123"));
