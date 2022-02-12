@@ -47,5 +47,8 @@
     <string name="paste">Paste</string>
     <string name="copy">Copy</string>
     <string name="copy_note_content_to_clipboard">Copy note content to clipboard</string>
+    <string name="title">Title</string>
+    <string name="enter_your_note_title_here">Enter your note title here</string>
+    <string name="enter_your_note_content_here">Note</string>
 
 </resources>
