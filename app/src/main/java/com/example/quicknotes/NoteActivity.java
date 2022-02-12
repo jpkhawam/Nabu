@@ -18,8 +18,6 @@ import java.time.LocalDateTime;
 
 public class NoteActivity extends AppCompatActivity {
 
-    public static final String NOTE_TITLE_KEY = "noteTitle";
-    public static final String NOTE_CONTENT_KEY = "noteContent";
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
 
     @SuppressLint("NonConstantResourceId")

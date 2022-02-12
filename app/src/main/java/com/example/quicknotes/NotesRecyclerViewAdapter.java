@@ -1,8 +1,6 @@
 package com.example.quicknotes;
 
-import static com.example.quicknotes.NoteActivity.NOTE_CONTENT_KEY;
 import static com.example.quicknotes.NoteActivity.NOTE_IDENTIFIER_KEY;
-import static com.example.quicknotes.NoteActivity.NOTE_TITLE_KEY;
 
 import android.content.Context;
 import android.content.Intent;
@@ -85,9 +83,6 @@ public class NotesRecyclerViewAdapter
                     USER_IS_CHECKING_NOTES = false;
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
-
-                intent.putExtra(NOTE_TITLE_KEY, holder.noteTitle.getText());
-                intent.putExtra(NOTE_CONTENT_KEY, holder.noteContent.getText());
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
                 context.startActivity(intent);
             }
