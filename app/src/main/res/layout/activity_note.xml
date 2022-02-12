@@ -32,18 +32,18 @@
             android:layout_height="wrap_content"
             app:boxStrokeWidth="0dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_note_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/open_sans_semi_bold"
                 android:hint="@string/title"
-                android:importantForAutofill="no"
                 android:inputType="text"
                 android:textAlignment="viewStart"
                 android:textAppearance="?attr/textAppearanceLabelLarge"
                 android:textColorHint="?colorControlHighlight"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,19 +60,17 @@
             android:id="@+id/textFieldContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="40dp"
             android:isScrollContainer="true"
             app:boxStrokeColor="?android:colorBackground"
             app:boxStrokeWidth="0dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans_regular"
                 android:hint="@string/enter_your_note_content_here"
-                android:importantForAutofill="no"
-                android:inputType="text"
                 android:textAlignment="viewStart"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textSize="16sp" />
