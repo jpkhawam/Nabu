@@ -1,14 +1,16 @@
 package com.example.quicknotes;
 
+import static com.example.quicknotes.MainActivity.notes;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -22,16 +24,35 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        EditText editTextTitle = findViewById(R.id.input_note_title);
-        EditText editTextContent = findViewById(R.id.input_note_content);
+        TextInputEditText editTextTitle = findViewById(R.id.input_note_title);
+        TextInputEditText editTextContent = findViewById(R.id.input_note_content);
+
         int noteIdentifier;
+        Note currentNote;
 
         Intent intentReceived = getIntent();
         if (intentReceived != null) {
-            editTextTitle.setText(intentReceived.getStringExtra(NOTE_TITLE_KEY));
-            editTextContent.setText(intentReceived.getStringExtra(NOTE_CONTENT_KEY));
             noteIdentifier = intentReceived.getIntExtra(NOTE_IDENTIFIER_KEY, -1);
+            if (noteIdentifier != -1) {
+                // this is temporary until the database is created
+                for (Note note : notes) {
+                    if (note.getNoteIdentifier() == noteIdentifier) {
+                        editTextTitle.setText(note.getTitle());
+                        editTextContent.setText(note.getContent());
+                    }
+                }
+            } else {
+                // something went wrong so create new Note ?
+                // maybe there is a better way to deal with this
+                currentNote = new Note();
+            }
+        } else {
+            currentNote = new Note();
         }
+
+        /* TODO: ADD LISTENER for text changed, or pasted? check how these are used */
+        // editTextTitle.setOnReceiveContentListener()
+        // editTextTitle.addTextChangedListener()
 
         MaterialToolbar topAppBar = findViewById(R.id.noteTopBar);
         topAppBar.setNavigationOnClickListener(view -> {
@@ -55,7 +76,6 @@ public class NoteActivity extends AppCompatActivity {
         });
 
         BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
-
         bottomAppBar.setNavigationOnClickListener(view -> {
             // TODO:
             //  @joesabbagh1 this is where to open the bottom sheet fragment
