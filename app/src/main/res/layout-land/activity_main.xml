@@ -42,6 +42,16 @@
                 app:spanCount="3" />
         </LinearLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="40dp"
+            android:backgroundTint="?attr/colorBackgroundFloating"
+            android:contentDescription="@string/create_new_note"
+            app:srcCompat="@drawable/ic_add_light" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView

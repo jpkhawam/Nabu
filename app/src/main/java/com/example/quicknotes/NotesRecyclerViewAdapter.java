@@ -1,6 +1,7 @@
 package com.example.quicknotes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,8 +79,10 @@ public class NotesRecyclerViewAdapter
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
                 if (NUMBER_OF_NOTES_CHECKED == 0)
                     USER_IS_CHECKING_NOTES = false;
+            } else {
+                Intent intent = new Intent(context, NoteActivity.class);
+                context.startActivity(intent);
             }
-            // TODO: else go to note activity view
         });
         if (notes.get(position).getBackgroundColor() != 0) {
             holder.materialCardView.setCardBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));

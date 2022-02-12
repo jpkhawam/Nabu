@@ -1,7 +1,9 @@
 package com.example.quicknotes;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,9 +18,13 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
+        EditText editTextTitle = findViewById(R.id.input_note_title);
+        EditText editTextContent = findViewById(R.id.input_note_content);
+
         MaterialToolbar topAppBar = findViewById(R.id.noteTopBar);
         topAppBar.setNavigationOnClickListener(view -> {
-            // go to home page
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         });
         topAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

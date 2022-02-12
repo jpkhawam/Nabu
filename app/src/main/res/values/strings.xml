@@ -50,5 +50,6 @@
     <string name="title">Title</string>
     <string name="enter_your_note_title_here">Enter your note title here</string>
     <string name="enter_your_note_content_here">Note</string>
+    <string name="create_new_note">Create new note</string>
 
 </resources>
