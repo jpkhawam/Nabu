@@ -5,32 +5,22 @@ import java.time.format.DateTimeFormatter;
 
 public class Note {
 
-    private final LocalDateTime dateCreated;
+    private final int noteIdentifier;
     private String title;
     private String content;
+    private final LocalDateTime dateCreated;
     private LocalDateTime dateEdited;
     private int backgroundColor;
-    private final int noteIdentifier;
-    private static int s_identifier_counter = 0;
+    private LocalDateTime dateSentToTrash = null;
+    private LocalDateTime dateArchived = null;
 
-    public Note() {
-        this.dateCreated = LocalDateTime.now();
-        this.noteIdentifier = s_identifier_counter++;
-    }
-
-    public Note(String title, String content) {
+    public Note(int noteIdentifier, String title, String content, LocalDateTime dateCreated, LocalDateTime dateEdited, int backgroundColor) {
+        this.noteIdentifier = noteIdentifier;
         this.title = title;
         this.content = content;
-        this.dateCreated = LocalDateTime.now();
-        this.noteIdentifier = s_identifier_counter++;
-    }
-
-    public Note(String title, String content, int backgroundColor) {
-        this.title = title;
-        this.content = content;
+        this.dateCreated = dateCreated;
+        this.dateEdited = dateEdited;
         this.backgroundColor = backgroundColor;
-        this.dateCreated = LocalDateTime.now();
-        this.noteIdentifier = s_identifier_counter++;
     }
 
     public String getTitle() {
