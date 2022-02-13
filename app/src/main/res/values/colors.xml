@@ -51,6 +51,8 @@
     <color name="md_theme_dark_inverseOnSurface">#201A18</color>
     <color name="md_theme_dark_inverseSurface">#EDE0DC</color>
     <color name="md_theme_dark_primaryInverse">#AA3700</color>
+    <color name="dim_color">#75000000</color>
+    <color name="reset">#00000000</color>
     <color name="seed">#E55B1F</color>
     <color name="error">#BA1B1B</color>
 </resources>

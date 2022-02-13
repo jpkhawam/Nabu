@@ -3,6 +3,7 @@ package com.example.quicknotes;
 import static com.example.quicknotes.MainActivity.notes;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayoutStates;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -23,6 +27,7 @@ public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
     BottomSheetDialog dialog;
+    boolean dialogShowing = false;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -139,6 +144,7 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
+        CoordinatorLayout layout = (CoordinatorLayout) findViewById(R.id.note_layout);
         dialog = new BottomSheetDialog(this);
         onCreateDialog();
 
@@ -146,17 +152,29 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.show();
+                dialogShowing = true;
+                layout.setForeground(getDrawable(R.color.dim_color));
+            }
+        });
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                layout.setForeground(getDrawable(R.color.reset));
             }
         });
 
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+
+        if (dialogShowing){
+
+        }
     }
 
     private void onCreateDialog() {
         View view = getLayoutInflater().inflate(R.layout.bottom_sheet, null, false);
         dialog.setContentView(view);
-
-
     }
 
 }
