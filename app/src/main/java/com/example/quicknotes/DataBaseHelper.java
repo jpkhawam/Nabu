@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -114,23 +115,103 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return allNotes;
     }
 
+    // TODO: SHOW "NOTE DELETED" AND GIVE OPTION TO UNDO
     public boolean deleteNote(Note note) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        String queryString =
-                "DELETE FROM " + NOTES_TABLE +
-                        "WHERE " + COLUMN_ID + " = " + note.getNoteIdentifier();
-        // TODO: SEND TO TRASH
-        // TODO: SHOW "NOTE DELETED" AND GIVE OPTION TO UNDO
-        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+
+        String queryDeleteFromAllNotes = "DELETE FROM " + NOTES_TABLE + "WHERE " + COLUMN_ID +
+                " = " + note.getNoteIdentifier();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryDeleteFromAllNotes, null);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NOTE_TITLE, note.getTitle());
+        contentValues.put(COLUMN_NOTE_CONTENT, note.getContent());
+        contentValues.put(COLUMN_DATE_CREATED, note.getDateCreated());
+        contentValues.put(COLUMN_DATE_EDITED, note.getDateEdited());
+        contentValues.put(COLUMN_BACKGROUND_COLOR, note.getBackgroundColor());
+        contentValues.put(COLUMN_DATE_SENT_TO_TRASH, dateTimeFormatter.format(LocalDateTime.now()));
+
+        final long insert = sqLiteDatabase.insert(TRASH_TABLE, null, contentValues);
+
         cursor.close();
         sqLiteDatabase.close();
-        return cursor.moveToFirst();
+
+        return cursor.moveToFirst() && (insert != -1);
+    }
+
+    public boolean restoreNote(Note note) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        String queryDeleteFromAllNotes = "DELETE FROM " + TRASH_TABLE + "WHERE " + COLUMN_ID +
+                " = " + note.getNoteIdentifier();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryDeleteFromAllNotes, null);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NOTE_TITLE, note.getTitle());
+        contentValues.put(COLUMN_NOTE_CONTENT, note.getContent());
+        contentValues.put(COLUMN_DATE_CREATED, note.getDateCreated());
+        contentValues.put(COLUMN_DATE_EDITED, note.getDateEdited());
+        contentValues.put(COLUMN_BACKGROUND_COLOR, note.getBackgroundColor());
+
+        final long insert = sqLiteDatabase.insert(NOTES_TABLE, null, contentValues);
+
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return cursor.moveToFirst() && (insert != -1);
+    }
+
+    public boolean archiveNote(Note note) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String queryDeleteFromAllNotes = "DELETE FROM " + NOTES_TABLE + "WHERE " + COLUMN_ID +
+                " = " + note.getNoteIdentifier();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryDeleteFromAllNotes, null);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NOTE_TITLE, note.getTitle());
+        contentValues.put(COLUMN_NOTE_CONTENT, note.getContent());
+        contentValues.put(COLUMN_DATE_CREATED, note.getDateCreated());
+        contentValues.put(COLUMN_DATE_EDITED, note.getDateEdited());
+        contentValues.put(COLUMN_BACKGROUND_COLOR, note.getBackgroundColor());
+        contentValues.put(COLUMN_DATE_ARCHIVED, dateTimeFormatter.format(LocalDateTime.now()));
+
+        final long insert = sqLiteDatabase.insert(ARCHIVE_TABLE, null, contentValues);
+
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return cursor.moveToFirst() && (insert != -1);
+    }
+
+    public boolean exportArchive() {
+        String queryString = "SELECT * FROM " + ARCHIVE_TABLE;
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+
+        boolean noErrorYet = true;
+        boolean hasNext = cursor.moveToFirst();
+        while (hasNext) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLUMN_ID, cursor.getInt(0));
+            contentValues.put(COLUMN_NOTE_TITLE, cursor.getString(1));
+            contentValues.put(COLUMN_NOTE_CONTENT, cursor.getString(2));
+            contentValues.put(COLUMN_DATE_CREATED, cursor.getString(3));
+            contentValues.put(COLUMN_DATE_EDITED, cursor.getString(4));
+            contentValues.put(COLUMN_BACKGROUND_COLOR, cursor.getInt(5));
+
+            final long insert = sqLiteDatabase.insert(NOTES_TABLE, null, contentValues);
+            if (noErrorYet)
+                noErrorYet = (insert != -1);
+            hasNext = cursor.moveToNext();
+        }
+        return noErrorYet;
     }
 
     public boolean emptyTrash() {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        String queryString =
-                "DELETE FROM " + TRASH_TABLE;
+        String queryString = "DELETE FROM " + TRASH_TABLE;
         final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
         cursor.close();
         sqLiteDatabase.close();
@@ -139,8 +220,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public boolean emptyArchive() {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        String queryString =
-                "DELETE FROM " + ARCHIVE_TABLE;
+        String queryString = "DELETE FROM " + ARCHIVE_TABLE;
         final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
         cursor.close();
         sqLiteDatabase.close();
@@ -149,9 +229,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public boolean resetData() {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        String queryString =
-                "DELETE FROM " + NOTES_TABLE;
+        String queryString = "DELETE FROM " + NOTES_TABLE;
         emptyTrash();
+        emptyArchive();
         final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
         cursor.close();
         sqLiteDatabase.close();
