@@ -40,6 +40,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         COLUMN_DATE_CREATED + " TEXT, " +
                         COLUMN_DATE_EDITED + " TEXT, " +
                         COLUMN_BACKGROUND_COLOR + " INTEGER)";
+        sqLiteDatabase.execSQL(createNotesTableStatement);
 
         // on app launch, check which notes are due and delete them
         String createTrashTableStatement =
