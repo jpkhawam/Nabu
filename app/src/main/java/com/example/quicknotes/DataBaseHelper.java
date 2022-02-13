@@ -140,6 +140,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cursor.moveToFirst() && (insert != -1);
     }
 
+    public boolean deleteNotePermanently(Note note) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        String queryDeleteFromAllNotes = "DELETE FROM " + TRASH_TABLE + "WHERE " + COLUMN_ID +
+                " = " + note.getNoteIdentifier();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryDeleteFromAllNotes, null);
+        cursor.close();
+        sqLiteDatabase.close();
+        return cursor.moveToFirst();
+    }
+
     public boolean restoreNote(Note note) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 
