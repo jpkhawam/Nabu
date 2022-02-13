@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
+
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+
+
         if (notes == null) {
             notes = new ArrayList<>();
             notes.add(new Note("Background noise", "The headphones were on. They had been utilized on purpose. She could hear her mom yelling in the background, but couldn't make out exactly what the yelling was about. That was exactly why she had put them on. She knew her mom would enter her room at any minute, and she could pretend that she hadn't heard any of the previous yelling."));
