@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Note {
 
-    private final int noteIdentifier;
+    private long noteIdentifier;
     private String title;
     private String content;
     private final LocalDateTime dateCreated;
@@ -14,7 +14,7 @@ public class Note {
     private LocalDateTime dateSentToTrash = null;
     private LocalDateTime dateArchived = null;
 
-    public Note(int noteIdentifier, String title, String content, LocalDateTime dateCreated, LocalDateTime dateEdited, int backgroundColor) {
+    public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated, LocalDateTime dateEdited, int backgroundColor) {
         this.noteIdentifier = noteIdentifier;
         this.title = title;
         this.content = content;
@@ -73,7 +73,7 @@ public class Note {
         return dateTimeFormatter.format(this.dateEdited);
     }
 
-    public int getNoteIdentifier() {
+    public long getNoteIdentifier() {
         return noteIdentifier;
     }
 }

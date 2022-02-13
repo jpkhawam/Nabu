@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
+    private Note currentNote;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -27,80 +28,74 @@ public class NoteActivity extends AppCompatActivity {
         TextInputEditText editTextTitle = findViewById(R.id.input_note_title);
         TextInputEditText editTextContent = findViewById(R.id.input_note_content);
 
-//        int noteIdentifier;
-//        Note currentNoteReference = null;
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
 
-//        Intent intentReceived = getIntent();
-//        if (intentReceived != null) {
-//            noteIdentifier = intentReceived.getIntExtra(NOTE_IDENTIFIER_KEY, -1);
-//            if (noteIdentifier != -1) {
-//                // this is temporary until the database is created
-//                for (Note note : notes) {
-//                    if (note.getNoteIdentifier() == noteIdentifier) {
-//                        currentNoteReference = note;
-//                        editTextTitle.setText(note.getTitle());
-//                        editTextContent.setText(note.getContent());
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//        if (currentNoteReference == null) {
-//            currentNoteReference = new Note();
-//            notes.add(currentNoteReference);
-//        }
-//        Note currentNote = currentNoteReference;
+        Intent intentReceived = getIntent();
+        if (intentReceived != null) {
+            int noteIdentifier = intentReceived.getIntExtra(NOTE_IDENTIFIER_KEY, -1);
+            if (noteIdentifier != -1) {
+                currentNote = dataBaseHelper.getNote(noteIdentifier);
+                editTextTitle.setText(currentNote.getTitle());
+                editTextContent.setText(currentNote.getContent());
+            }
+        } else {
+            currentNote = dataBaseHelper.createNewNote();
+        }
 
-//        editTextTitle.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                currentNote.setDateEdited(LocalDateTime.now());
-//                if (editTextTitle.getText() != null) {
-//                    currentNote.setTitle(editTextTitle.getText().toString());
-//                } else {
-//                    currentNote.setTitle(null);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
-//
-//        editTextContent.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                currentNote.setDateEdited(LocalDateTime.now());
-//                if (editTextContent.getText() != null) {
-//                    currentNote.setContent(editTextContent.getText().toString());
-//                } else {
-//                    currentNote.setContent(null);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
+        editTextTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                currentNote.setDateEdited(LocalDateTime.now());
+                dataBaseHelper.updateNote(currentNote);
+                if (editTextTitle.getText() != null) {
+                    currentNote.setTitle(editTextTitle.getText().toString());
+                } else {
+                    currentNote.setTitle(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        editTextContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                currentNote.setDateEdited(LocalDateTime.now());
+                dataBaseHelper.updateNote(currentNote);
+                if (editTextContent.getText() != null) {
+                    currentNote.setContent(editTextContent.getText().toString());
+                } else {
+                    currentNote.setContent(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         MaterialToolbar topAppBar = findViewById(R.id.noteTopBar);
         topAppBar.setNavigationOnClickListener(view -> {
             Intent outgoingIntent = new Intent(this, MainActivity.class);
+            if (currentNote.getTitle() == null && currentNote.getContent() == null) {
+                dataBaseHelper.deleteNote(currentNote);
+            }
             startActivity(outgoingIntent);
         });
-        topAppBar.setForeground(getDrawable(R.color.colorTitle));
         topAppBar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.note_pin:
