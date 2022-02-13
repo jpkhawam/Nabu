@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:orientation="vertical"
+  android:background="@color/md_theme_dark_onBackground"
+  android:paddingLeft="15dp">
+
+    <TextView
+      android:id="@+id/note_delete"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:drawablePadding="25dp"
+      android:paddingTop="20dp"
+      android:contentDescription="@string/delete_this_note"
+      android:text="@string/delete"
+      app:drawableStartCompat="@drawable/ic_trash_light" />
+
+    <TextView
+      android:id="@+id/note_send_to_archive"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:drawablePadding="25dp"
+      android:paddingTop="20dp"
+      android:contentDescription="@string/send_the_current_note_to_archive"
+      android:text="@string/send_to_archive"
+      app:drawableStartCompat="@drawable/ic_archive_light" />
+
+    <TextView
+      android:id="@+id/note_make_copy"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:drawablePadding="25dp"
+      android:paddingTop="20dp"
+      android:contentDescription="@string/make_a_copy_of_this_note"
+      android:text="@string/make_a_copy"
+      app:drawableStartCompat="@drawable/ic_copy_light" />
+
+    <TextView
+      android:id="@+id/note_share"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp"
+      android:drawablePadding="25dp"
+      android:paddingTop="20dp"
+      android:paddingBottom="20dp"
+      android:contentDescription="@string/share_this_note"
+      android:text="@string/share_note"
+      app:drawableStartCompat="@drawable/ic_share_light" />
+
+</LinearLayout>
