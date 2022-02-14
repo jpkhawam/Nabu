@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintLayoutStates;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -48,7 +46,8 @@ public class NoteActivity extends AppCompatActivity {
                 editTextContent.setText(currentNote.getContent());
             }
         } else {
-            currentNote = dataBaseHelper.createNewNote();
+            currentNote = new Note(dataBaseHelper.createNewNote(), "", "",
+                    LocalDateTime.now(), LocalDateTime.now(), 0);
         }
 
         editTextTitle.addTextChangedListener(new TextWatcher() {
