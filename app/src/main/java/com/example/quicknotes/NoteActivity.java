@@ -1,7 +1,5 @@
 package com.example.quicknotes;
 
-import static com.example.quicknotes.MainActivity.notes;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintLayoutStates;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -26,6 +22,9 @@ import java.time.LocalDateTime;
 public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
+
+    private Note currentNote;
+
     BottomSheetDialog dialog;
     boolean dialogShowing = false;
 
@@ -38,29 +37,20 @@ public class NoteActivity extends AppCompatActivity {
         TextInputEditText editTextTitle = findViewById(R.id.input_note_title);
         TextInputEditText editTextContent = findViewById(R.id.input_note_content);
 
-        int noteIdentifier;
-        Note currentNoteReference = null;
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
 
         Intent intentReceived = getIntent();
         if (intentReceived != null) {
-            noteIdentifier = intentReceived.getIntExtra(NOTE_IDENTIFIER_KEY, -1);
+            int noteIdentifier = intentReceived.getIntExtra(NOTE_IDENTIFIER_KEY, -1);
             if (noteIdentifier != -1) {
-                // this is temporary until the database is created
-                for (Note note : notes) {
-                    if (note.getNoteIdentifier() == noteIdentifier) {
-                        currentNoteReference = note;
-                        editTextTitle.setText(note.getTitle());
-                        editTextContent.setText(note.getContent());
-                        break;
-                    }
-                }
+                currentNote = dataBaseHelper.getNote(noteIdentifier);
+                editTextTitle.setText(currentNote.getTitle());
+                editTextContent.setText(currentNote.getContent());
             }
+        } else {
+            currentNote = new Note(dataBaseHelper.createNewNote(), "", "",
+                    LocalDateTime.now(), LocalDateTime.now(), 0);
         }
-        if (currentNoteReference == null) {
-            currentNoteReference = new Note();
-            notes.add(currentNoteReference);
-        }
-        Note currentNote = currentNoteReference;
 
         editTextTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -71,6 +61,7 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 currentNote.setDateEdited(LocalDateTime.now());
+                dataBaseHelper.updateNote(currentNote);
                 if (editTextTitle.getText() != null) {
                     currentNote.setTitle(editTextTitle.getText().toString());
                 } else {
@@ -93,6 +84,7 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 currentNote.setDateEdited(LocalDateTime.now());
+                dataBaseHelper.updateNote(currentNote);
                 if (editTextContent.getText() != null) {
                     currentNote.setContent(editTextContent.getText().toString());
                 } else {
@@ -109,6 +101,9 @@ public class NoteActivity extends AppCompatActivity {
         MaterialToolbar topAppBar = findViewById(R.id.noteTopBar);
         topAppBar.setNavigationOnClickListener(view -> {
             Intent outgoingIntent = new Intent(this, MainActivity.class);
+            if (currentNote.getTitle() == null && currentNote.getContent() == null) {
+                dataBaseHelper.deleteNote(currentNote);
+            }
             startActivity(outgoingIntent);
         });
         topAppBar.setOnMenuItemClickListener(item -> {
