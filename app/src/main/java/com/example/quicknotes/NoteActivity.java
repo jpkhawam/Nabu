@@ -22,7 +22,9 @@ import java.time.LocalDateTime;
 public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
+
     private Note currentNote;
+
     BottomSheetDialog dialog;
     boolean dialogShowing = false;
 
