@@ -39,7 +39,8 @@ public class NoteActivity extends AppCompatActivity {
                 editTextContent.setText(currentNote.getContent());
             }
         } else {
-            currentNote = dataBaseHelper.createNewNote();
+            currentNote = new Note(dataBaseHelper.createNewNote(), "", "",
+                    LocalDateTime.now(), LocalDateTime.now(), 0);
         }
 
         editTextTitle.addTextChangedListener(new TextWatcher() {
@@ -51,7 +52,7 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 currentNote.setDateEdited(LocalDateTime.now());
-                dataBaseHelper.updateNote(currentNote);
+                //dataBaseHelper.updateNote(currentNote);
                 if (editTextTitle.getText() != null) {
                     currentNote.setTitle(editTextTitle.getText().toString());
                 } else {
@@ -74,7 +75,7 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 currentNote.setDateEdited(LocalDateTime.now());
-                dataBaseHelper.updateNote(currentNote);
+               // dataBaseHelper.updateNote(currentNote);
                 if (editTextContent.getText() != null) {
                     currentNote.setContent(editTextContent.getText().toString());
                 } else {

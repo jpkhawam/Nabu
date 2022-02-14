@@ -71,7 +71,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Note createNewNote() {
+    public long createNewNote() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         ContentValues contentValues = new ContentValues();
@@ -90,7 +90,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         final long noteIdentifier = cursor.getInt(0);
         cursor.close();
         sqLiteDatabase.close();
-        return getNote(noteIdentifier);
+        return noteIdentifier;
     }
 
     public ArrayList<Note> getAllNotes() {
