@@ -22,11 +22,9 @@ import java.time.LocalDateTime;
 public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
-
-    private Note currentNote;
-
     BottomSheetDialog dialog;
     boolean dialogShowing = false;
+    private Note currentNote;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -41,128 +39,128 @@ public class NoteActivity extends AppCompatActivity {
 
         Intent intentReceived = getIntent();
         if (intentReceived != null) {
-            int noteIdentifier = intentReceived.getIntExtra(NOTE_IDENTIFIER_KEY, -1);
+            long noteIdentifier = intentReceived.getLongExtra(NOTE_IDENTIFIER_KEY, -1);
             if (noteIdentifier != -1) {
                 currentNote = dataBaseHelper.getNote(noteIdentifier);
                 editTextTitle.setText(currentNote.getTitle());
                 editTextContent.setText(currentNote.getContent());
-            }
-        } else {
-            currentNote = new Note(dataBaseHelper.createNewNote(), "", "",
-                    LocalDateTime.now(), LocalDateTime.now(), 0);
-        }
-
-        editTextTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            } else {
+                long newNoteIdentifier = dataBaseHelper.createNewNote();
+                currentNote = dataBaseHelper.getNote(newNoteIdentifier);
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                currentNote.setDateEdited(LocalDateTime.now());
-                dataBaseHelper.updateNote(currentNote);
-                if (editTextTitle.getText() != null) {
-                    currentNote.setTitle(editTextTitle.getText().toString());
-                } else {
-                    currentNote.setTitle(null);
+            editTextTitle.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                 }
-            }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        editTextContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                currentNote.setDateEdited(LocalDateTime.now());
-                dataBaseHelper.updateNote(currentNote);
-                if (editTextContent.getText() != null) {
-                    currentNote.setContent(editTextContent.getText().toString());
-                } else {
-                    currentNote.setContent(null);
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    currentNote.setDateEdited(LocalDateTime.now());
+                    if (editTextTitle.getText() != null) {
+                        currentNote.setTitle(editTextTitle.getText().toString());
+                    } else {
+                        currentNote.setTitle(null);
+                    }
+                    dataBaseHelper.updateNote(currentNote);
                 }
-            }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
+                @Override
+                public void afterTextChanged(Editable editable) {
 
-            }
-        });
+                }
+            });
 
-        MaterialToolbar topAppBar = findViewById(R.id.noteTopBar);
-        topAppBar.setNavigationOnClickListener(view -> {
-            Intent outgoingIntent = new Intent(this, MainActivity.class);
-            if (currentNote.getTitle() == null && currentNote.getContent() == null) {
-                dataBaseHelper.deleteNote(currentNote);
-            }
-            startActivity(outgoingIntent);
-        });
-        topAppBar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.note_pin:
-                    // pin note
-                    return true;
-                case R.id.note_add_reminder:
-                    // add reminder
-                    return true;
-                case R.id.note_send_to_archive:
-                    // send to archive
-                    return true;
-                default:
-                    return false;
-            }
-        });
+            editTextContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
+                }
 
-        bottomAppBar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.note_color:
-                    // give note color options
-                    // this also can be a bottom sheet fragment
-                    return true;
-                case R.id.note_label:
-                    // give note label options
-                    // also bottom sheet fragment
-                    return true;
-                default:
-                    return false;
-            }
-        });
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    currentNote.setDateEdited(LocalDateTime.now());
+                    if (editTextContent.getText() != null) {
+                        currentNote.setContent(editTextContent.getText().toString());
+                    } else {
+                        currentNote.setContent(null);
+                    }
+                    dataBaseHelper.updateNote(currentNote);
+                }
 
-        CoordinatorLayout layout = (CoordinatorLayout) findViewById(R.id.note_layout);
-        dialog = new BottomSheetDialog(this);
-        onCreateDialog();
+                @Override
+                public void afterTextChanged(Editable editable) {
 
-        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.show();
-                dialogShowing = true;
-                layout.setForeground(getDrawable(R.color.dim_color));
-            }
-        });
+                }
+            });
 
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                layout.setForeground(getDrawable(R.color.reset));
-            }
-        });
+            MaterialToolbar topAppBar = findViewById(R.id.noteTopBar);
+            topAppBar.setNavigationOnClickListener(view -> {
+                Intent outgoingIntent = new Intent(this, MainActivity.class);
+                // redundant yes, but sometimes the app crashes otherwise, "" and null are different
+                if (currentNote.getTitle() == null && currentNote.getContent() == null) {
+                    dataBaseHelper.deleteNote(currentNote);
+                }
+                if (currentNote.getTitle().equals("") && currentNote.getContent().equals("")) {
+                    dataBaseHelper.deleteNote(currentNote);
+                }
+                startActivity(outgoingIntent);
+            });
+            topAppBar.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.note_pin:
+                        // pin note
+                        return true;
+                    case R.id.note_add_reminder:
+                        // add reminder
+                        return true;
+                    case R.id.note_send_to_archive:
+                        // send to archive
+                        return true;
+                    default:
+                        return false;
+                }
+            });
 
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
 
+            bottomAppBar.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.note_color:
+                        // give note color options
+                        // this also can be a bottom sheet fragment
+                        return true;
+                    case R.id.note_label:
+                        // give note label options
+                        // also bottom sheet fragment
+                        return true;
+                    default:
+                        return false;
+                }
+            });
 
-        if (dialogShowing){
+            CoordinatorLayout layout = (CoordinatorLayout) findViewById(R.id.note_layout);
+            dialog = new BottomSheetDialog(this);
+            onCreateDialog();
+
+            bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.show();
+                    dialogShowing = true;
+                    // layout.setForeground(getDrawable(R.color.dim_color));
+                }
+            });
+
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    // layout.setForeground(getDrawable(R.color.reset));
+                }
+            });
+
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
         }
     }
@@ -173,3 +171,5 @@ public class NoteActivity extends AppCompatActivity {
     }
 
 }
+
+

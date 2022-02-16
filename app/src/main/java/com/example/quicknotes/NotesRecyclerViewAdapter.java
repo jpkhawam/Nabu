@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,12 +85,13 @@ public class NotesRecyclerViewAdapter
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
+                Toast.makeText(context, "intent sent " + notes.get(position).getNoteIdentifier(), Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
             }
         });
-        if (notes.get(position).getBackgroundColor() != 0) {
-            holder.materialCardView.setCardBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
-        }
+//        if (notes.get(position).getBackgroundColor() != 0) {
+//            holder.materialCardView.setCardBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
+//        }
     }
 
     @Override
