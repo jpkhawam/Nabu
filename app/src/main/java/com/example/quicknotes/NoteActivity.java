@@ -149,14 +149,14 @@ public class NoteActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     dialog.show();
                     dialogShowing = true;
-                    // layout.setForeground(getDrawable(R.color.dim_color));
+                    layout.setForeground(getDrawable(R.color.dim_color));
                 }
             });
 
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
-                    // layout.setForeground(getDrawable(R.color.reset));
+                    layout.setForeground(getDrawable(R.color.reset));
                 }
             });
 

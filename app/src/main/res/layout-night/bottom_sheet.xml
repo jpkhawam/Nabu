@@ -19,7 +19,7 @@
         android:paddingTop="20dp"
         android:text="@string/delete"
         android:textSize="20sp"
-        app:drawableStartCompat="@drawable/ic_trash_light" />
+        app:drawableStartCompat="@drawable/ic_trash_dark" />
 
     <TextView
         android:id="@+id/note_send_to_archive"
@@ -30,7 +30,7 @@
         android:paddingTop="20dp"
         android:text="@string/send_to_archive"
         android:textSize="20sp"
-        app:drawableStartCompat="@drawable/ic_archive_light" />
+        app:drawableStartCompat="@drawable/ic_archive_dark" />
 
     <TextView
         android:id="@+id/note_make_copy"
@@ -41,7 +41,7 @@
         android:paddingTop="20dp"
         android:text="@string/make_a_copy"
         android:textSize="20sp"
-        app:drawableStartCompat="@drawable/ic_copy_light" />
+        app:drawableStartCompat="@drawable/ic_copy_dark" />
 
     <TextView
         android:id="@+id/note_share"
@@ -53,6 +53,6 @@
         android:paddingBottom="20dp"
         android:text="@string/share_note"
         android:textSize="20sp"
-        app:drawableStartCompat="@drawable/ic_share_light" />
+        app:drawableStartCompat="@drawable/ic_share_dark" />
 
 </LinearLayout>
