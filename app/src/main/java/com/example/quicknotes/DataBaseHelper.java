@@ -16,14 +16,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final String NOTES_TABLE = "NOTES_TABLE";
     public static final String TRASH_TABLE = "TRASH_TABLE";
-    //    public static final String ARCHIVE_TABLE = "ARCHIVE_TABLE";
+    public static final String ARCHIVE_TABLE = "ARCHIVE_TABLE";
     public static final String COLUMN_DATE_CREATED = "DATE_CREATED";
     public static final String COLUMN_DATE_EDITED = "DATE_EDITED";
     public static final String COLUMN_NOTE_TITLE = "NOTE_TITLE";
     public static final String COLUMN_NOTE_CONTENT = "NOTE_CONTENT";
     public static final String COLUMN_BACKGROUND_COLOR = "BACKGROUND_COLOR";
     public static final String COLUMN_DATE_SENT_TO_TRASH = "DATE_SENT_TO_TRASH";
-    //    public static final String COLUMN_DATE_ARCHIVED = "DATE_ARCHIVED";
+    public static final String COLUMN_DATE_ARCHIVED = "DATE_ARCHIVED";
     public static final String COLUMN_ID = "ID";
     Context context;
 
@@ -55,17 +55,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         COLUMN_BACKGROUND_COLOR + " INTEGER, " +
                         COLUMN_DATE_SENT_TO_TRASH + " TEXT)" + ";";
         sqLiteDatabase.execSQL(createTrashTableStatement);
-//
-//        String createArchiveTableStatement =
-//                "CREATE TABLE " + ARCHIVE_TABLE + " " +
-//                        "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                        COLUMN_NOTE_TITLE + " TEXT, " +
-//                        COLUMN_NOTE_CONTENT + " TEXT, " +
-//                        COLUMN_DATE_CREATED + " TEXT, " +
-//                        COLUMN_DATE_EDITED + " TEXT, " +
-//                        COLUMN_BACKGROUND_COLOR + " INTEGER, " +
-//                        COLUMN_DATE_ARCHIVED + " TEXT)" + ";";
-//        sqLiteDatabase.execSQL(createArchiveTableStatement);
+
+        String createArchiveTableStatement =
+                "CREATE TABLE " + ARCHIVE_TABLE + " " +
+                        "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_NOTE_TITLE + " TEXT, " +
+                        COLUMN_NOTE_CONTENT + " TEXT, " +
+                        COLUMN_DATE_CREATED + " TEXT, " +
+                        COLUMN_DATE_EDITED + " TEXT, " +
+                        COLUMN_BACKGROUND_COLOR + " INTEGER, " +
+                        COLUMN_DATE_ARCHIVED + " TEXT)" + ";";
+        sqLiteDatabase.execSQL(createArchiveTableStatement);
     }
 
     @Override
@@ -146,7 +146,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return addNote(note);
     }
 
-    // THIS ONE WORKS NOW
+    /**
+     * RETURNS A NOTE OBJECT FROM THE DATABASE
+     *
+     * @param noteIdentifier noteIdentifier of desired note
+     * @return resulting note object
+     */
     public Note getNote(long noteIdentifier) {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -189,8 +194,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return numberOfRowsAffected == 1;
     }
 
-    //    // TODO: SHOW "NOTE DELETED" AND GIVE OPTION TO UNDO
-    // THIS WORKS NOW
+    /**
+     * SEND A NOTE FROM NOTES_TABLE TO TRASH
+     *
+     * @param note note to be sent to trash
+     * @return returns note ID inside trash
+     */
     public long deleteNote(Note note) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
@@ -254,6 +263,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return allNotes;
     }
 
+    /**
+     * DELETES A NOTE FROM TRASH_TABLE
+     *
+     * @param note note to be deleted
+     */
     public void deleteNotePermanently(Note note) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(TRASH_TABLE, "ID = ?",
@@ -272,54 +286,152 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return addNote(note);
     }
 
-//    public boolean archiveNote(Note note) {
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-//        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-//        String queryString = "DELETE FROM " + NOTES_TABLE + "WHERE " + COLUMN_ID +
-//                " = " + note.getNoteIdentifier() + ";";
-//        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
-//
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(COLUMN_NOTE_TITLE, note.getTitle());
-//        contentValues.put(COLUMN_NOTE_CONTENT, note.getContent());
-//        contentValues.put(COLUMN_DATE_CREATED, note.getDateCreated());
-//        contentValues.put(COLUMN_DATE_EDITED, note.getDateEdited());
-//        contentValues.put(COLUMN_BACKGROUND_COLOR, note.getBackgroundColor());
-//        contentValues.put(COLUMN_DATE_ARCHIVED, dateTimeFormatter.format(LocalDateTime.now()));
-//
-//        final long insert = sqLiteDatabase.insert(ARCHIVE_TABLE, null, contentValues);
-//
-//        boolean success = cursor.moveToFirst();
-//        cursor.close();
-//        sqLiteDatabase.close();
-//        return success && (insert != -1);
-//    }
+    /**
+     * SEND A NOTE FROM NOTES_TABLE TO ARCHIVE_TABLE
+     *
+     * @param note note to be archived
+     * @return returns note ID inside archive
+     */
+    public long archiveNote(Note note) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 
-//    public boolean exportArchive() {
-//        String queryString = "SELECT * FROM " + ARCHIVE_TABLE + ";";
-//        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-//        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
-//
-//        boolean noErrorYet = true;
-//        boolean hasNext = cursor.moveToFirst();
-//        while (hasNext) {
-//            ContentValues contentValues = new ContentValues();
-//            contentValues.put(COLUMN_ID, cursor.getLong(0));
-//            contentValues.put(COLUMN_NOTE_TITLE, cursor.getString(1));
-//            contentValues.put(COLUMN_NOTE_CONTENT, cursor.getString(2));
-//            contentValues.put(COLUMN_DATE_CREATED, cursor.getString(3));
-//            contentValues.put(COLUMN_DATE_EDITED, cursor.getString(4));
-//            contentValues.put(COLUMN_BACKGROUND_COLOR, cursor.getInt(5));
-//
-//            final long insert = sqLiteDatabase.insert(NOTES_TABLE, null, contentValues);
-//            if (noErrorYet)
-//                noErrorYet = (insert != -1);
-//            hasNext = cursor.moveToNext();
-//        }
-//        cursor.close();
-//        sqLiteDatabase.close();
-//        return noErrorYet;
-//    }
+        sqLiteDatabase.delete(NOTES_TABLE, "ID = ?",
+                new String[]{String.valueOf(note.getNoteIdentifier())});
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NOTE_TITLE, note.getTitle());
+        contentValues.put(COLUMN_NOTE_CONTENT, note.getContent());
+        contentValues.put(COLUMN_DATE_CREATED, note.getDateCreated());
+        contentValues.put(COLUMN_DATE_EDITED, note.getDateEdited());
+        contentValues.put(COLUMN_BACKGROUND_COLOR, note.getBackgroundColor());
+        contentValues.put(COLUMN_DATE_ARCHIVED, dateTimeFormatter.format(LocalDateTime.now()));
+
+        final long insert = sqLiteDatabase.insert(ARCHIVE_TABLE, null, contentValues);
+        String queryString = "SELECT " + COLUMN_ID + " FROM " + ARCHIVE_TABLE + " WHERE rowid = " + insert;
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+        cursor.moveToFirst();
+        final long noteIdentifier = cursor.getLong(0);
+        sqLiteDatabase.close();
+        cursor.close();
+        if (insert == -1) {
+            return -1;
+        }
+        return noteIdentifier;
+    }
+
+    /**
+     * @return a list of the notes in the archive_table in the database
+     */
+    public ArrayList<Note> getAllNotesFromArchive() {
+        ArrayList<Note> archivedNotes = new ArrayList<>();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        String queryString = "SELECT * FROM " + ARCHIVE_TABLE;
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+
+        boolean hasNext = cursor.moveToFirst();
+        while (hasNext) {
+            long noteIdentifier = cursor.getLong(0);
+            String noteTitle = cursor.getString(1);
+            String noteContent = cursor.getString(2);
+            String dateCreatedString = cursor.getString(3);
+            String dateEditedString = cursor.getString(4);
+            int backgroundColor = cursor.getInt(5);
+            String dateArchivedString = cursor.getString(6);
+            LocalDateTime dateCreated = LocalDateTime.parse(dateCreatedString, dateTimeFormatter);
+            LocalDateTime dateEdited = LocalDateTime.parse(dateEditedString, dateTimeFormatter);
+            LocalDateTime dateArchived = LocalDateTime.parse(dateArchivedString, dateTimeFormatter);
+
+            Note currentNote = new Note(noteIdentifier, noteTitle, noteContent,
+                    dateCreated, dateEdited, backgroundColor, dateArchived);
+
+            archivedNotes.add(currentNote);
+            hasNext = cursor.moveToNext();
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return archivedNotes;
+    }
+
+    /**
+     * SENDS A NOTE FROM ARCHIVE_TABLE TO TRASH_TABLE
+     *
+     * @param note note to be deleted
+     * @return note identifier in trash
+     */
+    public long deleteNoteFromArchive(Note note) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
+        sqLiteDatabase.delete(ARCHIVE_TABLE, "ID = ?",
+                new String[]{String.valueOf(note.getNoteIdentifier())});
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NOTE_TITLE, note.getTitle());
+        contentValues.put(COLUMN_NOTE_CONTENT, note.getContent());
+        contentValues.put(COLUMN_DATE_CREATED, note.getDateCreated());
+        contentValues.put(COLUMN_DATE_EDITED, note.getDateEdited());
+        contentValues.put(COLUMN_BACKGROUND_COLOR, note.getBackgroundColor());
+        contentValues.put(COLUMN_DATE_SENT_TO_TRASH, dateTimeFormatter.format(LocalDateTime.now()));
+
+        final long insert = sqLiteDatabase.insert(TRASH_TABLE, null, contentValues);
+        String queryString = "SELECT " + COLUMN_ID + " FROM " + TRASH_TABLE + " WHERE rowid = " + insert;
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+        cursor.moveToFirst();
+        final long noteIdentifier = cursor.getLong(0);
+        sqLiteDatabase.close();
+        cursor.close();
+        if (insert == -1) {
+            return -1;
+        }
+        return noteIdentifier;
+    }
+
+    /**
+     * EXPORTS ALL NOTES INSIDE ARCHIVE_TABLE BACK TO NOTES_TABLE
+     */
+    public void exportArchive() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        String queryString = "SELECT * FROM " + ARCHIVE_TABLE;
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+
+        boolean hasNext = cursor.moveToFirst();
+        while (hasNext) {
+            long noteIdentifier = cursor.getLong(0);
+            String noteTitle = cursor.getString(1);
+            String noteContent = cursor.getString(2);
+            String dateCreatedString = cursor.getString(3);
+            String dateEditedString = cursor.getString(4);
+            int backgroundColor = cursor.getInt(5);
+            LocalDateTime dateCreated = LocalDateTime.parse(dateCreatedString, dateTimeFormatter);
+            LocalDateTime dateEdited = LocalDateTime.parse(dateEditedString, dateTimeFormatter);
+
+            Note currentNote = new Note(noteIdentifier, noteTitle, noteContent,
+                    dateCreated, dateEdited, backgroundColor);
+
+            addNote(currentNote);
+            hasNext = cursor.moveToNext();
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+    }
+
+    /**
+     * Restore a note from ARCHIVE back to NOTES
+     *
+     * @param note note to be restored
+     * @return returns note identifier
+     */
+    public long unArchiveNote(Note note) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(ARCHIVE_TABLE, "ID = ?",
+                new String[]{String.valueOf(note.getNoteIdentifier())});
+        return addNote(note);
+    }
 
     /**
      * DELETES ALL NOTES FROM TRASH
@@ -330,9 +442,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-//    public boolean emptyArchive() {
-//                sqLiteDatabase.delete(##, null, null);
-//    }
+    /**
+     * DELETES ALL NOTE FROM ARCHIVE
+     */
+    public void emptyArchive() {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(ARCHIVE_TABLE, null, null);
+        sqLiteDatabase.close();
+    }
 
     /**
      * RESETS APP DATA, DELETING ALL DATABASE CONTENT
@@ -340,7 +457,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void resetData() {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(NOTES_TABLE, null, null);
-        // do the same for trash and archive
+        emptyTrash();
+        emptyArchive();
         sqLiteDatabase.close();
     }
 

@@ -1,5 +1,6 @@
 package com.example.quicknotes;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ public class TrashActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -51,7 +53,10 @@ public class TrashActivity extends AppCompatActivity
                 Intent mainIntent = new Intent(this, MainActivity.class);
                 startActivity(mainIntent);
                 return true;
-            // TODO: add the rest
+            case R.id.archive:
+                Intent archiveIntent = new Intent(this, ArchiveActivity.class);
+                startActivity(archiveIntent);
+                return true;
             default:
                 return false;
         }

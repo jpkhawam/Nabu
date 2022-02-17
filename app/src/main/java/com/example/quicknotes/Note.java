@@ -12,7 +12,7 @@ public class Note {
     private LocalDateTime dateEdited;
     private int backgroundColor;
     private LocalDateTime dateSentToTrash = null;
-//    private LocalDateTime dateArchived = null;
+    private LocalDateTime dateArchived = null;
 
     public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated,
                 LocalDateTime dateEdited, int backgroundColor) {
@@ -33,6 +33,17 @@ public class Note {
         this.dateEdited = dateEdited;
         this.backgroundColor = backgroundColor;
         this.dateSentToTrash = dateSentToTrash;
+    }
+
+    public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated,
+                LocalDateTime dateEdited, LocalDateTime dateArchived, int backgroundColor) {
+        this.noteIdentifier = noteIdentifier;
+        this.title = title;
+        this.content = content;
+        this.dateCreated = dateCreated;
+        this.dateEdited = dateEdited;
+        this.backgroundColor = backgroundColor;
+        this.dateArchived = dateArchived;
     }
 
     public Note(String title, String content, LocalDateTime dateCreated, LocalDateTime dateEdited,

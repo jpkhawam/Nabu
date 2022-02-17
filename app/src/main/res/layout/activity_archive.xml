@@ -6,7 +6,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TrashActivity">
+    tools:context=".ArchiveActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -24,11 +24,11 @@
                 android:background="?android:colorBackground">
 
                 <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/main_toolbar"
+                    android:id="@+id/main_toolbar_archive"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?android:colorBackground"
-                    app:title="@string/trash" />
+                    app:title="@string/archive" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,7 +39,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="3" />
+                app:spanCount="2" />
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
