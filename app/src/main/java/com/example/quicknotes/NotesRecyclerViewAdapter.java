@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,11 +41,11 @@ public class NotesRecyclerViewAdapter
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // here is where we can modify the attributes of the note in main activity view
         // and set on click listeners, you can access elements from the holder
-        if (notes.get(position).getTitle() != null) {
+        if (notes.get(position).getTitle() != null && !notes.get(position).getTitle().equals("")) {
             holder.noteTitle.setText(notes.get(position).getTitle());
             holder.noteTitle.setVisibility(View.VISIBLE);
         }
-        if (notes.get(position).getContent() != null) {
+        if (notes.get(position).getContent() != null && !notes.get(position).getContent().equals("")) {
             String noteContent = notes.get(position).getContent();
             if (noteContent.length() > 170) {
                 StringBuilder contentPreview = new StringBuilder();
@@ -85,7 +84,6 @@ public class NotesRecyclerViewAdapter
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
-                Toast.makeText(context, "intent sent " + notes.get(position).getNoteIdentifier(), Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
             }
         });
