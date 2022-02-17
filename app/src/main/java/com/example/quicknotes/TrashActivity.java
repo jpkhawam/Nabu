@@ -1,10 +1,8 @@
 package com.example.quicknotes;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,28 +11,26 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
+public class TrashActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_trash);
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-        ArrayList<Note> allNotes = dataBaseHelper.getAllNotes();
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(TrashActivity.this);
+        ArrayList<Note> allNotes = dataBaseHelper.getAllNotesFromTrash();
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
         adapter.setNotes(allNotes);
         notesRecyclerView.setAdapter(adapter);
 
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar_trash);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
@@ -46,22 +42,14 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-        FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_button);
-        floatingActionButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, NoteActivity.class);
-            startActivity(intent);
-        });
-
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.trash:
-                Intent trashIntent = new Intent(this, TrashActivity.class);
-                startActivity(trashIntent);
+            case R.id.notes:
+                Intent mainIntent = new Intent(this, MainActivity.class);
+                startActivity(mainIntent);
                 return true;
             // TODO: add the rest
             default:

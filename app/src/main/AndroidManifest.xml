@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickNotes">
         <activity
+            android:name=".TrashActivity"
+            android:exported="false" />
+        <activity
             android:name=".NoteActivity"
             android:exported="false" />
         <activity
