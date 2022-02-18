@@ -1,4 +1,4 @@
-package com.example.quicknotes;
+package com.gmail.nabunoteapp;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.quicknotes", appContext.getPackageName());
+        assertEquals("com.gmail.quicknotes", appContext.getPackageName());
     }
 }

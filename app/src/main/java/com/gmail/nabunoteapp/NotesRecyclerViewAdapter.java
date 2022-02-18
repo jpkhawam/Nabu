@@ -1,6 +1,6 @@
-package com.example.quicknotes;
+package com.gmail.nabunoteapp;
 
-import static com.example.quicknotes.NoteActivity.NOTE_IDENTIFIER_KEY;
+import static com.gmail.nabunoteapp.NoteActivity.NOTE_IDENTIFIER_KEY;
 
 import android.content.Context;
 import android.content.Intent;

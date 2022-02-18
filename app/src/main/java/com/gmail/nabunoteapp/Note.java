@@ -1,4 +1,4 @@
-package com.example.quicknotes;
+package com.gmail.nabunoteapp;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

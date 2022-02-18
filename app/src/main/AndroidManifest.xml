@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.quicknotes">
+    package="com.gmail.nabunoteapp">
 
     <application
         android:allowBackup="true"
@@ -9,18 +9,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.QuickNotes">
+        android:theme="@style/Theme.Nabu">
         <activity
-            android:name=".ArchiveActivity"
+            android:name="com.gmail.nabunoteapp.ArchiveActivity"
             android:exported="false" />
         <activity
-            android:name=".TrashActivity"
+            android:name="com.gmail.nabunoteapp.TrashActivity"
             android:exported="false" />
         <activity
-            android:name=".NoteActivity"
+            android:name="com.gmail.nabunoteapp.NoteActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.gmail.nabunoteapp.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

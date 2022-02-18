@@ -1,4 +1,4 @@
-package com.example.quicknotes;
+package com.gmail.nabunoteapp;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
