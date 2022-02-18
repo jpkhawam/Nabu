@@ -28,7 +28,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?android:colorBackground"
-                    app:title="@string/app_name" />
+                    app:title=" ">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/caesar_dressing"
+                        android:text="@string/app_name"
+                        android:textSize="35sp" />
+
+                </com.google.android.material.appbar.MaterialToolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,6 +69,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header_navigation_drawer"
+        app:itemIconSize="27dp"
+        app:itemTextAppearance="?textAppearanceTitleMedium"
         app:menu="@menu/navigation_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
