@@ -434,6 +434,42 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Restore a note from ARCHIVE back to NOTES
+     *
+     * @param archivedNoteIdentifier noteIdentifier of the note to be restored
+     * @return returns note identifier
+     */
+    public long unArchiveNote(long archivedNoteIdentifier) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        String queryString = "SELECT * FROM " + ARCHIVE_TABLE + " WHERE " + COLUMN_ID + " = "
+                + archivedNoteIdentifier;
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+
+        boolean notEmpty = cursor.moveToFirst();
+        if (notEmpty) {
+            long noteIdentifier = cursor.getLong(0);
+            String noteTitle = cursor.getString(1);
+            String noteContent = cursor.getString(2);
+            String dateCreatedString = cursor.getString(3);
+            String dateEditedString = cursor.getString(4);
+            int backgroundColor = cursor.getInt(5);
+            LocalDateTime dateCreated = LocalDateTime.parse(dateCreatedString, dateTimeFormatter);
+            LocalDateTime dateEdited = LocalDateTime.parse(dateEditedString, dateTimeFormatter);
+
+            Note currentNote = new Note(noteIdentifier, noteTitle, noteContent,
+                    dateCreated, dateEdited, backgroundColor);
+
+            sqLiteDatabase.delete(ARCHIVE_TABLE, "ID = ?",
+                    new String[]{String.valueOf(noteIdentifier)});
+
+            return addNote(currentNote);
+        }
+        return -1;
+    }
+
+    /**
      * DELETES ALL NOTES FROM TRASH
      */
     public void emptyTrash() {

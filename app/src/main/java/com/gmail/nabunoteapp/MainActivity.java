@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,47 +27,65 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
-        ArrayList<Note> allNotes = dataBaseHelper.getAllNotes();
+        DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+
+        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotes());
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
-        adapter.setNotes(allNotes);
+        adapter.setNotes(allNotes.get());
         notesRecyclerView.setAdapter(adapter);
 
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        Intent intentReceived = getIntent();
+        if (intentReceived != null) {
+            long archivedNoteId = intentReceived.getLongExtra(NoteActivity.ARCHIVED_NOTE_IDENTIFIER_KEY, -1);
+            if (archivedNoteId != -1) {
+                Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
+                        .setAction("Undo", view -> {
+                            dataBaseHelper.unArchiveNote(archivedNoteId);
+                            allNotes.set(dataBaseHelper.getAllNotes());
+                            adapter.setNotes(allNotes.get());
+                            notesRecyclerView.setAdapter(adapter);
+                        })
+                        .show();
+            }
 
-        DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+            Toolbar toolbar = findViewById(R.id.main_toolbar);
+            setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
+            NavigationView navigationView = findViewById(R.id.nav_view);
 
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+            ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                    this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_button);
-        floatingActionButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, NoteActivity.class);
-            startActivity(intent);
-        });
+            drawerLayout.addDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.syncState();
+            navigationView.setNavigationItemSelectedListener(this);
 
+            FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_button);
+            floatingActionButton.setOnClickListener(view -> {
+                Intent intent = new Intent(this, NoteActivity.class);
+                startActivity(intent);
+            });
+
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.trash:
                 Intent trashIntent = new Intent(this, TrashActivity.class);
                 startActivity(trashIntent);
                 return true;
+
             case R.id.archive:
                 Intent archiveIntent = new Intent(this, ArchiveActivity.class);
                 startActivity(archiveIntent);
                 return true;
+
             default:
                 return false;
         }

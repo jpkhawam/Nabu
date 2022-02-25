@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
+    public static final String ARCHIVED_NOTE_IDENTIFIER_KEY = "archivedNoteId";
     private BottomSheetDialog dialog;
     private Note currentNote;
     private CoordinatorLayout parent;
@@ -108,23 +109,37 @@ public class NoteActivity extends AppCompatActivity {
                 // redundant yes, but sometimes the app crashes otherwise, "" and null are different
                 if (currentNote.getTitle() == null && currentNote.getContent() == null) {
                     dataBaseHelper.deleteNote(currentNote);
+                    dataBaseHelper.deleteNotePermanently(currentNote);
                 }
                 if (currentNote.getTitle().equals("") && currentNote.getContent().equals("")) {
                     dataBaseHelper.deleteNote(currentNote);
+                    dataBaseHelper.deleteNotePermanently(currentNote);
                 }
                 startActivity(outgoingIntent);
             });
             topAppBar.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
+
                     case R.id.note_pin:
                         // pin note
                         return true;
+
                     case R.id.note_add_reminder:
                         // add reminder
                         return true;
+
                     case R.id.note_send_to_archive:
-                        // send to archive
+                        if ((currentNote.getTitle() == null && currentNote.getContent() == null)
+                                || (currentNote.getTitle().equals("") && currentNote.getContent().equals(""))) {
+                            Snackbar.make(parent, "Cannot archive empty note", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            Intent outgoingIntent = new Intent(this, MainActivity.class);
+                            long archivedNoteId = dataBaseHelper.archiveNote(currentNote);
+                            outgoingIntent.putExtra(ARCHIVED_NOTE_IDENTIFIER_KEY, archivedNoteId);
+                            startActivity(outgoingIntent);
+                        }
                         return true;
+
                     default:
                         return false;
                 }
@@ -178,6 +193,11 @@ public class NoteActivity extends AppCompatActivity {
                                     })
                                     .show();
                         }
+                        return true;
+
+                    case R.id.note_delete:
+                        Snackbar.make(parent, R.string.clipboard_not_text, Snackbar.LENGTH_SHORT).show();
+                        return true;
 
                     default:
                         return false;
