@@ -1,7 +1,10 @@
 package com.gmail.nabunoteapp;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +18,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.LocalDateTime;
@@ -22,18 +26,21 @@ import java.time.LocalDateTime;
 public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
-    BottomSheetDialog dialog;
-    boolean dialogShowing = false;
+    private BottomSheetDialog dialog;
     private Note currentNote;
+    private CoordinatorLayout parent;
+    private TextInputEditText editTextTitle;
+    private TextInputEditText editTextContent;
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        TextInputEditText editTextTitle = findViewById(R.id.input_note_title);
-        TextInputEditText editTextContent = findViewById(R.id.input_note_content);
+        parent = findViewById(R.id.note_layout);
+        editTextTitle = findViewById(R.id.input_note_title);
+        editTextContent = findViewById(R.id.input_note_content);
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
 
@@ -127,38 +134,67 @@ public class NoteActivity extends AppCompatActivity {
 
             bottomAppBar.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
+
                     case R.id.note_color:
                         // give note color options
                         // this also can be a bottom sheet fragment
                         return true;
+
                     case R.id.note_label:
                         // give note label options
                         // also bottom sheet fragment
                         return true;
+
+                    case R.id.note_copy:
+                        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clipData = ClipData.newPlainText("Copied text", currentNote.getContent());
+                        clipboardManager.setPrimaryClip(clipData);
+                        Snackbar.make(parent, R.string.copied_text_clipboard, Snackbar.LENGTH_SHORT).show();
+                        return true;
+
+                    case R.id.note_paste:
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        // If it does contain data
+                        if (!(clipboard.hasPrimaryClip())) {
+                            Snackbar.make(parent, R.string.empty_clipboard, Snackbar.LENGTH_SHORT).show();
+                        } else if (!(clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN))) {
+                            // the clipboard has data but it is not plain text
+                            Snackbar.make(parent, R.string.clipboard_not_text, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            // the clipboard contains plain text.
+                            ClipData.Item clipDataItem = clipboard.getPrimaryClip().getItemAt(0);
+
+                            // Gets the clipboard as text
+                            String pasteData = clipDataItem.getText().toString();
+                            String backUpText = currentNote.getContent();
+
+                            currentNote.setContent(currentNote.getContent() + " " + pasteData);
+                            editTextContent.setText(currentNote.getContent());
+
+                            Snackbar.make(parent, R.string.clipboard_pasted, Snackbar.LENGTH_SHORT)
+                                    .setAction(R.string.undo, view -> {
+                                        currentNote.setContent(backUpText);
+                                        editTextContent.setText(backUpText);
+                                    })
+                                    .show();
+                        }
+
                     default:
                         return false;
                 }
             });
 
-            CoordinatorLayout layout = (CoordinatorLayout) findViewById(R.id.note_layout);
+            CoordinatorLayout layout = (CoordinatorLayout) parent;
             dialog = new BottomSheetDialog(this);
             onCreateDialog();
 
-            bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.show();
-                    dialogShowing = true;
-                    layout.setForeground(getDrawable(R.color.dim_color));
-                }
+            bottomAppBar.setNavigationOnClickListener(view -> {
+                dialog.show();
+                layout.setForeground(getDrawable(R.color.dim_color));
             });
 
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    layout.setForeground(getDrawable(R.color.reset));
-                }
-            });
+            dialog.setOnDismissListener(dialogInterface ->
+                    layout.setForeground(getDrawable(R.color.reset)));
 
             dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
@@ -166,7 +202,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
     private void onCreateDialog() {
-        View view = getLayoutInflater().inflate(R.layout.bottom_sheet, null, false);
+        View view = getLayoutInflater().inflate(R.layout.bottom_sheet, parent, false);
         dialog.setContentView(view);
     }
 
