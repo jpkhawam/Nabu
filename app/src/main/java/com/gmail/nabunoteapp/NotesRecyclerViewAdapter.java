@@ -4,7 +4,10 @@ import static com.gmail.nabunoteapp.NoteActivity.NOTE_IDENTIFIER_KEY;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ public class NotesRecyclerViewAdapter
     private static int NUMBER_OF_NOTES_CHECKED = 0;
     private final Context context;
     private ArrayList<Note> notes = new ArrayList<>();
+    private ActionMode mActionMode;
 
     public NotesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -70,6 +74,14 @@ public class NotesRecyclerViewAdapter
                 NUMBER_OF_NOTES_CHECKED--;
             USER_IS_CHECKING_NOTES = NUMBER_OF_NOTES_CHECKED > 0;
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
+            MyActionModeCallback callback = new MyActionModeCallback();
+            mActionMode = view.startActionMode(callback);
+            if (NUMBER_OF_NOTES_CHECKED == 0){
+                mActionMode.setTitle("1");
+                mActionMode.finish();
+            }
+            else
+                mActionMode.setTitle(Integer.toString(NUMBER_OF_NOTES_CHECKED));
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
@@ -79,8 +91,13 @@ public class NotesRecyclerViewAdapter
                 else
                     NUMBER_OF_NOTES_CHECKED--;
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-                if (NUMBER_OF_NOTES_CHECKED == 0)
+                if (NUMBER_OF_NOTES_CHECKED == 0){
                     USER_IS_CHECKING_NOTES = false;
+                    mActionMode.setTitle("1");
+                    mActionMode.finish();
+                }
+                else
+                    mActionMode.setTitle(Integer.toString(NUMBER_OF_NOTES_CHECKED));
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
@@ -90,6 +107,30 @@ public class NotesRecyclerViewAdapter
 //        if (notes.get(position).getBackgroundColor() != 0) {
 //            holder.materialCardView.setCardBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
 //        }
+    }
+
+    class MyActionModeCallback implements ActionMode.Callback{
+
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            actionMode.getMenuInflater().inflate(R.menu.contextual_bar, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+
+        }
     }
 
     @Override
