@@ -1,4 +1,4 @@
-package com.gmail.nabunoteapp;
+package com.jpkhawam.nabu;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;

@@ -1,4 +1,4 @@
-package com.gmail.nabunoteapp;
+package com.jpkhawam.nabu;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -141,7 +141,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * @return RETURNS NOTE IDENTIFIER IF SUCCESSFUL, -1 IF UNSUCCESSFUL
      */
     public long createNewNote() {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         Note note = new Note("", "", LocalDateTime.now(), LocalDateTime.now(), 0);
         return addNote(note);
     }
@@ -281,7 +280,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * @return returns note identifier
      */
     public long restoreNote(Note note) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         deleteNotePermanently(note);
         return addNote(note);
     }
@@ -464,8 +462,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             sqLiteDatabase.delete(ARCHIVE_TABLE, "ID = ?",
                     new String[]{String.valueOf(noteIdentifier)});
 
+            cursor.close();
             return addNote(currentNote);
         }
+        cursor.close();
         return -1;
     }
 

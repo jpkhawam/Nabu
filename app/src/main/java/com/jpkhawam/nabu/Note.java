@@ -1,4 +1,4 @@
-package com.gmail.nabunoteapp;
+package com.jpkhawam.nabu;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

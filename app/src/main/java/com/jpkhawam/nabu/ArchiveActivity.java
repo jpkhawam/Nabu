@@ -1,4 +1,4 @@
-package com.gmail.nabunoteapp;
+package com.jpkhawam.nabu;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,22 +16,22 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class TrashActivity extends AppCompatActivity
+public class ArchiveActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trash);
+        setContentView(R.layout.activity_archive);
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(TrashActivity.this);
-        ArrayList<Note> allNotes = dataBaseHelper.getAllNotesFromTrash();
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(ArchiveActivity.this);
+        ArrayList<Note> allNotes = dataBaseHelper.getAllNotesFromArchive();
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
         adapter.setNotes(allNotes);
         notesRecyclerView.setAdapter(adapter);
 
-        Toolbar toolbar = findViewById(R.id.main_toolbar_trash);
+        Toolbar toolbar = findViewById(R.id.main_toolbar_archive);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
@@ -53,9 +53,9 @@ public class TrashActivity extends AppCompatActivity
                 Intent mainIntent = new Intent(this, MainActivity.class);
                 startActivity(mainIntent);
                 return true;
-            case R.id.archive:
-                Intent archiveIntent = new Intent(this, ArchiveActivity.class);
-                startActivity(archiveIntent);
+            case R.id.trash:
+                Intent trashIntent = new Intent(this, TrashActivity.class);
+                startActivity(trashIntent);
                 return true;
             default:
                 return false;

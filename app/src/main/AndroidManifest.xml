@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gmail.nabunoteapp">
+    package="com.jpkhawam.nabu">
 
     <application
         android:allowBackup="true"
@@ -11,16 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nabu">
         <activity
-            android:name="com.gmail.nabunoteapp.ArchiveActivity"
+            android:name="com.jpkhawam.nabu.ArchiveActivity"
             android:exported="false" />
         <activity
-            android:name="com.gmail.nabunoteapp.TrashActivity"
+            android:name="com.jpkhawam.nabu.TrashActivity"
             android:exported="false" />
         <activity
-            android:name="com.gmail.nabunoteapp.NoteActivity"
+            android:name="com.jpkhawam.nabu.NoteActivity"
             android:exported="false" />
         <activity
-            android:name="com.gmail.nabunoteapp.MainActivity"
+            android:name="com.jpkhawam.nabu.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

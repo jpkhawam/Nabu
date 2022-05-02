@@ -1,4 +1,4 @@
-package com.gmail.nabunoteapp;
+package com.jpkhawam.nabu;
 
 import org.junit.Test;
 

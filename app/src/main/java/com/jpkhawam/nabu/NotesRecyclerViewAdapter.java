@@ -1,6 +1,6 @@
-package com.gmail.nabunoteapp;
+package com.jpkhawam.nabu;
 
-import static com.gmail.nabunoteapp.NoteActivity.NOTE_IDENTIFIER_KEY;
+import static com.jpkhawam.nabu.NoteActivity.NOTE_IDENTIFIER_KEY;
 
 import android.content.Context;
 import android.content.Intent;
