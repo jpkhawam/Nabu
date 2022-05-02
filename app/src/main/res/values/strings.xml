@@ -26,6 +26,7 @@
     <string name="add_a_reminder_to_current_note">Add a reminder to current note</string>
     <string name="send_to_archive">Archive</string>
     <string name="send_the_current_note_to_archive">Send the current note to archive</string>
+    <string name="send_the_current_note_to_trash">Send the current note to trash</string>
     <string name="assign_color_to_this_note">Assign color to this note</string>
     <string name="color">Color</string>
     <string name="add_label_to_this_note">Add label to this note</string>
@@ -51,5 +52,6 @@
     <string name="clipboard_not_text">Clipboard has data, but it is not plain text</string>
     <string name="clipboard_pasted">Pasted from clipboard</string>
     <string name="undo">Undo</string>
+    <string name="send_to_trash">Send to Trash</string>
 
 </resources>

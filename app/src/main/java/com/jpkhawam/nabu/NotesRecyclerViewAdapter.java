@@ -77,11 +77,13 @@ public class NotesRecyclerViewAdapter
             MyActionModeCallback callback = new MyActionModeCallback();
             mActionMode = view.startActionMode(callback);
             if (NUMBER_OF_NOTES_CHECKED == 0){
-                mActionMode.setTitle("1");
+                mActionMode.setTitle("");
                 mActionMode.finish();
             }
+            else if (NUMBER_OF_NOTES_CHECKED == 1)
+                mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
             else
-                mActionMode.setTitle(Integer.toString(NUMBER_OF_NOTES_CHECKED));
+                mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
@@ -93,11 +95,13 @@ public class NotesRecyclerViewAdapter
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
                 if (NUMBER_OF_NOTES_CHECKED == 0){
                     USER_IS_CHECKING_NOTES = false;
-                    mActionMode.setTitle("1");
+                    mActionMode.setTitle("");
                     mActionMode.finish();
                 }
+                else if (NUMBER_OF_NOTES_CHECKED == 1)
+                    mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
                 else
-                    mActionMode.setTitle(Integer.toString(NUMBER_OF_NOTES_CHECKED));
+                    mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
@@ -141,7 +145,6 @@ public class NotesRecyclerViewAdapter
     // TODO: remove this function later
     public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
-        notifyDataSetChanged();
     }
 
     public void addNote(Note note) {
