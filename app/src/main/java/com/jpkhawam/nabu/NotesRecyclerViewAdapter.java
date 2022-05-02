@@ -76,11 +76,10 @@ public class NotesRecyclerViewAdapter
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
             MyActionModeCallback callback = new MyActionModeCallback();
             mActionMode = view.startActionMode(callback);
-            if (NUMBER_OF_NOTES_CHECKED == 0){
+            if (NUMBER_OF_NOTES_CHECKED == 0) {
                 mActionMode.setTitle("");
                 mActionMode.finish();
-            }
-            else if (NUMBER_OF_NOTES_CHECKED == 1)
+            } else if (NUMBER_OF_NOTES_CHECKED == 1)
                 mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
             else
                 mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
@@ -93,12 +92,11 @@ public class NotesRecyclerViewAdapter
                 else
                     NUMBER_OF_NOTES_CHECKED--;
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-                if (NUMBER_OF_NOTES_CHECKED == 0){
+                if (NUMBER_OF_NOTES_CHECKED == 0) {
                     USER_IS_CHECKING_NOTES = false;
                     mActionMode.setTitle("");
                     mActionMode.finish();
-                }
-                else if (NUMBER_OF_NOTES_CHECKED == 1)
+                } else if (NUMBER_OF_NOTES_CHECKED == 1)
                     mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
                 else
                     mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
@@ -113,7 +111,7 @@ public class NotesRecyclerViewAdapter
 //        }
     }
 
-    class MyActionModeCallback implements ActionMode.Callback{
+    static class MyActionModeCallback implements ActionMode.Callback {
 
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -133,7 +131,6 @@ public class NotesRecyclerViewAdapter
 
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
-
         }
     }
 
@@ -145,14 +142,6 @@ public class NotesRecyclerViewAdapter
     // TODO: remove this function later
     public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
-    }
-
-    public void addNote(Note note) {
-        this.notes.add(note);
-        // TODO:
-        //  JP: i am not sure which item needs to have a listener for this event
-        notifyItemInserted(notes.size());
-        // if it doesn't work try notifyDataSetChanged()
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

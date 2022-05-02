@@ -4,55 +4,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Note {
-
-    private final LocalDateTime dateCreated;
     private long noteIdentifier;
     private String title;
     private String content;
+    private final LocalDateTime dateCreated;
     private LocalDateTime dateEdited;
-    private int backgroundColor;
-    private LocalDateTime dateSentToTrash = null;
-    private LocalDateTime dateArchived = null;
 
-    public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated,
-                LocalDateTime dateEdited, int backgroundColor) {
+    public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated, LocalDateTime dateEdited) {
         this.noteIdentifier = noteIdentifier;
         this.title = title;
         this.content = content;
         this.dateCreated = dateCreated;
         this.dateEdited = dateEdited;
-        this.backgroundColor = backgroundColor;
     }
 
-    public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated,
-                LocalDateTime dateEdited, int backgroundColor, LocalDateTime dateSentToTrash) {
-        this.noteIdentifier = noteIdentifier;
-        this.title = title;
-        this.content = content;
-        this.dateCreated = dateCreated;
-        this.dateEdited = dateEdited;
-        this.backgroundColor = backgroundColor;
-        this.dateSentToTrash = dateSentToTrash;
-    }
-
-    public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated,
-                LocalDateTime dateEdited, LocalDateTime dateArchived, int backgroundColor) {
-        this.noteIdentifier = noteIdentifier;
-        this.title = title;
-        this.content = content;
-        this.dateCreated = dateCreated;
-        this.dateEdited = dateEdited;
-        this.backgroundColor = backgroundColor;
-        this.dateArchived = dateArchived;
-    }
-
-    public Note(String title, String content, LocalDateTime dateCreated, LocalDateTime dateEdited,
-                int backgroundColor) {
-        this.title = title;
-        this.content = content;
-        this.dateCreated = dateCreated;
-        this.dateEdited = dateEdited;
-        this.backgroundColor = backgroundColor;
+    public Note() {
+        this.dateCreated = LocalDateTime.now();
+        this.dateEdited = LocalDateTime.now();
     }
 
     public String getTitle() {
@@ -61,7 +29,7 @@ public class Note {
 
     public void setTitle(String title) {
         this.title = title;
-         setDateEdited(LocalDateTime.now());
+        setDateEdited(LocalDateTime.now());
     }
 
     public String getContent() {
@@ -70,15 +38,7 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
-         setDateEdited(LocalDateTime.now());
-    }
-
-    public int getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public void setBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
+        setDateEdited(LocalDateTime.now());
     }
 
     public String getDateCreated() {
@@ -97,9 +57,5 @@ public class Note {
 
     public long getNoteIdentifier() {
         return noteIdentifier;
-    }
-
-    public void setNoteIdentifier(long noteIdentifier) {
-        this.noteIdentifier = noteIdentifier;
     }
 }

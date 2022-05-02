@@ -53,14 +53,12 @@ public class NoteActivity extends AppCompatActivity {
                 editTextTitle.setText(currentNote.getTitle());
                 editTextContent.setText(currentNote.getContent());
             } else {
-                long newNoteIdentifier = dataBaseHelper.createNewNote();
-                currentNote = dataBaseHelper.getNote(newNoteIdentifier);
+                currentNote = dataBaseHelper.getNote(dataBaseHelper.addNote(new Note()));
             }
 
             editTextTitle.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 }
 
                 @Override
@@ -76,14 +74,12 @@ public class NoteActivity extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-
                 }
             });
 
             editTextContent.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 }
 
                 @Override
@@ -99,7 +95,6 @@ public class NoteActivity extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-
                 }
             });
 
@@ -109,17 +104,16 @@ public class NoteActivity extends AppCompatActivity {
                 // redundant yes, but sometimes the app crashes otherwise, "" and null are different
                 if (currentNote.getTitle() == null && currentNote.getContent() == null) {
                     dataBaseHelper.deleteNote(currentNote);
-                    dataBaseHelper.deleteNotePermanently(currentNote);
+                    dataBaseHelper.deleteNoteFromTrash(currentNote);
                 }
                 if (currentNote.getTitle().equals("") && currentNote.getContent().equals("")) {
                     dataBaseHelper.deleteNote(currentNote);
-                    dataBaseHelper.deleteNotePermanently(currentNote);
+                    dataBaseHelper.deleteNoteFromTrash(currentNote);
                 }
                 startActivity(outgoingIntent);
             });
             topAppBar.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-
                     case R.id.note_pin:
                         // pin note
                         return true;
@@ -134,8 +128,8 @@ public class NoteActivity extends AppCompatActivity {
                             Snackbar.make(parent, "Cannot archive empty note", Snackbar.LENGTH_SHORT).show();
                         } else {
                             Intent outgoingIntent = new Intent(this, MainActivity.class);
-                            long archivedNoteId = dataBaseHelper.archiveNote(currentNote);
-                            outgoingIntent.putExtra(ARCHIVED_NOTE_IDENTIFIER_KEY, archivedNoteId);
+                            dataBaseHelper.archiveNote(currentNote);
+                            outgoingIntent.putExtra(ARCHIVED_NOTE_IDENTIFIER_KEY, currentNote.getNoteIdentifier());
                             startActivity(outgoingIntent);
                         }
                         return true;
@@ -149,7 +143,6 @@ public class NoteActivity extends AppCompatActivity {
 
             bottomAppBar.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-
                     case R.id.note_color:
                         // give note color options
                         // this also can be a bottom sheet fragment
@@ -227,5 +220,3 @@ public class NoteActivity extends AppCompatActivity {
     }
 
 }
-
-
