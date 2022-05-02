@@ -111,7 +111,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String noteContent = cursor.getString(2);
             LocalDateTime dateCreated = LocalDateTime.parse(cursor.getString(5), dateTimeFormatter);
             LocalDateTime dateEdited = LocalDateTime.parse(cursor.getString(6), dateTimeFormatter);
-            LocalDateTime dateSentToTrash = LocalDateTime.parse(cursor.getString(7), dateTimeFormatter);
+           // LocalDateTime dateSentToTrash = LocalDateTime.parse(cursor.getString(7), dateTimeFormatter);
             // this is where you check if you should just delete the note instead.
             // you could also have a setting to turn it off
             // if (AppSettings.autoDeleteSet()) { check() }
