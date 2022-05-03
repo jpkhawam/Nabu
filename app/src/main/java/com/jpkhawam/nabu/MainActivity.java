@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         if (dataBaseHelper.getAllNotes().isEmpty()) {
             emptyNotes.setVisibility(View.VISIBLE);
         } else {
-          emptyNotes.setVisibility(View.GONE);
+            emptyNotes.setVisibility(View.GONE);
         }
         notesRecyclerView.setAdapter(adapter);
 
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
                             allNotes.set(dataBaseHelper.getAllNotes());
                             adapter.setNotes(allNotes.get());
                             notesRecyclerView.setAdapter(adapter);
+                            emptyNotes.setVisibility(View.GONE);
                         })
                         .show();
             }

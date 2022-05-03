@@ -80,9 +80,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginTop="20dp"
-        android:layoutDirection="rtl"
-        app:menu="@menu/note_bottom_menu"
-        app:navigationIcon="@drawable/ic_more_dark"
-        app:navigationIconTint="?colorControlNormal" />
+        app:menu="@menu/note_bottom_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

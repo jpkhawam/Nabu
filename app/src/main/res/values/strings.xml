@@ -47,7 +47,8 @@
     <string name="enter_your_note_title_here">Enter your note title here</string>
     <string name="enter_your_note_content_here">Note</string>
     <string name="create_new_note">Create new note</string>
-    <string name="copied_text_clipboard">Copied to clipboard</string>
+    <string name="copied_text_clipboard">Copied note to clipboard</string>
+    <string name="didnt_copy_text_clipboard">Did not copy empty note</string>
     <string name="empty_clipboard">Clipboard is empty, could not paste</string>
     <string name="clipboard_not_text">Clipboard has data, but it is not plain text</string>
     <string name="clipboard_pasted">Pasted from clipboard</string>

@@ -9,15 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -27,7 +24,6 @@ public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
     public static final String ARCHIVED_NOTE_IDENTIFIER_KEY = "archivedNoteId";
-    private BottomSheetDialog dialog;
     private Note currentNote;
     private CoordinatorLayout parent;
     private TextInputEditText editTextTitle;
@@ -140,24 +136,27 @@ public class NoteActivity extends AppCompatActivity {
             });
 
             BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
-
             bottomAppBar.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-                    case R.id.note_color:
-                        // give note color options
-                        // this also can be a bottom sheet fragment
-                        return true;
-
-                    case R.id.note_label:
-                        // give note label options
-                        // also bottom sheet fragment
-                        return true;
-
                     case R.id.note_copy:
                         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clipData = ClipData.newPlainText("Copied text", currentNote.getContent());
-                        clipboardManager.setPrimaryClip(clipData);
-                        Snackbar.make(parent, R.string.copied_text_clipboard, Snackbar.LENGTH_SHORT).show();
+                        ClipData clipData;
+                        String copyData = "";
+                        if (currentNote.getTitle() != null && !currentNote.getTitle().equals("")) {
+                            copyData = currentNote.getTitle();
+                        }
+                        if (currentNote.getContent() != null && !currentNote.getContent().equals("")) {
+                            if (!copyData.equals(""))
+                                copyData = copyData + '\n' + currentNote.getContent();
+                            else copyData = currentNote.getContent();
+                        }
+                        if (!copyData.equals("")) {
+                            clipData = ClipData.newPlainText("Copied text", copyData);
+                            clipboardManager.setPrimaryClip(clipData);
+                            Snackbar.make(parent, R.string.copied_text_clipboard, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            Snackbar.make(parent, R.string.didnt_copy_text_clipboard, Snackbar.LENGTH_SHORT).show();
+                        }
                         return true;
 
                     case R.id.note_paste:
@@ -175,10 +174,12 @@ public class NoteActivity extends AppCompatActivity {
                             // Gets the clipboard as text
                             String pasteData = clipDataItem.getText().toString();
                             String backUpText = currentNote.getContent();
-
-                            currentNote.setContent(currentNote.getContent() + " " + pasteData);
+                            if (currentNote.getContent() != null && !currentNote.getContent().equals("")) {
+                                currentNote.setContent(currentNote.getContent() + " " + pasteData);
+                            } else {
+                                currentNote.setContent(pasteData);
+                            }
                             editTextContent.setText(currentNote.getContent());
-
                             Snackbar.make(parent, R.string.clipboard_pasted, Snackbar.LENGTH_SHORT)
                                     .setAction(R.string.undo, view -> {
                                         currentNote.setContent(backUpText);
@@ -187,36 +188,10 @@ public class NoteActivity extends AppCompatActivity {
                                     .show();
                         }
                         return true;
-
-                    case R.id.note_delete:
-                        Snackbar.make(parent, R.string.clipboard_not_text, Snackbar.LENGTH_SHORT).show();
-                        return true;
-
                     default:
                         return false;
                 }
             });
-
-            CoordinatorLayout layout = (CoordinatorLayout) parent;
-            dialog = new BottomSheetDialog(this);
-            onCreateDialog();
-
-            bottomAppBar.setNavigationOnClickListener(view -> {
-                dialog.show();
-                layout.setForeground(getDrawable(R.color.dim_color));
-            });
-
-            dialog.setOnDismissListener(dialogInterface ->
-                    layout.setForeground(getDrawable(R.color.reset)));
-
-            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
         }
     }
-
-    private void onCreateDialog() {
-        View view = getLayoutInflater().inflate(R.layout.bottom_sheet, parent, false);
-        dialog.setContentView(view);
-    }
-
 }
