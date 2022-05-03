@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
             if (archivedNoteId != -1) {
                 Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
                         .setAction("Undo", view -> {
-                            dataBaseHelper.unArchiveNote(archivedNoteId);
+                            dataBaseHelper.unarchiveNote(archivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotes());
                             adapter.setNotes(allNotes.get());
                             notesRecyclerView.setAdapter(adapter);

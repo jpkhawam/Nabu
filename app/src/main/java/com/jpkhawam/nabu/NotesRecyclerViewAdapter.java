@@ -2,6 +2,7 @@ package com.jpkhawam.nabu;
 
 import static com.jpkhawam.nabu.NoteActivity.NOTE_IDENTIFIER_KEY;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.ActionMode;
@@ -26,6 +27,7 @@ public class NotesRecyclerViewAdapter
     private static int NUMBER_OF_NOTES_CHECKED = 0;
     private final Context context;
     private ArrayList<Note> notes = new ArrayList<>();
+    protected static ArrayList<Note> selectedNotes = new ArrayList<>();
     private ActionMode mActionMode;
 
     public NotesRecyclerViewAdapter(Context context) {
@@ -43,6 +45,9 @@ public class NotesRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+        long noteIdentifier = notes.get(position).getNoteIdentifier();
+        Note note = dataBaseHelper.getNote(noteIdentifier);
         // here is where we can modify the attributes of the note in main activity view
         // and set on click listeners, you can access elements from the holder
         if (notes.get(position).getTitle() != null && !notes.get(position).getTitle().equals("")) {
@@ -74,13 +79,17 @@ public class NotesRecyclerViewAdapter
                 NUMBER_OF_NOTES_CHECKED--;
             USER_IS_CHECKING_NOTES = NUMBER_OF_NOTES_CHECKED > 0;
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-            MyActionModeCallback callback = new MyActionModeCallback();
+            if(holder.materialCardView.isChecked()) {
+                selectedNotes.add(note);
+            } else {
+                selectedNotes.remove(note);
+            }
+            MyActionModeCallback callback = new MyActionModeCallback(context);
             mActionMode = view.startActionMode(callback);
-            if (NUMBER_OF_NOTES_CHECKED == 0){
+            if (NUMBER_OF_NOTES_CHECKED == 0) {
                 mActionMode.setTitle("");
                 mActionMode.finish();
-            }
-            else if (NUMBER_OF_NOTES_CHECKED == 1)
+            } else if (NUMBER_OF_NOTES_CHECKED == 1)
                 mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
             else
                 mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
@@ -93,12 +102,16 @@ public class NotesRecyclerViewAdapter
                 else
                     NUMBER_OF_NOTES_CHECKED--;
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-                if (NUMBER_OF_NOTES_CHECKED == 0){
+                if(holder.materialCardView.isChecked()) {
+                    selectedNotes.add(note);
+                } else {
+                    selectedNotes.remove(note);
+                }
+                if (NUMBER_OF_NOTES_CHECKED == 0) {
                     USER_IS_CHECKING_NOTES = false;
                     mActionMode.setTitle("");
                     mActionMode.finish();
-                }
-                else if (NUMBER_OF_NOTES_CHECKED == 1)
+                } else if (NUMBER_OF_NOTES_CHECKED == 1)
                     mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
                 else
                     mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
@@ -113,7 +126,12 @@ public class NotesRecyclerViewAdapter
 //        }
     }
 
-    class MyActionModeCallback implements ActionMode.Callback{
+    static class MyActionModeCallback implements ActionMode.Callback {
+        private final Context context;
+
+        public MyActionModeCallback(Context context) {
+            this.context = context;
+        }
 
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
@@ -126,14 +144,27 @@ public class NotesRecyclerViewAdapter
             return false;
         }
 
+        @SuppressLint("NonConstantResourceId")
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+            switch(menuItem.getItemId()) {
+                case R.id.note_send_to_trash:
+                    for(Note note: NotesRecyclerViewAdapter.selectedNotes)
+                        dataBaseHelper.deleteNote(note);
+                    break;
+                case R.id.note_send_to_archive:
+                    for(Note note: NotesRecyclerViewAdapter.selectedNotes)
+                        dataBaseHelper.archiveNote(note);
+                    break;
+                default:
+                    return false;
+            }
             return false;
         }
 
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
-
         }
     }
 
@@ -145,14 +176,6 @@ public class NotesRecyclerViewAdapter
     // TODO: remove this function later
     public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
-    }
-
-    public void addNote(Note note) {
-        this.notes.add(note);
-        // TODO:
-        //  JP: i am not sure which item needs to have a listener for this event
-        notifyItemInserted(notes.size());
-        // if it doesn't work try notifyDataSetChanged()
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
