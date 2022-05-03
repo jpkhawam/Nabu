@@ -53,5 +53,8 @@
     <string name="clipboard_pasted">Pasted from clipboard</string>
     <string name="undo">Undo</string>
     <string name="send_to_trash">Send to Trash</string>
+    <string name="no_notes_yet">Click on the + button to create your first note</string>
+    <string name="nothing_in_trash">Nothing in trash!</string>
+    <string name="nothing_in_archive">Nothing in Archive!</string>
 
 </resources>

@@ -32,6 +32,17 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
+            <TextView
+                android:id="@+id/no_trash_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="300dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="300dp"
+                android:text="@string/nothing_in_trash"
+                android:textSize="28sp"
+                android:visibility="gone" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notesRecyclerView"
                 android:layout_width="match_parent"

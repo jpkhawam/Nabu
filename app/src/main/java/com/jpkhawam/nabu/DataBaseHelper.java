@@ -55,8 +55,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         COLUMN_DATE_EDITED + " TEXT NOT NULL, " +
                         COLUMN_DATE_SENT_TO_TRASH + " TEXT)";
         sqLiteDatabase.execSQL(createNotesTableStatement);
-
-        // TODO: on app launch, check which notes are due and delete them
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -34,6 +36,13 @@ public class MainActivity extends AppCompatActivity
         AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotes());
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
         adapter.setNotes(allNotes.get());
+
+        TextView emptyNotes = findViewById(R.id.no_notes_text);
+        if (dataBaseHelper.getAllNotes().isEmpty()) {
+            emptyNotes.setVisibility(View.VISIBLE);
+        } else {
+          emptyNotes.setVisibility(View.GONE);
+        }
         notesRecyclerView.setAdapter(adapter);
 
         Intent intentReceived = getIntent();
@@ -75,17 +84,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.trash:
                 Intent trashIntent = new Intent(this, TrashActivity.class);
                 startActivity(trashIntent);
                 return true;
-
             case R.id.archive:
                 Intent archiveIntent = new Intent(this, ArchiveActivity.class);
                 startActivity(archiveIntent);
                 return true;
-
             default:
                 return false;
         }
