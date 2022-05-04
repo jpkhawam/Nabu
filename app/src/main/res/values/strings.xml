@@ -57,5 +57,14 @@
     <string name="no_notes_yet">Click on the + button to create your first note</string>
     <string name="nothing_in_trash">Nothing in trash!</string>
     <string name="nothing_in_archive">Nothing in Archive!</string>
+    <string name="font_size">Font Size</string>
+    <string name="font_settings">Font Settings</string>
+    <string name="font_size_small">Small</string>
+
+    <string-array name="settings_fontsize">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
 
 </resources>

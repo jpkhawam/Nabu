@@ -6,12 +6,14 @@ import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -28,6 +30,8 @@ public class NoteActivity extends AppCompatActivity {
     private CoordinatorLayout parent;
     private TextInputEditText editTextTitle;
     private TextInputEditText editTextContent;
+    int editTitleFontSizeInt = 20;
+    int editContentFontSizeInt = 16;
 
     @SuppressLint({"NonConstantResourceId", "UseCompatLoadingForDrawables"})
     @Override
@@ -48,6 +52,25 @@ public class NoteActivity extends AppCompatActivity {
                 currentNote = dataBaseHelper.getNote(noteIdentifier);
                 editTextTitle.setText(currentNote.getTitle());
                 editTextContent.setText(currentNote.getContent());
+
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                String fontSize = settings.getString("settings_fontsize", "Small");
+                if (fontSize.equals("Small")){
+                    editTitleFontSizeInt = 20;
+                    editContentFontSizeInt = 16;
+                }
+                if (fontSize.equals("Medium")){
+                    editTitleFontSizeInt = (int) (20 * 1.5);
+                    editContentFontSizeInt = (int) (16 * 1.5);
+
+                }
+                if (fontSize.equals("Large")){
+                    editTitleFontSizeInt = 20 * 2;
+                    editContentFontSizeInt = 16 * 2;
+                }
+                editTextTitle.setTextSize(editTitleFontSizeInt);
+                editTextContent.setTextSize(editContentFontSizeInt);
+
             } else {
                 currentNote = dataBaseHelper.getNote(dataBaseHelper.addNote(new Note()));
             }

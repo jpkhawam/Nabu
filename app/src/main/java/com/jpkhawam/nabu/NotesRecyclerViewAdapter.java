@@ -5,6 +5,7 @@ import static com.jpkhawam.nabu.NoteActivity.NOTE_IDENTIFIER_KEY;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -22,7 +24,8 @@ import java.util.ArrayList;
 
 public class NotesRecyclerViewAdapter
         extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
-
+    int titleFontSizeInt = 17;
+    int contentFontSizeInt = 16;
     private static boolean USER_IS_CHECKING_NOTES = false;
     private static int NUMBER_OF_NOTES_CHECKED = 0;
     private final Context context;
@@ -32,6 +35,20 @@ public class NotesRecyclerViewAdapter
 
     public NotesRecyclerViewAdapter(Context context) {
         this.context = context;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        String fontSize = settings.getString("settings_fontsize", "Small");
+        if (fontSize.equals("Small")){
+            titleFontSizeInt = 17;
+            contentFontSizeInt = 16;
+        }
+        if (fontSize.equals("Medium")){
+            titleFontSizeInt = (int) (17 * 1.5);
+            contentFontSizeInt = (int) (16 * 1.5);
+        }
+        if (fontSize.equals("Large")){
+            titleFontSizeInt = 17 * 2;
+            contentFontSizeInt = 16 * 2;
+        }
     }
 
     @NonNull
@@ -178,7 +195,7 @@ public class NotesRecyclerViewAdapter
         this.notes = notes;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView noteTitle;
         private final TextView noteContent;
         private final MaterialCardView materialCardView;
@@ -187,7 +204,9 @@ public class NotesRecyclerViewAdapter
             super(itemView);
             materialCardView = itemView.findViewById(R.id.material_card_view);
             noteTitle = itemView.findViewById(R.id.note_title);
+            noteTitle.setTextSize(titleFontSizeInt);
             noteContent = itemView.findViewById(R.id.note_content);
+            noteContent.setTextSize(contentFontSizeInt);
         }
     }
 
