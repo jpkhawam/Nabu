@@ -46,6 +46,23 @@ public class NoteActivity extends AppCompatActivity {
         editTextContent = findViewById(R.id.input_note_content);
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String fontSize = settings.getString("settings_fontsize", "Small");
+        if (fontSize.equals("Small")){
+            editTitleFontSizeInt = 20;
+            editContentFontSizeInt = 16;
+        }
+        if (fontSize.equals("Medium")){
+            editTitleFontSizeInt = (int) (20 * 1.5);
+            editContentFontSizeInt = (int) (16 * 1.5);
+
+        }
+        if (fontSize.equals("Large")){
+            editTitleFontSizeInt = 20 * 2;
+            editContentFontSizeInt = 16 * 2;
+        }
+        editTextTitle.setTextSize(editTitleFontSizeInt);
+        editTextContent.setTextSize(editContentFontSizeInt);
 
         Intent intentReceived = getIntent();
         if (intentReceived != null) {
@@ -54,24 +71,6 @@ public class NoteActivity extends AppCompatActivity {
                 currentNote = dataBaseHelper.getNote(noteIdentifier);
                 editTextTitle.setText(currentNote.getTitle());
                 editTextContent.setText(currentNote.getContent());
-
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-                String fontSize = settings.getString("settings_fontsize", "Small");
-                if (fontSize.equals("Small")){
-                    editTitleFontSizeInt = 20;
-                    editContentFontSizeInt = 16;
-                }
-                if (fontSize.equals("Medium")){
-                    editTitleFontSizeInt = (int) (20 * 1.5);
-                    editContentFontSizeInt = (int) (16 * 1.5);
-
-                }
-                if (fontSize.equals("Large")){
-                    editTitleFontSizeInt = 20 * 2;
-                    editContentFontSizeInt = 16 * 2;
-                }
-                editTextTitle.setTextSize(editTitleFontSizeInt);
-                editTextContent.setTextSize(editContentFontSizeInt);
 
             } else {
                 currentNote = dataBaseHelper.getNote(dataBaseHelper.addNote(new Note()));
