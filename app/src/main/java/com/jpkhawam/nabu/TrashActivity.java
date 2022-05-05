@@ -99,6 +99,10 @@ public class TrashActivity extends AppCompatActivity
                 Intent archiveIntent = new Intent(this, ArchiveActivity.class);
                 startActivity(archiveIntent);
                 return true;
+            case R.id.settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
             default:
                 return false;
         }

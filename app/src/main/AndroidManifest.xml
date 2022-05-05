@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nabu">
         <activity
+            android:name="com.jpkhawam.nabu.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name="com.jpkhawam.nabu.ArchiveActivity"
             android:exported="false" />
         <activity
