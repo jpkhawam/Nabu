@@ -1,20 +1,15 @@
 package com.jpkhawam.nabu;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.preference.PreferenceManager;
-
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -32,7 +27,10 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         setSupportActionBar(toolbar);
 
         // Instantiate Settings Fragment
-        getFragmentManager().beginTransaction().add(R.id.SettingsConstraintLayout, new SettingsFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.SettingsConstraintLayout, new SettingsFragment())
+                .commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 

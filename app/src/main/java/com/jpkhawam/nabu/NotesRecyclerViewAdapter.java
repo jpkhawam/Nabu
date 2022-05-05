@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -142,9 +142,6 @@ public class NotesRecyclerViewAdapter
                 context.startActivity(intent);
             }
         });
-//        if (notes.get(position).getBackgroundColor() != 0) {
-//            holder.materialCardView.setCardBackgroundColor(context.getColor(notes.get(position).getBackgroundColor()));
-//        }
     }
 
     static class MyActionModeCallback implements ActionMode.Callback {

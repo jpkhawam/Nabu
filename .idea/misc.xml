@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.117" />
         <entry key="app/src/main/res/layout-land/activity_archive.xml" value="0.3035516093229745" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.2156084656084656" />
+        <entry key="app/src/main/res/layout-land/activity_settings.xml" value="0.2156084656084656" />
         <entry key="app/src/main/res/layout-land/activity_trash.xml" value="0.21693121693121692" />
         <entry key="app/src/main/res/layout-night/activity_note.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/layout-night/bottom_sheet.xml" value="0.25677083333333334" />
@@ -35,6 +36,7 @@
         <entry key="app/src/main/res/menu/note_top_app_bar.xml" value="0.25" />
         <entry key="app/src/main/res/menu/note_top_menu.xml" value="0.25677083333333334" />
         <entry key="app/src/main/res/menu/trash_toolbar.xml" value="0.25677083333333334" />
+        <entry key="app/src/main/res/xml/preferences.xml" value="0.2477355072463768" />
       </map>
     </option>
   </component>
