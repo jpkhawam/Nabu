@@ -109,7 +109,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String noteContent = cursor.getString(2);
             LocalDateTime dateCreated = LocalDateTime.parse(cursor.getString(5), dateTimeFormatter);
             LocalDateTime dateEdited = LocalDateTime.parse(cursor.getString(6), dateTimeFormatter);
-           // LocalDateTime dateSentToTrash = LocalDateTime.parse(cursor.getString(7), dateTimeFormatter);
+            // LocalDateTime dateSentToTrash = LocalDateTime.parse(cursor.getString(7), dateTimeFormatter);
             // this is where you check if you should just delete the note instead.
             // you could also have a setting to turn it off
             // if (AppSettings.autoDeleteSet()) { check() }
@@ -235,6 +235,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * SEND A NOTE FROM NOTES_TABLE TO TRASH
+     *
+     * @param noteIdentifier of note to be sent to trash
+     */
+    public void deleteNote(long noteIdentifier) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_IN_TRASH, 1);
+        contentValues.put(COLUMN_IN_ARCHIVE, 0);
+        sqLiteDatabase.update(NOTES_TABLE, contentValues,
+                "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.close();
+    }
+
+    /**
      * DELETES A NOTE FROM TRASH_TABLE
      *
      * @param note note to be deleted
@@ -264,7 +279,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     /**
      * MARK A NOTE AS ARCHIVED
-     *
      * @param note note to be archived
      */
     public void archiveNote(Note note) {
@@ -274,6 +288,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_IN_ARCHIVE, 1);
         sqLiteDatabase.update(NOTES_TABLE, contentValues,
                 "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.close();
+    }
+
+    /**
+     * MARK A NOTE AS ARCHIVED
+     * @param noteIdentifier note identifier of note to be archived
+     */
+    public void archiveNote(long noteIdentifier) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_IN_TRASH, 0);
+        contentValues.put(COLUMN_IN_ARCHIVE, 1);
+        sqLiteDatabase.update(NOTES_TABLE, contentValues,
+                "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
     }
 
@@ -318,6 +346,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(NOTES_TABLE, contentValues,
                 "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
+    }
+
+    public boolean isInTrash(Note note) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String queryString = "SELECT " + COLUMN_IN_TRASH + " FROM " + NOTES_TABLE + " WHERE " + COLUMN_ID + " = " + note.getNoteIdentifier();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+        cursor.moveToFirst();
+        boolean inTrash = cursor.getInt(0) != 0;
+        sqLiteDatabase.close();
+        cursor.close();
+        return inTrash;
+    }
+
+    public boolean isInArchive(Note note) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        String queryString = "SELECT " + COLUMN_IN_ARCHIVE + " FROM " + NOTES_TABLE + " WHERE " + COLUMN_ID + " = " + note.getNoteIdentifier();
+        final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
+        cursor.moveToFirst();
+        boolean inArchive = cursor.getInt(0) != 0;
+        sqLiteDatabase.close();
+        cursor.close();
+        return inArchive;
     }
 
     /**
