@@ -26,12 +26,6 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-//        String fontSize = settings.getString("settings_fontsize", null);
-
-//        Toast.makeText(this, fontSize,
-//                Toast.LENGTH_LONG).show();
-
         DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
         Toolbar toolbar = findViewById(R.id.main_toolbar_settings);
 
