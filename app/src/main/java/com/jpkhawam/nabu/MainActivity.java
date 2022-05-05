@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         Intent intentReceived = getIntent();
         if (intentReceived != null) {
             long archivedNoteId = intentReceived.getLongExtra(NoteActivity.ARCHIVED_NOTE_IDENTIFIER_KEY, -1);
+            long unarchivedNoteId = intentReceived.getLongExtra(NoteActivity.UNARCHIVED_NOTE_IDENTIFIER_KEY, -1);
+            boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
             if (archivedNoteId != -1) {
                 Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
                         .setAction("Undo", view -> {
@@ -61,28 +63,40 @@ public class MainActivity extends AppCompatActivity
                             emptyNotes.setVisibility(View.GONE);
                         })
                         .show();
-            }
-
-            Toolbar toolbar = findViewById(R.id.main_toolbar);
-            setSupportActionBar(toolbar);
-
-            NavigationView navigationView = findViewById(R.id.nav_view);
-
-            ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                    this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
-
-            drawerLayout.addDrawerListener(actionBarDrawerToggle);
-            actionBarDrawerToggle.syncState();
-            navigationView.setNavigationItemSelectedListener(this);
-
-            FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_button);
-            floatingActionButton.setOnClickListener(view -> {
-                Intent intent = new Intent(this, NoteActivity.class);
-                startActivity(intent);
-            });
-
+            } else if (unarchivedNoteId != -1) {
+                Snackbar.make(drawerLayout, "Note unarchived", Snackbar.LENGTH_SHORT)
+                        .setAction("Undo", view -> {
+                            dataBaseHelper.archiveNote(unarchivedNoteId);
+                            allNotes.set(dataBaseHelper.getAllNotes());
+                            adapter.setNotes(allNotes.get());
+                            notesRecyclerView.setAdapter(adapter);
+                            emptyNotes.setVisibility(View.GONE);
+                        })
+                        .show();
+            } else if (discardedNote)
+                Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
         }
+
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
+        FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_button);
+        floatingActionButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, NoteActivity.class);
+            startActivity(intent);
+        });
+
     }
+
 
     @SuppressLint("NonConstantResourceId")
     @Override

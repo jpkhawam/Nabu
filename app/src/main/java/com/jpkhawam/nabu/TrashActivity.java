@@ -15,8 +15,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TrashActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,11 +28,12 @@ public class TrashActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trash);
 
+        DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(TrashActivity.this);
-        ArrayList<Note> allNotes = dataBaseHelper.getAllNotesFromTrash();
+        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotesFromTrash());
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
-        adapter.setNotes(allNotes);
+        adapter.setNotes(allNotes.get());
         notesRecyclerView.setAdapter(adapter);
 
         TextView emptyNotes = findViewById(R.id.no_trash_text);
@@ -40,10 +43,39 @@ public class TrashActivity extends AppCompatActivity
             emptyNotes.setVisibility(View.GONE);
         }
 
+        Intent intentReceived = getIntent();
+        if (intentReceived != null) {
+            long archivedNoteId = intentReceived.getLongExtra(NoteActivity.ARCHIVED_NOTE_IDENTIFIER_KEY, -1);
+            long unarchivedNoteId = intentReceived.getLongExtra(NoteActivity.UNARCHIVED_NOTE_IDENTIFIER_KEY, -1);
+            boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
+            if (archivedNoteId != -1) {
+                Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
+                        .setAction("Undo", view -> {
+                            dataBaseHelper.unarchiveNote(archivedNoteId);
+                            dataBaseHelper.deleteNote(archivedNoteId);
+                            allNotes.set(dataBaseHelper.getAllNotesFromTrash());
+                            adapter.setNotes(allNotes.get());
+                            notesRecyclerView.setAdapter(adapter);
+                            emptyNotes.setVisibility(View.GONE);
+                        })
+                        .show();
+            } else if (unarchivedNoteId != -1) {
+                Snackbar.make(drawerLayout, "Note unarchived", Snackbar.LENGTH_SHORT)
+                        .setAction("Undo", view -> {
+                            dataBaseHelper.archiveNote(unarchivedNoteId);
+                            allNotes.set(dataBaseHelper.getAllNotesFromTrash());
+                            adapter.setNotes(allNotes.get());
+                            notesRecyclerView.setAdapter(adapter);
+                            emptyNotes.setVisibility(View.GONE);
+                        })
+                        .show();
+            } else if (discardedNote)
+                Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
+        }
+
         Toolbar toolbar = findViewById(R.id.main_toolbar_trash);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -53,6 +85,7 @@ public class TrashActivity extends AppCompatActivity
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 
     @SuppressLint("NonConstantResourceId")
     @Override

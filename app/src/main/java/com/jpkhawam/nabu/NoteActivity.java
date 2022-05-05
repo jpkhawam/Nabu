@@ -26,6 +26,8 @@ public class NoteActivity extends AppCompatActivity {
 
     public static final String NOTE_IDENTIFIER_KEY = "noteIdentifier";
     public static final String ARCHIVED_NOTE_IDENTIFIER_KEY = "archivedNoteId";
+    public static final String UNARCHIVED_NOTE_IDENTIFIER_KEY = "unarchivedNoteId";
+    public static final String DISCARDED_NOTE_KEY = "discardedNote";
     private Note currentNote;
     private CoordinatorLayout parent;
     private TextInputEditText editTextTitle;
@@ -33,7 +35,7 @@ public class NoteActivity extends AppCompatActivity {
     int editTitleFontSizeInt = 20;
     int editContentFontSizeInt = 16;
 
-    @SuppressLint({"NonConstantResourceId", "UseCompatLoadingForDrawables"})
+    @SuppressLint({"NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,15 +121,18 @@ public class NoteActivity extends AppCompatActivity {
 
             MaterialToolbar topAppBar = findViewById(R.id.noteTopBar);
             topAppBar.setNavigationOnClickListener(view -> {
-                Intent outgoingIntent = new Intent(this, MainActivity.class);
-                // redundant yes, but sometimes the app crashes otherwise, "" and null are different
-                if (currentNote.getTitle() == null && currentNote.getContent() == null) {
+                Intent outgoingIntent;
+                if (dataBaseHelper.isInTrash(currentNote))
+                    outgoingIntent = new Intent(this, TrashActivity.class);
+                else if (dataBaseHelper.isInArchive(currentNote))
+                    outgoingIntent = new Intent(this, ArchiveActivity.class);
+                else
+                    outgoingIntent = new Intent(this, MainActivity.class);
+                if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) &&
+                        (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
                     dataBaseHelper.deleteNote(currentNote);
                     dataBaseHelper.deleteNoteFromTrash(currentNote);
-                }
-                if (currentNote.getTitle().equals("") && currentNote.getContent().equals("")) {
-                    dataBaseHelper.deleteNote(currentNote);
-                    dataBaseHelper.deleteNoteFromTrash(currentNote);
+                    outgoingIntent.putExtra(DISCARDED_NOTE_KEY, true);
                 }
                 startActivity(outgoingIntent);
             });
@@ -136,23 +141,30 @@ public class NoteActivity extends AppCompatActivity {
                     case R.id.note_pin:
                         // pin note
                         return true;
-
                     case R.id.note_add_reminder:
                         // add reminder
                         return true;
-
                     case R.id.note_send_to_archive:
+                        Intent outgoingIntent;
+                        if (dataBaseHelper.isInTrash(currentNote))
+                            outgoingIntent = new Intent(this, TrashActivity.class);
+                        else if (dataBaseHelper.isInArchive(currentNote))
+                            outgoingIntent = new Intent(this, ArchiveActivity.class);
+                        else
+                            outgoingIntent = new Intent(this, MainActivity.class);
                         if ((currentNote.getTitle() == null && currentNote.getContent() == null)
                                 || (currentNote.getTitle().equals("") && currentNote.getContent().equals(""))) {
                             Snackbar.make(parent, "Cannot archive empty note", Snackbar.LENGTH_SHORT).show();
+                        } else if (dataBaseHelper.isInArchive(currentNote)) {
+                            dataBaseHelper.unarchiveNote(currentNote);
+                            outgoingIntent.putExtra(UNARCHIVED_NOTE_IDENTIFIER_KEY, currentNote.getNoteIdentifier());
+                            startActivity(outgoingIntent);
                         } else {
-                            Intent outgoingIntent = new Intent(this, MainActivity.class);
                             dataBaseHelper.archiveNote(currentNote);
                             outgoingIntent.putExtra(ARCHIVED_NOTE_IDENTIFIER_KEY, currentNote.getNoteIdentifier());
                             startActivity(outgoingIntent);
                         }
                         return true;
-
                     default:
                         return false;
                 }
