@@ -35,8 +35,12 @@ public class NotesRecyclerViewAdapter
 
     public NotesRecyclerViewAdapter(Context context) {
         this.context = context;
+
+        // Get Font Size SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String fontSize = settings.getString("settings_fontsize", "Small");
+
+        // Set Font Size Value According To Font Size SharedPreferences
         if (fontSize.equals("Small")){
             titleFontSizeInt = 17;
             contentFontSizeInt = 16;
@@ -204,8 +208,9 @@ public class NotesRecyclerViewAdapter
             super(itemView);
             materialCardView = itemView.findViewById(R.id.material_card_view);
             noteTitle = itemView.findViewById(R.id.note_title);
-            noteTitle.setTextSize(titleFontSizeInt);
             noteContent = itemView.findViewById(R.id.note_content);
+            // Set Note Title and Content Font Size According to Font Size Value
+            noteTitle.setTextSize(titleFontSizeInt);
             noteContent.setTextSize(contentFontSizeInt);
         }
     }

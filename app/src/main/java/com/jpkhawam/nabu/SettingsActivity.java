@@ -30,6 +30,8 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         Toolbar toolbar = findViewById(R.id.main_toolbar_settings);
 
         setSupportActionBar(toolbar);
+
+        // Instantiate Settings Fragment
         getFragmentManager().beginTransaction().add(R.id.SettingsConstraintLayout, new SettingsFragment()).commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);

@@ -45,9 +45,12 @@ public class NoteActivity extends AppCompatActivity {
         editTextTitle = findViewById(R.id.input_note_title);
         editTextContent = findViewById(R.id.input_note_content);
 
+        // Get Font Size SharedPreferences
         DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String fontSize = settings.getString("settings_fontsize", "Small");
+
+        // Set Font Size Value According To Font Size SharedPreferences
         if (fontSize.equals("Small")){
             editTitleFontSizeInt = 20;
             editContentFontSizeInt = 16;
@@ -61,6 +64,8 @@ public class NoteActivity extends AppCompatActivity {
             editTitleFontSizeInt = 20 * 2;
             editContentFontSizeInt = 16 * 2;
         }
+
+        // Set Note Edit Title and Content Font Size According to Font Size Value
         editTextTitle.setTextSize(editTitleFontSizeInt);
         editTextContent.setTextSize(editContentFontSizeInt);
 
