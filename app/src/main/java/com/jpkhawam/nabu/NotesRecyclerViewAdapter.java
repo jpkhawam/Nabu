@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -29,27 +31,30 @@ public class NotesRecyclerViewAdapter
     private static boolean USER_IS_CHECKING_NOTES = false;
     private static int NUMBER_OF_NOTES_CHECKED = 0;
     private final Context context;
+    private final DrawerLayout drawerLayout;
     private ArrayList<Note> notes = new ArrayList<>();
     protected static ArrayList<Note> selectedNotes = new ArrayList<>();
+    protected static ArrayList<MaterialCardView> checkedCards = new ArrayList<>();
     private ActionMode mActionMode;
 
-    public NotesRecyclerViewAdapter(Context context) {
+    public NotesRecyclerViewAdapter(Context context, DrawerLayout drawerLayout) {
         this.context = context;
+        this.drawerLayout = drawerLayout;
 
         // Get Font Size SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String fontSize = settings.getString("settings_fontsize", "Small");
 
         // Set Font Size Value According To Font Size SharedPreferences
-        if (fontSize.equals("Small")){
+        if (fontSize.equals("Small")) {
             titleFontSizeInt = 17;
             contentFontSizeInt = 16;
         }
-        if (fontSize.equals("Medium")){
+        if (fontSize.equals("Medium")) {
             titleFontSizeInt = (int) (17 * 1.5);
             contentFontSizeInt = (int) (16 * 1.5);
         }
-        if (fontSize.equals("Large")){
+        if (fontSize.equals("Large")) {
             titleFontSizeInt = 17 * 2;
             contentFontSizeInt = 16 * 2;
         }
@@ -75,6 +80,7 @@ public class NotesRecyclerViewAdapter
             holder.noteTitle.setText(notes.get(position).getTitle());
             holder.noteTitle.setVisibility(View.VISIBLE);
         }
+        // if content is too long, only preview first 170~ characters
         if (notes.get(position).getContent() != null && !notes.get(position).getContent().equals("")) {
             String noteContent = notes.get(position).getContent();
             if (noteContent.length() > 170) {
@@ -93,6 +99,7 @@ public class NotesRecyclerViewAdapter
             }
             holder.noteContent.setVisibility(View.VISIBLE);
         }
+
         holder.materialCardView.setOnLongClickListener(view -> {
             if (!holder.materialCardView.isChecked())
                 NUMBER_OF_NOTES_CHECKED++;
@@ -100,8 +107,9 @@ public class NotesRecyclerViewAdapter
                 NUMBER_OF_NOTES_CHECKED--;
             USER_IS_CHECKING_NOTES = NUMBER_OF_NOTES_CHECKED > 0;
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-            if(holder.materialCardView.isChecked()) {
+            if (holder.materialCardView.isChecked()) {
                 selectedNotes.add(note);
+                checkedCards.add(holder.materialCardView);
             } else {
                 selectedNotes.remove(note);
             }
@@ -123,7 +131,8 @@ public class NotesRecyclerViewAdapter
                 else
                     NUMBER_OF_NOTES_CHECKED--;
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
-                if(holder.materialCardView.isChecked()) {
+                if (holder.materialCardView.isChecked()) {
+                    checkedCards.add(holder.materialCardView);
                     selectedNotes.add(note);
                 } else {
                     selectedNotes.remove(note);
@@ -144,7 +153,7 @@ public class NotesRecyclerViewAdapter
         });
     }
 
-    static class MyActionModeCallback implements ActionMode.Callback {
+    class MyActionModeCallback implements ActionMode.Callback {
         private final Context context;
 
         public MyActionModeCallback(Context context) {
@@ -162,23 +171,101 @@ public class NotesRecyclerViewAdapter
             return false;
         }
 
-        @SuppressLint("NonConstantResourceId")
+        @SuppressLint({"NonConstantResourceId", "NotifyDataSetChanged"})
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
-            switch(menuItem.getItemId()) {
+            // this is to know which activity we are in since this adapter is shared
+            String currentActivity = "MainActivity";
+            if (dataBaseHelper.isInTrash(NotesRecyclerViewAdapter.selectedNotes.get(0)))
+                currentActivity = "TrashActivity";
+            else if (dataBaseHelper.isInArchive(NotesRecyclerViewAdapter.selectedNotes.get(0)))
+                currentActivity = "ArchiveActivity";
+
+            switch (menuItem.getItemId()) {
                 case R.id.note_send_to_trash:
-                    for(Note note: NotesRecyclerViewAdapter.selectedNotes)
+                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                        // TODO: if it is trash activity, ask if user wants to delete permanently.
                         dataBaseHelper.deleteNote(note);
-                    break;
+                    }
+                    NotesRecyclerViewAdapter.USER_IS_CHECKING_NOTES = false;
+                    NotesRecyclerViewAdapter.NUMBER_OF_NOTES_CHECKED = 0;
+                    mActionMode.setTitle("");
+                    mActionMode.finish();
+                    notifyDataSetChanged();
+                    String finalCurrentActivity = currentActivity;
+                    // TODO: test this well. isnt working in trash and archive
+                    // might be current activity
+                    Snackbar.make(drawerLayout, "Notes sent to trash", Snackbar.LENGTH_SHORT)
+                            .setAction("Undo", view -> {
+                                for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                    dataBaseHelper.restoreNote(note);
+                                    if (finalCurrentActivity.equals("ArchiveActivity"))
+                                        dataBaseHelper.archiveNote(note);
+                                }
+                                for (MaterialCardView materialCardView : checkedCards) {
+                                    materialCardView.setChecked(false);
+                                }
+                                selectedNotes.clear();
+                                checkedCards.clear();
+                                notifyDataSetChanged();
+                            })
+                            .show();
+                    selectedNotes.clear();
+                    checkedCards.clear();
+                    return true;
+
                 case R.id.note_send_to_archive:
-                    for(Note note: NotesRecyclerViewAdapter.selectedNotes)
-                        dataBaseHelper.archiveNote(note);
-                    break;
+                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                        if (currentActivity.equals("ArchiveActivity"))
+                            dataBaseHelper.unarchiveNote(note);
+                        else
+                            dataBaseHelper.archiveNote(note);
+                    }
+                    NotesRecyclerViewAdapter.USER_IS_CHECKING_NOTES = false;
+                    NotesRecyclerViewAdapter.NUMBER_OF_NOTES_CHECKED = 0;
+                    mActionMode.setTitle("");
+                    mActionMode.finish();
+                    notifyDataSetChanged();
+                    String finalCurrentActivityArchive = currentActivity;
+                    // TODO: test this well. isnt working in trash and archive
+                    if (!currentActivity.equals("ArchiveActivity")) {
+                        Snackbar.make(drawerLayout, "Notes archived", Snackbar.LENGTH_SHORT)
+                                .setAction("Undo", view -> {
+                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                        dataBaseHelper.unarchiveNote(note);
+                                        if (finalCurrentActivityArchive.equals("TrashActivity"))
+                                            dataBaseHelper.deleteNote(note);
+                                    }
+                                    for (MaterialCardView materialCardView : checkedCards) {
+                                        materialCardView.setChecked(false);
+                                    }
+                                    selectedNotes.clear();
+                                    checkedCards.clear();
+                                    notifyDataSetChanged();
+                                })
+                                .show();
+                    } else {
+                        Snackbar.make(drawerLayout, "Notes unarchived", Snackbar.LENGTH_SHORT)
+                                .setAction("Undo", view -> {
+                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                        dataBaseHelper.archiveNote(note);
+                                    }
+                                    for (MaterialCardView materialCardView : checkedCards) {
+                                        materialCardView.setChecked(false);
+                                    }
+                                    selectedNotes.clear();
+                                    checkedCards.clear();
+                                    notifyDataSetChanged();
+                                })
+                                .show();
+                    }
+                    selectedNotes.clear();
+                    checkedCards.clear();
+                    return true;
                 default:
                     return false;
             }
-            return false;
         }
 
         @Override
@@ -191,7 +278,6 @@ public class NotesRecyclerViewAdapter
         return notes.size();
     }
 
-    // TODO: remove this function later
     public void setNotes(ArrayList<Note> notes) {
         this.notes = notes;
     }

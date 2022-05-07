@@ -29,14 +29,27 @@ public class TrashActivity extends AppCompatActivity
         setContentView(R.layout.activity_trash);
 
         DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(TrashActivity.this);
-        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotesFromTrash());
+        TextView emptyNotes = findViewById(R.id.no_trash_text);
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
-        NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(TrashActivity.this);
+
+        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotesFromTrash());
+        NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this, drawerLayout);
         adapter.setNotes(allNotes.get());
         notesRecyclerView.setAdapter(adapter);
 
-        TextView emptyNotes = findViewById(R.id.no_trash_text);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                allNotes.set(dataBaseHelper.getAllNotesFromTrash());
+                adapter.setNotes(allNotes.get());
+                if (allNotes.get().isEmpty())
+                    emptyNotes.setVisibility(View.VISIBLE);
+                else
+                    emptyNotes.setVisibility(View.GONE);
+            }
+        });
+
         if (dataBaseHelper.getAllNotesFromTrash().isEmpty()) {
             emptyNotes.setVisibility(View.VISIBLE);
         } else {

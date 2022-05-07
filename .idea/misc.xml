@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.2838541666666667" />
         <entry key="app/src/main/res/drawable-anydpi/ic_archive.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable-anydpi/ic_color_dark.xml" value="0.237" />
         <entry key="app/src/main/res/drawable-anydpi/ic_color_light.xml" value="0.237" />
