@@ -16,25 +16,25 @@
             android:title="@string/reminders" />
     </group>
 
-    <group android:id="@+id/group2">
-        <item
-            android:id="@+id/labels"
-            android:contentDescription="@string/all_note_labels"
-            android:title="@string/labels">
-            <menu>
-                <!-- This is where the user labels will be
-                     adding a submenu will make @id/labels act like a subtitle
-                     which is what we want
-                -->
-                <item
-                    android:checkable="true"
-                    android:id="@+id/new_label"
-                    android:contentDescription="@string/new_label"
-                    android:icon="@drawable/ic_add_light"
-                    android:title="@string/new_label" />
-            </menu>
-        </item>
-    </group>
+<!--    <group android:id="@+id/group2">-->
+<!--        <item-->
+<!--            android:id="@+id/labels"-->
+<!--            android:contentDescription="@string/all_note_labels"-->
+<!--            android:title="@string/labels">-->
+<!--            <menu>-->
+<!--                &lt;!&ndash; This is where the user labels will be-->
+<!--                     adding a submenu will make @id/labels act like a subtitle-->
+<!--                     which is what we want-->
+<!--                &ndash;&gt;-->
+<!--                <item-->
+<!--                    android:checkable="true"-->
+<!--                    android:id="@+id/new_label"-->
+<!--                    android:contentDescription="@string/new_label"-->
+<!--                    android:icon="@drawable/ic_add_light"-->
+<!--                    android:title="@string/new_label" />-->
+<!--            </menu>-->
+<!--        </item>-->
+<!--    </group>-->
 
     <group android:id="@+id/group3">
         <item
