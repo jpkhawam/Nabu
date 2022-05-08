@@ -31,6 +31,9 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_close_light</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.Material3.ActionBar</item>
     </style>
 
     <color name="colorCard">#FFFCF3</color>

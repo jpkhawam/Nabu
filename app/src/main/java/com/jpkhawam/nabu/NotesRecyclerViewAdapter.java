@@ -328,6 +328,11 @@ public class NotesRecyclerViewAdapter
 
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
+            for (MaterialCardView materialCardView : checkedCards) {
+                materialCardView.setChecked(false);
+            }
+            selectedNotes.clear();
+            checkedCards.clear();
         }
     }
 
