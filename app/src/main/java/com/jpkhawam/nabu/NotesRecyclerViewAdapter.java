@@ -29,8 +29,6 @@ public class NotesRecyclerViewAdapter
         extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
     int titleFontSizeInt = 17;
     int contentFontSizeInt = 16;
-    private static boolean USER_IS_CHECKING_NOTES = false;
-    private static int NUMBER_OF_NOTES_CHECKED = 0;
     private final Context context;
     private final DrawerLayout drawerLayout;
     private ArrayList<Note> notes = new ArrayList<>();
@@ -41,7 +39,8 @@ public class NotesRecyclerViewAdapter
     public NotesRecyclerViewAdapter(Context context, DrawerLayout drawerLayout) {
         this.context = context;
         this.drawerLayout = drawerLayout;
-
+        selectedNotes.clear();
+        checkedCards.clear();
         // Get Font Size SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String fontSize = settings.getString("settings_fontsize", "Small");
@@ -102,11 +101,6 @@ public class NotesRecyclerViewAdapter
         }
 
         holder.materialCardView.setOnLongClickListener(view -> {
-            if (!holder.materialCardView.isChecked())
-                NUMBER_OF_NOTES_CHECKED++;
-            else
-                NUMBER_OF_NOTES_CHECKED--;
-            USER_IS_CHECKING_NOTES = NUMBER_OF_NOTES_CHECKED > 0;
             holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
             if (holder.materialCardView.isChecked()) {
                 selectedNotes.add(note);
@@ -116,21 +110,17 @@ public class NotesRecyclerViewAdapter
             }
             MyActionModeCallback callback = new MyActionModeCallback(context);
             mActionMode = view.startActionMode(callback);
-            if (NUMBER_OF_NOTES_CHECKED == 0) {
+            if (selectedNotes.isEmpty()) {
                 mActionMode.setTitle("");
                 mActionMode.finish();
-            } else if (NUMBER_OF_NOTES_CHECKED == 1)
-                mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
+            } else if (selectedNotes.size() == 1)
+                mActionMode.setTitle(selectedNotes.size() + " note selected");
             else
-                mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
+                mActionMode.setTitle(selectedNotes.size() + " notes selected");
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
-            if (USER_IS_CHECKING_NOTES) {
-                if (!holder.materialCardView.isChecked())
-                    NUMBER_OF_NOTES_CHECKED++;
-                else
-                    NUMBER_OF_NOTES_CHECKED--;
+            if (!selectedNotes.isEmpty()) {
                 holder.materialCardView.setChecked(!holder.materialCardView.isChecked());
                 if (holder.materialCardView.isChecked()) {
                     checkedCards.add(holder.materialCardView);
@@ -138,14 +128,13 @@ public class NotesRecyclerViewAdapter
                 } else {
                     selectedNotes.remove(note);
                 }
-                if (NUMBER_OF_NOTES_CHECKED == 0) {
-                    USER_IS_CHECKING_NOTES = false;
+                if (selectedNotes.isEmpty()) {
                     mActionMode.setTitle("");
                     mActionMode.finish();
-                } else if (NUMBER_OF_NOTES_CHECKED == 1)
-                    mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " note selected");
+                } else if (selectedNotes.size() == 1)
+                    mActionMode.setTitle(selectedNotes.size() + " note selected");
                 else
-                    mActionMode.setTitle(NUMBER_OF_NOTES_CHECKED + " notes selected");
+                    mActionMode.setTitle(selectedNotes.size() + " notes selected");
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
@@ -240,14 +229,12 @@ public class NotesRecyclerViewAdapter
                                 })
                                 .show();
                     }
-                    NotesRecyclerViewAdapter.USER_IS_CHECKING_NOTES = false;
-                    NotesRecyclerViewAdapter.NUMBER_OF_NOTES_CHECKED = 0;
-                    mActionMode.setTitle("");
-                    mActionMode.finish();
                     for (MaterialCardView materialCardView : checkedCards) {
                         materialCardView.setChecked(false);
                     }
                     notifyDataSetChanged();
+                    mActionMode.setTitle("");
+                    mActionMode.finish();
                     return true;
 
                 case R.id.note_send_to_archive:
@@ -257,10 +244,6 @@ public class NotesRecyclerViewAdapter
                         else
                             dataBaseHelper.archiveNote(note);
                     }
-                    NotesRecyclerViewAdapter.USER_IS_CHECKING_NOTES = false;
-                    NotesRecyclerViewAdapter.NUMBER_OF_NOTES_CHECKED = 0;
-                    mActionMode.setTitle("");
-                    mActionMode.finish();
                     notifyDataSetChanged();
                     String finalCurrentActivityArchive = currentActivity;
                     if (!currentActivity.equals("ArchiveActivity")) {
@@ -320,6 +303,8 @@ public class NotesRecyclerViewAdapter
                         materialCardView.setChecked(false);
                     }
                     notifyDataSetChanged();
+                    mActionMode.setTitle("");
+                    mActionMode.finish();
                     return true;
                 default:
                     return false;
@@ -331,8 +316,6 @@ public class NotesRecyclerViewAdapter
             for (MaterialCardView materialCardView : checkedCards) {
                 materialCardView.setChecked(false);
             }
-            selectedNotes.clear();
-            checkedCards.clear();
         }
     }
 
