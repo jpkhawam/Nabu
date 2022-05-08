@@ -194,8 +194,6 @@ public class NotesRecyclerViewAdapter
                     mActionMode.finish();
                     notifyDataSetChanged();
                     String finalCurrentActivity = currentActivity;
-                    // TODO: test this well. isnt working in trash and archive
-                    // might be current activity
                     Snackbar.make(drawerLayout, "Notes sent to trash", Snackbar.LENGTH_SHORT)
                             .setAction("Undo", view -> {
                                 for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
@@ -210,9 +208,16 @@ public class NotesRecyclerViewAdapter
                                 checkedCards.clear();
                                 notifyDataSetChanged();
                             })
+                            .addCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event) {
+                                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                        selectedNotes.clear();
+                                        checkedCards.clear();
+                                    }
+                                }
+                            })
                             .show();
-                    selectedNotes.clear();
-                    checkedCards.clear();
                     return true;
 
                 case R.id.note_send_to_archive:
@@ -228,7 +233,6 @@ public class NotesRecyclerViewAdapter
                     mActionMode.finish();
                     notifyDataSetChanged();
                     String finalCurrentActivityArchive = currentActivity;
-                    // TODO: test this well. isnt working in trash and archive
                     if (!currentActivity.equals("ArchiveActivity")) {
                         Snackbar.make(drawerLayout, "Notes archived", Snackbar.LENGTH_SHORT)
                                 .setAction("Undo", view -> {
@@ -243,6 +247,15 @@ public class NotesRecyclerViewAdapter
                                     selectedNotes.clear();
                                     checkedCards.clear();
                                     notifyDataSetChanged();
+                                })
+                                .addCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                            selectedNotes.clear();
+                                            checkedCards.clear();
+                                        }
+                                    }
                                 })
                                 .show();
                     } else {
