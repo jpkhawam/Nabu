@@ -20,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -184,42 +185,65 @@ public class NotesRecyclerViewAdapter
 
             switch (menuItem.getItemId()) {
                 case R.id.note_send_to_trash:
-                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
-                        // TODO: if it is trash activity, ask if user wants to delete permanently.
-                        dataBaseHelper.deleteNote(note);
-                    }
-                    NotesRecyclerViewAdapter.USER_IS_CHECKING_NOTES = false;
-                    NotesRecyclerViewAdapter.NUMBER_OF_NOTES_CHECKED = 0;
-                    mActionMode.setTitle("");
-                    mActionMode.finish();
-                    notifyDataSetChanged();
-                    String finalCurrentActivity = currentActivity;
-                    Snackbar.make(drawerLayout, "Notes sent to trash", Snackbar.LENGTH_SHORT)
-                            .setAction("Undo", view -> {
-                                for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
-                                    dataBaseHelper.restoreNote(note);
-                                    if (finalCurrentActivity.equals("ArchiveActivity"))
-                                        dataBaseHelper.archiveNote(note);
-                                }
-                                for (MaterialCardView materialCardView : checkedCards) {
-                                    materialCardView.setChecked(false);
-                                }
-                                selectedNotes.clear();
-                                checkedCards.clear();
-                                notifyDataSetChanged();
-                            })
-                            .addCallback(new Snackbar.Callback() {
-                                @Override
-                                public void onDismissed(Snackbar snackbar, int event) {
+                    if (currentActivity.equals("TrashActivity")) {
+                        new MaterialAlertDialogBuilder(context)
+                                .setTitle("Are you sure you want to delete these notes permanently?")
+                                .setMessage("This action cannot be undone.")
+                                .setPositiveButton("CANCEL", (dialogInterface, i) -> {
+                                    for (MaterialCardView materialCardView : checkedCards) {
+                                        materialCardView.setChecked(false);
+                                    }
+                                    selectedNotes.clear();
+                                    checkedCards.clear();
+                                })
+                                .setNegativeButton("DELETE PERMANENTLY", (dialogInterface, i) -> {
+                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                        dataBaseHelper.deleteNoteFromTrash(note);
+                                    }
                                     for (MaterialCardView materialCardView : checkedCards) {
                                         materialCardView.setChecked(false);
                                     }
                                     selectedNotes.clear();
                                     checkedCards.clear();
                                     notifyDataSetChanged();
-                                }
-                            })
-                            .show();
+                                })
+                                .show();
+                    } else {
+                        for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                            dataBaseHelper.deleteNote(note);
+                        }
+                        String finalCurrentActivity = currentActivity;
+                        Snackbar.make(drawerLayout, "Notes sent to trash", Snackbar.LENGTH_SHORT)
+                                .setAction("Undo", view -> {
+                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                        dataBaseHelper.restoreNote(note);
+                                        if (finalCurrentActivity.equals("ArchiveActivity"))
+                                            dataBaseHelper.archiveNote(note);
+                                    }
+                                    for (MaterialCardView materialCardView : checkedCards) {
+                                        materialCardView.setChecked(false);
+                                    }
+                                    selectedNotes.clear();
+                                    checkedCards.clear();
+                                    notifyDataSetChanged();
+                                })
+                                .addCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        for (MaterialCardView materialCardView : checkedCards) {
+                                            materialCardView.setChecked(false);
+                                        }
+                                        selectedNotes.clear();
+                                        checkedCards.clear();
+                                        notifyDataSetChanged();
+                                    }
+                                })
+                                .show();
+                    }
+                    NotesRecyclerViewAdapter.USER_IS_CHECKING_NOTES = false;
+                    NotesRecyclerViewAdapter.NUMBER_OF_NOTES_CHECKED = 0;
+                    mActionMode.setTitle("");
+                    mActionMode.finish();
                     for (MaterialCardView materialCardView : checkedCards) {
                         materialCardView.setChecked(false);
                     }
