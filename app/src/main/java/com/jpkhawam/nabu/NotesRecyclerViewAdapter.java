@@ -211,13 +211,19 @@ public class NotesRecyclerViewAdapter
                             .addCallback(new Snackbar.Callback() {
                                 @Override
                                 public void onDismissed(Snackbar snackbar, int event) {
-                                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                        selectedNotes.clear();
-                                        checkedCards.clear();
+                                    for (MaterialCardView materialCardView : checkedCards) {
+                                        materialCardView.setChecked(false);
                                     }
+                                    selectedNotes.clear();
+                                    checkedCards.clear();
+                                    notifyDataSetChanged();
                                 }
                             })
                             .show();
+                    for (MaterialCardView materialCardView : checkedCards) {
+                        materialCardView.setChecked(false);
+                    }
+                    notifyDataSetChanged();
                     return true;
 
                 case R.id.note_send_to_archive:
@@ -251,10 +257,12 @@ public class NotesRecyclerViewAdapter
                                 .addCallback(new Snackbar.Callback() {
                                     @Override
                                     public void onDismissed(Snackbar snackbar, int event) {
-                                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                            selectedNotes.clear();
-                                            checkedCards.clear();
+                                        for (MaterialCardView materialCardView : checkedCards) {
+                                            materialCardView.setChecked(false);
                                         }
+                                        selectedNotes.clear();
+                                        checkedCards.clear();
+                                        notifyDataSetChanged();
                                     }
                                 })
                                 .show();
@@ -271,10 +279,23 @@ public class NotesRecyclerViewAdapter
                                     checkedCards.clear();
                                     notifyDataSetChanged();
                                 })
+                                .addCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        for (MaterialCardView materialCardView : checkedCards) {
+                                            materialCardView.setChecked(false);
+                                        }
+                                        selectedNotes.clear();
+                                        checkedCards.clear();
+                                        notifyDataSetChanged();
+                                    }
+                                })
                                 .show();
                     }
-                    selectedNotes.clear();
-                    checkedCards.clear();
+                    for (MaterialCardView materialCardView : checkedCards) {
+                        materialCardView.setChecked(false);
+                    }
+                    notifyDataSetChanged();
                     return true;
                 default:
                     return false;
