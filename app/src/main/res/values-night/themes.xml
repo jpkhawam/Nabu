@@ -34,6 +34,6 @@
         <item name="actionBarTheme">@style/ThemeOverlay.Material3.Dark.ActionBar</item>
     </style>
 
-    <color name="colorCard">#424242</color>
-    <color name="colorTitle">#E3E3E3</color>
+    <color name="colorCard">#343434</color>
+    <color name="colorTitle">#ffffff</color>
 </resources>
