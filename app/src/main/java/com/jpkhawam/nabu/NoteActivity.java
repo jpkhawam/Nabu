@@ -51,16 +51,15 @@ public class NoteActivity extends AppCompatActivity {
         String fontSize = settings.getString("settings_fontsize", "Small");
 
         // Set Font Size Value According To Font Size SharedPreferences
-        if (fontSize.equals("Small")){
+        if (fontSize.equals("Small")) {
             editTitleFontSizeInt = 20;
             editContentFontSizeInt = 16;
         }
-        if (fontSize.equals("Medium")){
+        if (fontSize.equals("Medium")) {
             editTitleFontSizeInt = (int) (20 * 1.5);
             editContentFontSizeInt = (int) (16 * 1.5);
-
         }
-        if (fontSize.equals("Large")){
+        if (fontSize.equals("Large")) {
             editTitleFontSizeInt = 20 * 2;
             editContentFontSizeInt = 16 * 2;
         }
@@ -232,5 +231,24 @@ public class NoteActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
+        Intent outgoingIntent;
+        if (dataBaseHelper.isInTrash(currentNote))
+            outgoingIntent = new Intent(this, TrashActivity.class);
+        else if (dataBaseHelper.isInArchive(currentNote))
+            outgoingIntent = new Intent(this, ArchiveActivity.class);
+        else
+            outgoingIntent = new Intent(this, MainActivity.class);
+        if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) &&
+                (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
+            dataBaseHelper.deleteNote(currentNote);
+            dataBaseHelper.deleteNoteFromTrash(currentNote);
+            outgoingIntent.putExtra(DISCARDED_NOTE_KEY, true);
+        }
+        startActivity(outgoingIntent);
     }
 }
