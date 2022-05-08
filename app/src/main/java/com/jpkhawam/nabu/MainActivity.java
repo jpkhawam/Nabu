@@ -30,20 +30,32 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
+        TextView emptyNotes = findViewById(R.id.no_notes_text);
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
 
         AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotes());
-        NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
+        NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this, drawerLayout);
         adapter.setNotes(allNotes.get());
+        notesRecyclerView.setAdapter(adapter);
 
-        TextView emptyNotes = findViewById(R.id.no_notes_text);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                allNotes.set(dataBaseHelper.getAllNotes());
+                adapter.setNotes(allNotes.get());
+                if (allNotes.get().isEmpty())
+                    emptyNotes.setVisibility(View.VISIBLE);
+                else
+                    emptyNotes.setVisibility(View.GONE);
+            }
+        });
+
         if (dataBaseHelper.getAllNotes().isEmpty()) {
             emptyNotes.setVisibility(View.VISIBLE);
         } else {
             emptyNotes.setVisibility(View.GONE);
         }
-        notesRecyclerView.setAdapter(adapter);
 
         Intent intentReceived = getIntent();
         if (intentReceived != null) {

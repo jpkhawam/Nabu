@@ -4,11 +4,13 @@
     <group android:id="@+id/group1">
         <item
             android:id="@+id/notes"
+            android:checkable="true"
             android:contentDescription="@string/go_back_to_home_page"
             android:icon="@drawable/ic_note_dark"
             android:title="@string/notes" />
         <item
             android:id="@+id/reminders"
+            android:checkable="true"
             android:contentDescription="@string/view_notes_that_have_reminders"
             android:icon="@drawable/ic_bell_dark"
             android:title="@string/reminders" />
@@ -25,6 +27,7 @@
                      which is what we want
                 -->
                 <item
+                    android:checkable="true"
                     android:id="@+id/new_label"
                     android:contentDescription="@string/new_label"
                     android:icon="@drawable/ic_add_light"
@@ -36,16 +39,19 @@
     <group android:id="@+id/group3">
         <item
             android:id="@+id/archive"
+            android:checkable="true"
             android:contentDescription="@string/go_to_archive"
             android:icon="@drawable/ic_archive_dark"
             android:title="@string/archive" />
         <item
             android:id="@+id/trash"
+            android:checkable="true"
             android:contentDescription="@string/go_to_trash"
             android:icon="@drawable/ic_trash_dark"
             android:title="@string/trash" />
         <item
             android:id="@+id/settings"
+            android:checkable="true"
             android:contentDescription="@string/go_to_settings"
             android:icon="@drawable/ic_settings_dark"
             android:title="@string/settings" />

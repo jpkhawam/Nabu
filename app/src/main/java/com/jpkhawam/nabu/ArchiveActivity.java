@@ -29,14 +29,27 @@ public class ArchiveActivity extends AppCompatActivity
         setContentView(R.layout.activity_archive);
 
         DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(ArchiveActivity.this);
-        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotesFromArchive());
+        TextView emptyNotes = findViewById(R.id.no_archive_text);
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
-        NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this);
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(ArchiveActivity.this);
+
+        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotesFromArchive());
+        NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this, drawerLayout);
         adapter.setNotes(allNotes.get());
         notesRecyclerView.setAdapter(adapter);
 
-        TextView emptyNotes = findViewById(R.id.no_archive_text);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                allNotes.set(dataBaseHelper.getAllNotesFromArchive());
+                adapter.setNotes(allNotes.get());
+                if (allNotes.get().isEmpty())
+                    emptyNotes.setVisibility(View.VISIBLE);
+                else
+                    emptyNotes.setVisibility(View.GONE);
+            }
+        });
+
         if (dataBaseHelper.getAllNotesFromArchive().isEmpty()) {
             emptyNotes.setVisibility(View.VISIBLE);
         } else {
