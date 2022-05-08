@@ -10,11 +10,11 @@
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="?android:colorBackground"
+    app:cardBackgroundColor="@color/colorCard"
     app:cardCornerRadius="15dp"
     app:cardElevation="0dp"
-    app:strokeColor="?attr/colorOutline"
-    app:strokeWidth="1dp"
+    app:strokeColor="@color/colorCard"
+    app:strokeWidth="0dp"
     tools:ignore="PrivateResource">
 
     <RelativeLayout

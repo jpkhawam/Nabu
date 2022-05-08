@@ -4,8 +4,6 @@
     <!-- Drawer menu -->
     <string name="notes">Notes</string>
     <string name="reminders">Reminders</string>
-    <string name="labels">Labels</string>
-    <string name="new_label">Create new label</string>
     <string name="archive">Archive</string>
     <string name="trash">Trash</string>
     <string name="settings">Settings</string>
@@ -14,7 +12,6 @@
     <string name="close_nav_drawer">Navigation Drawer Close</string>
     <string name="go_back_to_home_page">Go back to home page</string>
     <string name="view_notes_that_have_reminders">View notes that have reminders</string>
-    <string name="all_note_labels">All note labels</string>
     <string name="go_to_archive">Go to archive</string>
     <string name="go_to_trash">Go to trash</string>
     <string name="go_to_settings">Go to settings</string>
@@ -27,21 +24,15 @@
     <string name="send_to_archive">Archive</string>
     <string name="send_the_current_note_to_archive">Send the current note to archive</string>
     <string name="send_the_current_note_to_trash">Send the current note to trash</string>
-    <string name="assign_color_to_this_note">Assign color to this note</string>
-    <string name="color">Color</string>
-    <string name="add_label_to_this_note">Add label to this note</string>
-    <string name="label">Label</string>
     <string name="date_of_last_edit">Date of last edit</string>
     <string name="date_edited">Date edited</string>
     <string name="delete">Delete</string>
     <string name="delete_this_note">Delete this note</string>
-    <string name="make_a_copy_of_this_note">Make a copy of this note</string>
     <string name="make_a_copy">Make a copy</string>
     <string name="share_this_note">Share this note</string>
     <string name="share_note">Share note</string>
     <string name="paste_from_clipboard">Paste from clipboard</string>
     <string name="paste">Paste</string>
-    <string name="copy">Copy</string>
     <string name="copy_note_content_to_clipboard">Copy note content to clipboard</string>
     <string name="title">Title</string>
     <string name="enter_your_note_title_here">Enter your note title here</string>
