@@ -29,6 +29,9 @@ import java.util.ArrayList;
 
 public class NotesRecyclerViewAdapter
         extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
+    public static final String MAIN_ACTIVITY = "MainActivity";
+    public static final String ARCHIVE_ACTIVITY = "ArchiveActivity";
+    public static final String TRASH_ACTIVITY = "TrashActivity";
     int titleFontSizeInt = 17;
     int contentFontSizeInt = 16;
     private final Context context;
@@ -116,9 +119,9 @@ public class NotesRecyclerViewAdapter
                 mActionMode.setTitle("");
                 mActionMode.finish();
             } else if (selectedNotes.size() == 1)
-                mActionMode.setTitle(selectedNotes.size() + " note selected");
+                mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.note_selected));
             else
-                mActionMode.setTitle(selectedNotes.size() + " notes selected");
+                mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.notes_selected));
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
@@ -134,9 +137,9 @@ public class NotesRecyclerViewAdapter
                     mActionMode.setTitle("");
                     mActionMode.finish();
                 } else if (selectedNotes.size() == 1)
-                    mActionMode.setTitle(selectedNotes.size() + " note selected");
+                    mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.note_selected));
                 else
-                    mActionMode.setTitle(selectedNotes.size() + " notes selected");
+                    mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.notes_selected));
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
@@ -168,26 +171,26 @@ public class NotesRecyclerViewAdapter
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
             // this is to know which activity we are in since this adapter is shared
-            String currentActivity = "MainActivity";
+            String currentActivity = MAIN_ACTIVITY;
             if (dataBaseHelper.isInTrash(NotesRecyclerViewAdapter.selectedNotes.get(0)))
-                currentActivity = "TrashActivity";
+                currentActivity = TRASH_ACTIVITY;
             else if (dataBaseHelper.isInArchive(NotesRecyclerViewAdapter.selectedNotes.get(0)))
-                currentActivity = "ArchiveActivity";
+                currentActivity = ARCHIVE_ACTIVITY;
 
             switch (menuItem.getItemId()) {
                 case R.id.note_send_to_trash:
-                    if (currentActivity.equals("TrashActivity")) {
+                    if (currentActivity.equals(TRASH_ACTIVITY)) {
                         new MaterialAlertDialogBuilder(context)
-                                .setTitle("Are you sure you want to delete these notes permanently?")
-                                .setMessage("This action cannot be undone.")
-                                .setPositiveButton("CANCEL", (dialogInterface, i) -> {
+                                .setTitle(R.string.confirm_action)
+                                .setMessage(R.string.are_you_sure_delete)
+                                .setPositiveButton(R.string.cancel, (dialogInterface, i) -> {
                                     for (MaterialCardView materialCardView : checkedCards) {
                                         materialCardView.setChecked(false);
                                     }
                                     selectedNotes.clear();
                                     checkedCards.clear();
                                 })
-                                .setNegativeButton("DELETE PERMANENTLY", (dialogInterface, i) -> {
+                                .setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
                                     for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
                                         dataBaseHelper.deleteNoteFromTrash(note);
                                     }
@@ -204,11 +207,11 @@ public class NotesRecyclerViewAdapter
                             dataBaseHelper.deleteNote(note);
                         }
                         String finalCurrentActivity = currentActivity;
-                        Snackbar.make(drawerLayout, "Notes sent to trash", Snackbar.LENGTH_SHORT)
-                                .setAction("Undo", view -> {
+                        Snackbar.make(drawerLayout, R.string.notes_sent_trash, Snackbar.LENGTH_SHORT)
+                                .setAction(R.string.Undo, view -> {
                                     for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
                                         dataBaseHelper.restoreNote(note);
-                                        if (finalCurrentActivity.equals("ArchiveActivity"))
+                                        if (finalCurrentActivity.equals(ARCHIVE_ACTIVITY))
                                             dataBaseHelper.archiveNote(note);
                                     }
                                     for (MaterialCardView materialCardView : checkedCards) {
@@ -241,19 +244,19 @@ public class NotesRecyclerViewAdapter
 
                 case R.id.note_send_to_archive:
                     for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
-                        if (currentActivity.equals("ArchiveActivity"))
+                        if (currentActivity.equals(ARCHIVE_ACTIVITY))
                             dataBaseHelper.unarchiveNote(note);
                         else
                             dataBaseHelper.archiveNote(note);
                     }
                     notifyDataSetChanged();
                     String finalCurrentActivityArchive = currentActivity;
-                    if (!currentActivity.equals("ArchiveActivity")) {
-                        Snackbar.make(drawerLayout, "Notes archived", Snackbar.LENGTH_SHORT)
-                                .setAction("Undo", view -> {
+                    if (!currentActivity.equals(ARCHIVE_ACTIVITY)) {
+                        Snackbar.make(drawerLayout, R.string.notes_archived, Snackbar.LENGTH_SHORT)
+                                .setAction(R.string.Undo, view -> {
                                     for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
                                         dataBaseHelper.unarchiveNote(note);
-                                        if (finalCurrentActivityArchive.equals("TrashActivity"))
+                                        if (finalCurrentActivityArchive.equals(TRASH_ACTIVITY))
                                             dataBaseHelper.deleteNote(note);
                                     }
                                     for (MaterialCardView materialCardView : checkedCards) {
@@ -276,8 +279,8 @@ public class NotesRecyclerViewAdapter
                                 })
                                 .show();
                     } else {
-                        Snackbar.make(drawerLayout, "Notes unarchived", Snackbar.LENGTH_SHORT)
-                                .setAction("Undo", view -> {
+                        Snackbar.make(drawerLayout, R.string.notes_unarchived, Snackbar.LENGTH_SHORT)
+                                .setAction(R.string.Undo, view -> {
                                     for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
                                         dataBaseHelper.archiveNote(note);
                                     }
@@ -349,7 +352,7 @@ public class NotesRecyclerViewAdapter
             String fontType = settings.getString("settings_fonttype", "Default");
 
             // Change Note Title and Content Font Type to Dyslexia-friendly According to Font Type SharedPreferences
-            if (fontType.equals("Dyslexia-friendly")){
+            if (fontType.equals("Dyslexia-friendly")) {
                 Typeface dysBold = ResourcesCompat.getFont(context, R.font.opendyslexic_bold);
                 Typeface dysRegular = ResourcesCompat.getFont(context, R.font.opendyslexic_regular);
                 noteTitle.setTypeface(dysBold);

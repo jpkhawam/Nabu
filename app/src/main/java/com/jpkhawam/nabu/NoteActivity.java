@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 
@@ -79,7 +78,7 @@ public class NoteActivity extends AppCompatActivity {
         editTextContent.setTextSize(editContentFontSizeInt);
 
         // Change Note Edit Title and Content Font Type to Dyslexia-friendly According To Font Type SharedPreferences
-        if (fontType.equals("Dyslexia-friendly")){
+        if (fontType.equals("Dyslexia-friendly")) {
             Typeface dysBold = ResourcesCompat.getFont(this, R.font.opendyslexic_bold);
             Typeface dysRegular = ResourcesCompat.getFont(this, R.font.opendyslexic_regular);
             editTextTitle.setTypeface(dysBold);
