@@ -21,8 +21,8 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        // Get Font Type SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        // Get Font Type SharedPreferences
         String fontType = settings.getString("settings_fonttype", "Default");
 
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
