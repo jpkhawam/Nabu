@@ -32,8 +32,11 @@ public class NotesRecyclerViewAdapter
     public static final String MAIN_ACTIVITY = "MainActivity";
     public static final String ARCHIVE_ACTIVITY = "ArchiveActivity";
     public static final String TRASH_ACTIVITY = "TrashActivity";
-    int titleFontSizeInt = 17;
-    int contentFontSizeInt = 16;
+    private int titleFontSizeInt = 17;
+    private int contentFontSizeInt = 16;
+    private boolean font_defaultSize = false;
+    private boolean font_mediumSize = false;
+    private boolean font_largeSize = false;
     private final Context context;
     private final DrawerLayout drawerLayout;
     private ArrayList<Note> notes = new ArrayList<>();
@@ -54,14 +57,17 @@ public class NotesRecyclerViewAdapter
         if (fontSize.equals("Small")) {
             titleFontSizeInt = 17;
             contentFontSizeInt = 16;
+            font_defaultSize = true;
         }
         if (fontSize.equals("Medium")) {
             titleFontSizeInt = (int) (17 * 1.5);
             contentFontSizeInt = (int) (16 * 1.5);
+            font_mediumSize = true;
         }
         if (fontSize.equals("Large")) {
             titleFontSizeInt = 17 * 2;
             contentFontSizeInt = 16 * 2;
+            font_largeSize = true;
         }
     }
 
@@ -88,12 +94,19 @@ public class NotesRecyclerViewAdapter
         // if content is too long, only preview first 170~ characters
         if (notes.get(position).getContent() != null && !notes.get(position).getContent().equals("")) {
             String noteContent = notes.get(position).getContent();
-            if (noteContent.length() > 170) {
+            int max_characters = 0;
+            if (font_defaultSize)
+                max_characters = 120;
+            else if (font_mediumSize)
+                max_characters = 30;
+            else if (font_largeSize)
+                max_characters = 26;
+            if (noteContent.length() > max_characters) {
                 StringBuilder contentPreview = new StringBuilder();
                 Character current_character;
-                for (int i = 0; i < 170; i++) {
+                for (int i = 0; i < max_characters; i++) {
                     current_character = noteContent.charAt(i);
-                    if (current_character.equals(' ') && i > 130)
+                    if (current_character.equals(' ') && i > max_characters - 20)
                         break;
                     contentPreview.append(noteContent.charAt(i));
                 }
@@ -119,9 +132,9 @@ public class NotesRecyclerViewAdapter
                 mActionMode.setTitle("");
                 mActionMode.finish();
             } else if (selectedNotes.size() == 1)
-                mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.note_selected));
+                mActionMode.setTitle(selectedNotes.size() + " " + context.getString(R.string.note_selected));
             else
-                mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.notes_selected));
+                mActionMode.setTitle(selectedNotes.size() + " " + context.getString(R.string.notes_selected));
             return true;
         });
         holder.materialCardView.setOnClickListener(view -> {
@@ -137,9 +150,9 @@ public class NotesRecyclerViewAdapter
                     mActionMode.setTitle("");
                     mActionMode.finish();
                 } else if (selectedNotes.size() == 1)
-                    mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.note_selected));
+                    mActionMode.setTitle(selectedNotes.size() + " " + context.getString(R.string.note_selected));
                 else
-                    mActionMode.setTitle(selectedNotes.size() + context.getString(R.string.notes_selected));
+                    mActionMode.setTitle(selectedNotes.size() + " " +  context.getString(R.string.notes_selected));
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());
