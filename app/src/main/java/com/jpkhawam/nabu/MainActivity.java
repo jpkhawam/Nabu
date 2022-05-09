@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Get Font Type SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String fontType = settings.getString("settings_fonttype", "Default");
@@ -39,6 +41,14 @@ public class MainActivity extends AppCompatActivity
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
         }
         setContentView(R.layout.activity_main);
+
+        // Check firstStartUp SharedPreferences and Show Dialog If True
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStartUp = prefs.getBoolean("firstStartUp", true);
+        if (firstStartUp) {
+            showFirstStartUpDialog();
+        }
+
         DrawerLayout drawerLayout = findViewById(R.id.mainLayout);
         TextView emptyNotes = findViewById(R.id.no_notes_text);
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
@@ -116,6 +126,20 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void showFirstStartUpDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Accessibility Settings")
+                .setMessage("Do you need accessibility settings?")
+                // start SettingsActivity
+                .setPositiveButton("Yes", (dialogInterface, i) -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)))
+                .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss())
+                .create().show();
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        // Change firstStartUp SharedPreferences To False
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStartUp", false);
+        editor.apply();
+    }
 
     @SuppressLint("NonConstantResourceId")
     @Override
