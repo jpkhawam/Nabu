@@ -58,4 +58,8 @@
         <item>Large</item>
     </string-array>
 
+    <string-array name="settings_fonttype">
+        <item>Default</item>
+        <item>Dyslexia-friendly</item>
+    </string-array>
 </resources>

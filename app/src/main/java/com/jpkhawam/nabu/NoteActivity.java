@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -39,15 +41,23 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences settings = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        // Get Font Type SharedPreferences
+        String fontType = settings.getString("settings_fonttype", "Default");
+
+        // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
+        if (fontType.equals("Dyslexia-friendly")) {
+            getTheme().applyStyle(R.style.DyslexiaTheme, false);
+            getTheme().applyStyle(R.style.DyslexiaThemeExcludingLogo, false);
+        }
         setContentView(R.layout.activity_note);
 
         parent = findViewById(R.id.note_layout);
         editTextTitle = findViewById(R.id.input_note_title);
         editTextContent = findViewById(R.id.input_note_content);
 
-        // Get Font Size SharedPreferences
         DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        // Get Font Size SharedPreferences
         String fontSize = settings.getString("settings_fontsize", "Small");
 
         // Set Font Size Value According To Font Size SharedPreferences
@@ -67,6 +77,14 @@ public class NoteActivity extends AppCompatActivity {
         // Set Note Edit Title and Content Font Size According to Font Size Value
         editTextTitle.setTextSize(editTitleFontSizeInt);
         editTextContent.setTextSize(editContentFontSizeInt);
+
+        // Change Note Edit Title and Content Font Type to Dyslexia-friendly According To Font Type SharedPreferences
+        if (fontType.equals("Dyslexia-friendly")){
+            Typeface dysBold = ResourcesCompat.getFont(this, R.font.opendyslexic_bold);
+            Typeface dysRegular = ResourcesCompat.getFont(this, R.font.opendyslexic_regular);
+            editTextTitle.setTypeface(dysBold);
+            editTextContent.setTypeface(dysRegular);
+        }
 
         Intent intentReceived = getIntent();
         if (intentReceived != null) {
