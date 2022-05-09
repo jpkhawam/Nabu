@@ -48,6 +48,7 @@ public class NoteActivity extends AppCompatActivity {
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
         if (fontType.equals("Dyslexia-friendly")) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
+            getTheme().applyStyle(R.style.DyslexiaThemeExcludingLogo, false);
         }
         setContentView(R.layout.activity_note);
 

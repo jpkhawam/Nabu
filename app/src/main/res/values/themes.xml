@@ -41,6 +41,11 @@
         <item name="android:fontFamily">@font/opendyslexic_regular</item>
     </style>
 
+    <!-- Dyslexia-Friendly Font fontFamily Used For NoteActivity Hint Text Without Affecting App Logo-->
+    <style name="DyslexiaThemeExcludingLogo" parent="Theme.Material3.Light.NoActionBar">
+        <item name="fontFamily">@font/opendyslexic_regular</item>
+    </style>
+
     <color name="colorCard">#FFFCF3</color>
     <color name="colorTitle">#1F1F1F</color>
 </resources>
