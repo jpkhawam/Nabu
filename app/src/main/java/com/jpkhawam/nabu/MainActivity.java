@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity
             long unarchivedNoteId = intentReceived.getLongExtra(NoteActivity.UNARCHIVED_NOTE_IDENTIFIER_KEY, -1);
             boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
             if (archivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.notes_archived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.unarchiveNote(archivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotes());
                             adapter.setNotes(allNotes.get());
@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity
                         })
                         .show();
             } else if (unarchivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note unarchived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.notes_unarchived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.archiveNote(unarchivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotes());
                             adapter.setNotes(allNotes.get());
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                         })
                         .show();
             } else if (discardedNote)
-                Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(drawerLayout, R.string.discarded_empty_note, Snackbar.LENGTH_SHORT).show();
         }
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
@@ -127,12 +127,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showFirstStartUpDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Accessibility Settings")
-                .setMessage("Do you need accessibility settings?")
-                // start SettingsActivity
-                .setPositiveButton("Yes", (dialogInterface, i) -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)))
-                .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss())
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.accessibility_settings)
+                .setMessage(R.string.accessibility_prompt)
+                .setPositiveButton(R.string.Yes, (dialogInterface, i) ->
+                        startActivity(new Intent(MainActivity.this, SettingsActivity.class)))
+                .setNegativeButton(R.string.No, (dialogInterface, i) ->
+                        dialogInterface.dismiss())
                 .create().show();
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         // Change firstStartUp SharedPreferences To False

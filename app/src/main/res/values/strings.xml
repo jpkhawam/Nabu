@@ -48,9 +48,25 @@
     <string name="no_notes_yet">Click on the + button to create your first note</string>
     <string name="nothing_in_trash">Nothing in trash!</string>
     <string name="nothing_in_archive">Nothing in Archive!</string>
-    <string name="font_size">Font Size</string>
     <string name="font_settings">Font Settings</string>
     <string name="font_size_small">Small</string>
+    <string name="accessibility_prompt">Do you need accessibility settings? Font size and a Dyslexia friendly font are available</string>
+    <string name="accessibility_settings">Accessibility Settings</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="confirm_action">Confirm Action</string>
+    <string name="are_you_sure_delete">Are you sure you want to delete these notes permanently?\nThis action cannot be undone.</string>
+    <string name="cancel">CANCEL</string>
+    <string name="delete_permanently">DELETE PERMANENTLY</string>
+    <string name="notes_sent_trash">Notes sent to trash</string>
+    <string name="Undo">Undo</string>
+    <string name="notes_unarchived">Notes unarchived</string>
+    <string name="notes_archived">Notes archived</string>
+    <string name="note_selected"> note selected</string>
+    <string name="notes_selected"> notes selected</string>
+    <string name="discarded_empty_note">Discarded empty note</string>
+    <string name="dyslexia_friendly_font">Dyslexia Friendly Font</string>
+    <string name="font_size">Font Size</string>
 
     <string-array name="settings_fontsize">
         <item>Small</item>

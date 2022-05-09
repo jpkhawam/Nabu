@@ -2,19 +2,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
         android:defaultValue="Small"
-        android:dialogTitle="Font Size"
+        android:dialogTitle="@string/font_size"
         android:entries="@array/settings_fontsize"
         android:entryValues="@array/settings_fontsize"
         android:key="settings_fontsize"
         android:summary="%0$s"
-        android:title="Font Size" />
+        android:title="@string/font_size" />
 
     <ListPreference
         android:defaultValue="Default"
-        android:dialogTitle="Font Type"
+        android:dialogTitle="@string/dyslexia_friendly_font"
         android:entries="@array/settings_fonttype"
         android:entryValues="@array/settings_fonttype"
         android:key="settings_fonttype"
         android:summary="%0$s"
-        android:title="Font Type" />
+        android:title="@string/dyslexia_friendly_font" />
 </PreferenceScreen>

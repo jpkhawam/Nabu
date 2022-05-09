@@ -26,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         String fontType = settings.getString("settings_fonttype", "Default");
 
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
-        if (fontType.equals("Dyslexia-friendly")){
+        if (fontType.equals("Dyslexia-friendly")) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
         }
         setContentView(R.layout.activity_settings);

@@ -33,7 +33,7 @@ public class ArchiveActivity extends AppCompatActivity
         String fontType = settings.getString("settings_fonttype", "Default");
 
         // add dyslexia-friendly fontFamily style to the default theme
-        if (fontType.equals("Dyslexia-friendly")){
+        if (fontType.equals("Dyslexia-friendly")) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
         }
         setContentView(R.layout.activity_archive);
