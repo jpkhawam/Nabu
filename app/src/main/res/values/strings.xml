@@ -48,7 +48,6 @@
     <string name="no_notes_yet">Click on the + button to create your first note</string>
     <string name="nothing_in_trash">Nothing in trash!</string>
     <string name="nothing_in_archive">Nothing in Archive!</string>
-    <string name="font_size">Font Size</string>
     <string name="font_settings">Font Settings</string>
     <string name="font_size_small">Small</string>
     <string name="accessibility_prompt">Do you need accessibility settings? Font size and a Dyslexia friendly font are available</string>
@@ -66,6 +65,8 @@
     <string name="note_selected"> note selected</string>
     <string name="notes_selected"> notes selected</string>
     <string name="discarded_empty_note">Discarded empty note</string>
+    <string name="dyslexia_friendly_font">Dyslexia Friendly Font</string>
+    <string name="font_size">Font Size</string>
 
     <string-array name="settings_fontsize">
         <item>Small</item>
