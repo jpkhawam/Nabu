@@ -8,4 +8,13 @@
         android:key="settings_fontsize"
         android:summary="%0$s"
         android:title="Font Size" />
+
+    <ListPreference
+        android:defaultValue="Default"
+        android:dialogTitle="Font Type"
+        android:entries="@array/settings_fonttype"
+        android:entryValues="@array/settings_fonttype"
+        android:key="settings_fonttype"
+        android:summary="%0$s"
+        android:title="Font Type" />
 </PreferenceScreen>
