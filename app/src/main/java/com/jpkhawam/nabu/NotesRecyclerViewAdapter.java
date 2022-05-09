@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -341,6 +343,18 @@ public class NotesRecyclerViewAdapter
             // Set Note Title and Content Font Size According to Font Size Value
             noteTitle.setTextSize(titleFontSizeInt);
             noteContent.setTextSize(contentFontSizeInt);
+
+            // Get Font Type SharedPreferences
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            String fontType = settings.getString("settings_fonttype", "Default");
+
+            // Change Note Title and Content Font Type to Dyslexia-friendly According to Font Type SharedPreferences
+            if (fontType.equals("Dyslexia-friendly")){
+                Typeface dysBold = ResourcesCompat.getFont(context, R.font.opendyslexic_bold);
+                Typeface dysRegular = ResourcesCompat.getFont(context, R.font.opendyslexic_regular);
+                noteTitle.setTypeface(dysBold);
+                noteContent.setTypeface(dysRegular);
+            }
         }
     }
 

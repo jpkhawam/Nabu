@@ -34,6 +34,11 @@
         <item name="actionBarTheme">@style/ThemeOverlay.Material3.Dark.ActionBar</item>
     </style>
 
+    <!-- Dyslexia-Friendly Font fontFamily -->
+    <style name="DyslexiaTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:fontFamily">@font/opendyslexic_regular</item>
+    </style>
+
     <color name="colorCard">#343434</color>
     <color name="colorTitle">#ffffff</color>
 </resources>
