@@ -24,7 +24,16 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         // Get Font Type SharedPreferences
         String fontType = settings.getString("settings_fonttype", "Default");
+        // Get Font Size SharedPreferences
+        String fontSize = settings.getString("settings_fontsize", "Small");
 
+        // Set Font Size Value According To Font Size SharedPreferences
+        if (fontSize.equals("Medium")) {
+            getTheme().applyStyle(R.style.settingsMediumTheme, false);
+        }
+        if (fontSize.equals("Large")) {
+            getTheme().applyStyle(R.style.settingsLargeTheme, false);
+        }   
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
         if (fontType.equals("Dyslexia-friendly")) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
