@@ -24,7 +24,16 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         // Get Font Type SharedPreferences
         String fontType = settings.getString("settings_fonttype", "Default");
+        // Get Font Size SharedPreferences
+        String fontSize = settings.getString("settings_fontsize", "Small");
 
+        // Set Settings Font Size Value According To Font Size SharedPreferences
+        if (fontSize.equals("Medium")) {
+            getTheme().applyStyle(R.style.settingsMediumTheme, false);
+        }
+        if (fontSize.equals("Large")) {
+            getTheme().applyStyle(R.style.settingsLargeTheme, false);
+        }   
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
         if (fontType.equals("Dyslexia-friendly")) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
@@ -43,7 +52,16 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                 .commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-
+        // Set NavigationView Font Size According To Font Size SharedPreferences}
+        if (fontSize.equals("Small")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewSmall);
+        }
+        if (fontSize.equals("Medium")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewMedium);
+        }
+        if (fontSize.equals("Large")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewLarge);
+        }
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
 
