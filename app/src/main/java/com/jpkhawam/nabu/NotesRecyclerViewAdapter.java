@@ -152,7 +152,7 @@ public class NotesRecyclerViewAdapter
                 } else if (selectedNotes.size() == 1)
                     mActionMode.setTitle(selectedNotes.size() + " " + context.getString(R.string.note_selected));
                 else
-                    mActionMode.setTitle(selectedNotes.size() + " " +  context.getString(R.string.notes_selected));
+                    mActionMode.setTitle(selectedNotes.size() + " " + context.getString(R.string.notes_selected));
             } else {
                 Intent intent = new Intent(context, NoteActivity.class);
                 intent.putExtra(NOTE_IDENTIFIER_KEY, notes.get(position).getNoteIdentifier());

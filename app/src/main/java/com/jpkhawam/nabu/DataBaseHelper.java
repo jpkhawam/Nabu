@@ -279,6 +279,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     /**
      * MARK A NOTE AS ARCHIVED
+     *
      * @param note note to be archived
      */
     public void archiveNote(Note note) {
@@ -293,6 +294,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     /**
      * MARK A NOTE AS ARCHIVED
+     *
      * @param noteIdentifier note identifier of note to be archived
      */
     public void archiveNote(long noteIdentifier) {

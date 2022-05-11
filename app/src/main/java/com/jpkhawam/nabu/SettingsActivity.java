@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         }
         if (fontSize.equals("Large")) {
             getTheme().applyStyle(R.style.settingsLargeTheme, false);
-        }   
+        }
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
         if (fontType.equals("Dyslexia-friendly")) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
