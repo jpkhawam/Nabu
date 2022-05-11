@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get Font Type SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        // Get Font Type SharedPreferences
         String fontType = settings.getString("settings_fonttype", "Default");
 
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
@@ -110,7 +110,18 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-
+        // Get Font Size SharedPreferences
+        String fontSize = settings.getString("settings_fontsize", "Small");
+        // Set NavigationView Font Size According To Font Size SharedPreferences}
+        if (fontSize.equals("Small")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewSmall);
+        }
+        if (fontSize.equals("Medium")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewMedium);
+        }
+        if (fontSize.equals("Large")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewLarge);
+        }
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
 

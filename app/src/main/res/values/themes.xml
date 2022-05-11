@@ -46,10 +46,12 @@
         <item name="fontFamily">@font/opendyslexic_regular</item>
     </style>
 
+    <!-- Medium Font Size Used For SettingsActivity-->
     <style name="settingsMediumTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:textSize">17sp</item>
     </style>
 
+    <!-- Large Font Size Used For SettingsActivity-->
     <style name="settingsLargeTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:textSize">19sp</item>
     </style>

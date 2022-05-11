@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Small Font Size Used For NavigationView-->
+    <style name="NavigationViewSmall" parent="TextAppearance.AppCompat.Small">
+        <item name="itemTextAppearance">?textAppearanceTitleSmall</item>
+    </style>
+
+    <!-- Medium Font Size Used For NavigationView-->
+    <style name="NavigationViewMedium" parent="TextAppearance.AppCompat.Medium">
+        <item name="itemTextAppearance">?textAppearanceTitleMedium</item>
+    </style>
+
+    <!-- Large Font Size Used For NavigationView-->
+    <style name="NavigationViewLarge" parent="TextAppearance.AppCompat.Large">
+        <item name="itemTextAppearance">?textAppearanceTitleLarge</item>
+    </style>
+</resources>

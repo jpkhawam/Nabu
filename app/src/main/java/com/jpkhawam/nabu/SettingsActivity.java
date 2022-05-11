@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         // Get Font Size SharedPreferences
         String fontSize = settings.getString("settings_fontsize", "Small");
 
-        // Set Font Size Value According To Font Size SharedPreferences
+        // Set Settings Font Size Value According To Font Size SharedPreferences
         if (fontSize.equals("Medium")) {
             getTheme().applyStyle(R.style.settingsMediumTheme, false);
         }
@@ -52,7 +52,16 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                 .commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-
+        // Set NavigationView Font Size According To Font Size SharedPreferences}
+        if (fontSize.equals("Small")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewSmall);
+        }
+        if (fontSize.equals("Medium")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewMedium);
+        }
+        if (fontSize.equals("Large")) {
+            navigationView.setItemTextAppearance(R.style.NavigationViewLarge);
+        }
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
 
