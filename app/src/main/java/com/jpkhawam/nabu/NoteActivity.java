@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -243,6 +244,30 @@ public class NoteActivity extends AppCompatActivity {
                                     .show();
                         }
                         return true;
+
+                    case R.id.note_share:
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        String output;
+                        if ((currentNote.getTitle() == null && currentNote.getContent() == null)
+                                || (currentNote.getTitle().equals("") && currentNote.getContent().equals(""))) {
+                            Snackbar.make(parent, "Cannot share empty note", Snackbar.LENGTH_SHORT).show();
+                            return true;
+                        } else if ((currentNote.getTitle() != null && !(Objects.equals(currentNote.getTitle(), ""))
+                                && (currentNote.getContent() == null || currentNote.getContent().equals("")))) {
+                            output = currentNote.getTitle();
+                        } else if ((currentNote.getTitle() == null || Objects.equals(currentNote.getTitle(), ""))
+                                && (currentNote.getContent() != null && !currentNote.getContent().equals(""))) {
+                            output = currentNote.getContent();
+                        } else
+                            output = currentNote.getTitle() + "\n\n" + currentNote.getContent();
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, output);
+                        sendIntent.setType("text/plain");
+                        sendIntent.putExtra(Intent.EXTRA_TITLE, "Sharing Note");
+                        Intent shareIntent = Intent.createChooser(sendIntent, null);
+                        startActivity(shareIntent);
+                        return true;
+
                     default:
                         return false;
                 }
