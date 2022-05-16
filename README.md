@@ -9,7 +9,7 @@ This app has a great priority for accessibility before all, so if there is anyth
 Feel free to try it out and let me know what is missing or not working! Pull requests and issues are most welcome.
 
 # What is not implemented yet?
-Currently, pinning notes and adding reminders are the big two non implemented features. Furthermore, some buttons like "sharing the note" are yet to be implemented. These should be done soon.
+Currently, pinning notes and adding reminders are not implemented. Everything else should be working.
 
 # Screenshots
 
