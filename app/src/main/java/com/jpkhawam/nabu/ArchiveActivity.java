@@ -70,6 +70,7 @@ public class ArchiveActivity extends AppCompatActivity
         if (intentReceived != null) {
             long archivedNoteId = intentReceived.getLongExtra(NoteActivity.ARCHIVED_NOTE_IDENTIFIER_KEY, -1);
             long unarchivedNoteId = intentReceived.getLongExtra(NoteActivity.UNARCHIVED_NOTE_IDENTIFIER_KEY, -1);
+            long deletedNoteId = intentReceived.getLongExtra(NoteActivity.DELETED_NOTE_KEY, -1);
             boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
             if (archivedNoteId != -1) {
                 Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
@@ -91,8 +92,20 @@ public class ArchiveActivity extends AppCompatActivity
                             emptyNotes.setVisibility(View.GONE);
                         })
                         .show();
-            } else if (discardedNote)
+            } else if (deletedNoteId != -1) {
+                Snackbar.make(drawerLayout, "Note sent to trash", Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
+                            dataBaseHelper.restoreNote(deletedNoteId);
+                            dataBaseHelper.archiveNote(deletedNoteId);
+                            allNotes.set(dataBaseHelper.getAllNotesFromArchive());
+                            adapter.setNotes(allNotes.get());
+                            notesRecyclerView.setAdapter(adapter);
+                            emptyNotes.setVisibility(View.GONE);
+                        })
+                        .show();
+            } else if (discardedNote) {
                 Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
+            }
         }
 
         Toolbar toolbar = findViewById(R.id.main_toolbar_archive);
@@ -143,5 +156,11 @@ public class ArchiveActivity extends AppCompatActivity
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
     }
 }

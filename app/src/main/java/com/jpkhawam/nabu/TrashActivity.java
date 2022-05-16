@@ -71,6 +71,7 @@ public class TrashActivity extends AppCompatActivity
             long archivedNoteId = intentReceived.getLongExtra(NoteActivity.ARCHIVED_NOTE_IDENTIFIER_KEY, -1);
             long unarchivedNoteId = intentReceived.getLongExtra(NoteActivity.UNARCHIVED_NOTE_IDENTIFIER_KEY, -1);
             boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
+            boolean deletedNoteFromTrash = intentReceived.getBooleanExtra(NoteActivity.DELETED_NOTE_FROM_TRASH_KEY, false);
             if (archivedNoteId != -1) {
                 Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
                         .setAction("Undo", view -> {
@@ -92,8 +93,11 @@ public class TrashActivity extends AppCompatActivity
                             emptyNotes.setVisibility(View.GONE);
                         })
                         .show();
-            } else if (discardedNote)
+            } else if (discardedNote) {
                 Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
+            } else if (deletedNoteFromTrash) {
+                Snackbar.make(drawerLayout, "Note deleted successfully", Snackbar.LENGTH_SHORT).show();
+            }
         }
 
         Toolbar toolbar = findViewById(R.id.main_toolbar_trash);
@@ -145,5 +149,11 @@ public class TrashActivity extends AppCompatActivity
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
     }
 }

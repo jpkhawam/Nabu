@@ -278,6 +278,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Restore a note from TRASH OR ARCHIVE back to NOTES
+     *
+     * @param noteIdentifier id of note to be restored
+     */
+    public void restoreNote(long noteIdentifier) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_IN_TRASH, 0);
+        contentValues.put(COLUMN_IN_ARCHIVE, 0);
+        contentValues.put(COLUMN_DATE_SENT_TO_TRASH, String.valueOf(LocalDateTime.now()));
+        sqLiteDatabase.update(NOTES_TABLE, contentValues,
+                "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.close();
+    }
+
+    /**
      * MARK A NOTE AS ARCHIVED
      *
      * @param note note to be archived

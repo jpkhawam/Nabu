@@ -18,6 +18,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -30,6 +31,8 @@ public class NoteActivity extends AppCompatActivity {
     public static final String ARCHIVED_NOTE_IDENTIFIER_KEY = "archivedNoteId";
     public static final String UNARCHIVED_NOTE_IDENTIFIER_KEY = "unarchivedNoteId";
     public static final String DISCARDED_NOTE_KEY = "discardedNote";
+    public static final String DELETED_NOTE_KEY = "deletedNoteId";
+    public static final String DELETED_NOTE_FROM_TRASH_KEY = "deletedNoteFromTrash";
     private Note currentNote;
     private CoordinatorLayout parent;
     private TextInputEditText editTextTitle;
@@ -277,6 +280,45 @@ public class NoteActivity extends AppCompatActivity {
                     sendIntent.putExtra(Intent.EXTRA_TITLE, "Sharing Note");
                     Intent shareIntent = Intent.createChooser(sendIntent, null);
                     startActivity(shareIntent);
+                    return true;
+
+                case R.id.note_delete:
+                    Intent outgoingIntent;
+                    if ((currentNote.getTitle() == null || currentNote.getTitle().equals(""))
+                            && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
+                        Snackbar.make(parent, "Cannot delete empty note", Snackbar.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    if (dataBaseHelper.isInTrash(currentNote)) {
+                        outgoingIntent = new Intent(this, TrashActivity.class);
+                        new MaterialAlertDialogBuilder(this)
+                                .setTitle("Are you sure?")
+                                .setMessage("This will delete the note permanently")
+                                .setPositiveButton(R.string.cancel, (dialogInterface, i) ->
+                                        dialogInterface.dismiss())
+                                .setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
+                                    dataBaseHelper.deleteNoteFromTrash(currentNote);
+                                    outgoingIntent.putExtra(DELETED_NOTE_FROM_TRASH_KEY, true);
+                                    startActivity(outgoingIntent);
+                                })
+                                .create().show();
+                        return true;
+                    } else if (dataBaseHelper.isInArchive(currentNote)) {
+                        outgoingIntent = new Intent(this, ArchiveActivity.class);
+                    } else {
+                        outgoingIntent = new Intent(this, MainActivity.class);
+                    }
+                    new MaterialAlertDialogBuilder(this)
+                            .setTitle("Send note to trash?")
+                            .setMessage("You would still be able to restore the note.")
+                            .setPositiveButton(R.string.cancel, (dialogInterface, i) ->
+                                    dialogInterface.dismiss())
+                            .setNegativeButton("SEND TO TRASH", (dialogInterface, i) -> {
+                                outgoingIntent.putExtra(DELETED_NOTE_KEY, currentNote.getNoteIdentifier());
+                                dataBaseHelper.deleteNote(currentNote);
+                                startActivity(outgoingIntent);
+                            })
+                            .create().show();
                     return true;
 
                 default:
