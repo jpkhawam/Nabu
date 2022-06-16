@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nabu</string>
+    <string name="app_name" translatable="false">Nabu</string>
 
     <!-- Drawer menu -->
     <string name="notes">Notes</string>
