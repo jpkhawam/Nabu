@@ -11,7 +11,6 @@
     <string name="go_back">返回</string>
     <string name="enter_your_note_title_here">在此输入您的笔记标题</string>
     <string name="font_settings">字体设置</string>
-    <string name="font_size_small">小</string>
     <string name="cancel">取消</string>
     <string name="accessibility_settings">无障碍设置</string>
     <string name="dyslexia_friendly_font">适合失读症患者的字体</string>
@@ -63,4 +62,18 @@
     <string name="Yes">需要</string>
     <string name="No">不需要</string>
     <string name="Undo">撤消</string>
+    <string name="note_deleted_successfully">笔记成功删除</string>
+    <string name="ask_send_note_to_trash">将笔记移动到垃圾箱？</string>
+    <string name="cannot_share_empty_note">无法分享空笔记</string>
+    <string name="cannot_delete_empty_note">无法删除空笔记</string>
+    <string name="ask_are_you_sure">您确定吗？</string>
+    <string name="this_will_delete_the_note_permanently">这将会永久删除该笔记</string>
+    <string name="cannot_archive_empty_note">无法存档空笔记</string>
+    <string name="you_would_still_be_able_to_restore_the_note">您仍然能够恢复该笔记。</string>
+    <string name="sharing_note">分享笔记中</string>
+    <string name="copied_text">被复制的文字</string>
+    <string name="note_archived">笔记被存档</string>
+    <string name="note_unarchived">笔记存档行动被撤消</string>
+    <string name="note_sent_to_trash">笔记被移动到垃圾箱</string>
+    <string name="font_size_small">小</string>
 </resources>
