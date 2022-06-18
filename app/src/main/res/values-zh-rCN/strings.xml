@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="font_size">字体大小</string>
+    <string name="delete">删除</string>
+    <string name="delete_this_note">删除此笔记</string>
+    <string name="share_this_note">分享此笔记</string>
+    <string name="share_note">分享笔记</string>
+    <string name="title">标题</string>
+    <string name="notes">笔记</string>
+    <string name="settings">设置</string>
+    <string name="go_back">返回</string>
+    <string name="enter_your_note_title_here">在此输入您的笔记标题</string>
+    <string name="font_settings">字体设置</string>
+    <string name="cancel">取消</string>
+    <string name="accessibility_settings">无障碍设置</string>
+    <string name="dyslexia_friendly_font">适合失读症患者的字体</string>
+    <string name="enter_your_note_content_here">笔记内容</string>
+    <string name="paste">粘贴</string>
+    <string name="paste_from_clipboard">从剪贴板粘贴</string>
+    <string name="go_back_to_home_page">返回主页</string>
+    <string name="accessibility_prompt">您需要无障碍设置吗？您可以选择字体大小和适合失读症患者的字体</string>
+    <string name="undo">撤消</string>
+    <string name="copy_note_content_to_clipboard">复制笔记内容到剪贴板</string>
+    <string name="open_nav_drawer">打开导航抽屉</string>
+    <string name="close_nav_drawer">关闭导航抽屉</string>
+    <string name="reminders">提醒事项</string>
+    <string name="delete_permanently">永久删除</string>
+    <string name="go_to_settings">前往设置</string>
+    <string name="add_reminder">添加提醒事项</string>
+    <string name="add_a_reminder_to_current_note">为当前笔记添加提醒事项</string>
+    <string name="create_new_note">创建新笔记</string>
+    <string name="copied_text_clipboard">笔记已复制到剪贴板</string>
+    <string name="trash">垃圾箱</string>
+    <string name="no_notes_yet">点击 + 按钮来创建您的第一个笔记</string>
+    <string name="go_to_trash">前往垃圾箱</string>
+    <string name="date_edited">修改日期</string>
+    <string name="date_of_last_edit">最后修改日期</string>
+    <string name="pin">置顶</string>
+    <string name="pin_the_current_note">置顶当前笔记</string>
+    <string name="empty_clipboard">剪贴板是空的，无法粘贴</string>
+    <string name="clipboard_not_text">剪贴板有数据，但不是纯文字</string>
+    <string name="archive">存档</string>
+    <string name="go_to_archive">前往存档</string>
+    <string name="send_to_archive">存档</string>
+    <string name="send_the_current_note_to_archive">将当前笔记移动到存档</string>
+    <string name="send_the_current_note_to_trash">将当前笔记移动到垃圾箱</string>
+    <string name="make_a_copy">复制</string>
+    <string name="view_notes_that_have_reminders">查看有提醒事项的笔记</string>
+    <string name="didnt_copy_text_clipboard">空的笔记没被复制</string>
+    <string name="clipboard_pasted">从剪贴板粘贴</string>
+    <string name="send_to_trash">移动到垃圾箱</string>
+    <string name="nothing_in_trash">垃圾箱是空的！</string>
+    <string name="nothing_in_archive">存档是空的！</string>
+    <string name="are_you_sure_delete">您确定要永久删除这些笔记吗？ 这个行动无法撤销的。</string>
+    <string name="confirm_action">确认行动</string>
+    <string name="notes_archived">笔记被存档</string>
+    <string name="notes_unarchived">笔记存档行动被撤消</string>
+    <string name="discarded_empty_note">空的笔记被丢弃</string>
+    <string name="note_selected">个笔记被选择</string>
+    <string name="notes_selected">个笔记被选择</string>
+    <string name="notes_sent_trash">笔记被移动到垃圾箱</string>
+    <string name="Yes">需要</string>
+    <string name="No">不需要</string>
+    <string name="Undo">撤消</string>
+    <string name="note_deleted_successfully">笔记成功删除</string>
+    <string name="ask_send_note_to_trash">将笔记移动到垃圾箱？</string>
+    <string name="cannot_share_empty_note">无法分享空笔记</string>
+    <string name="cannot_delete_empty_note">无法删除空笔记</string>
+    <string name="ask_are_you_sure">您确定吗？</string>
+    <string name="this_will_delete_the_note_permanently">这将会永久删除该笔记</string>
+    <string name="cannot_archive_empty_note">无法存档空笔记</string>
+    <string name="you_would_still_be_able_to_restore_the_note">您仍然能够恢复该笔记。</string>
+    <string name="sharing_note">分享笔记中</string>
+    <string name="copied_text">被复制的文字</string>
+    <string name="note_archived">笔记被存档</string>
+    <string name="note_unarchived">笔记存档行动被撤消</string>
+    <string name="note_sent_to_trash">笔记被移动到垃圾箱</string>
+    <string name="font_size_small">小</string>
+    <string name="font_size_medium">中</string>
+    <string name="font_size_large">大</string>
+    <string name="font_type_default">普通字体</string>
+    <string name="font_type_dyslexia">适合失读症患者的字体</string>
+
+    <string-array name="settings_fontsize">
+        <item>@string/font_size_small</item>
+        <item>@string/font_size_medium</item>
+        <item>@string/font_size_large</item>
+    </string-array>
+
+    <string-array name="settings_fonttype">
+        <item>@string/font_type_default</item>
+        <item>@string/font_type_dyslexia</item>
+    </string-array>
+</resources>

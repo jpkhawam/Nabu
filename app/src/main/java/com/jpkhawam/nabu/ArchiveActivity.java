@@ -30,10 +30,10 @@ public class ArchiveActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         // Get Font Type SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        String fontType = settings.getString("settings_fonttype", "Default");
+        String fontType = settings.getString("settings_fonttype", getString(R.string.font_type_default));
 
         // add dyslexia-friendly fontFamily style to the default theme
-        if (fontType.equals("Dyslexia-friendly")) {
+        if (fontType.equals(getString(R.string.font_type_dyslexia))) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
         }
         setContentView(R.layout.activity_archive);
@@ -73,8 +73,8 @@ public class ArchiveActivity extends AppCompatActivity
             long deletedNoteId = intentReceived.getLongExtra(NoteActivity.DELETED_NOTE_KEY, -1);
             boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
             if (archivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.note_archived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.unarchiveNote(archivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotesFromArchive());
                             adapter.setNotes(allNotes.get());
@@ -83,8 +83,8 @@ public class ArchiveActivity extends AppCompatActivity
                         })
                         .show();
             } else if (unarchivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note unarchived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.note_unarchived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.archiveNote(unarchivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotesFromArchive());
                             adapter.setNotes(allNotes.get());
@@ -93,7 +93,7 @@ public class ArchiveActivity extends AppCompatActivity
                         })
                         .show();
             } else if (deletedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note sent to trash", Snackbar.LENGTH_SHORT)
+                Snackbar.make(drawerLayout, R.string.note_sent_to_trash, Snackbar.LENGTH_SHORT)
                         .setAction(R.string.undo, view -> {
                             dataBaseHelper.restoreNote(deletedNoteId);
                             dataBaseHelper.archiveNote(deletedNoteId);
@@ -104,7 +104,7 @@ public class ArchiveActivity extends AppCompatActivity
                         })
                         .show();
             } else if (discardedNote) {
-                Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(drawerLayout, R.string.discarded_empty_note, Snackbar.LENGTH_SHORT).show();
             }
         }
 
@@ -113,15 +113,15 @@ public class ArchiveActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Get Font Size SharedPreferences
-        String fontSize = settings.getString("settings_fontsize", "Small");
+        String fontSize = settings.getString("settings_fontsize", getString(R.string.font_size_small));
         // Set NavigationView Font Size According To Font Size SharedPreferences}
-        if (fontSize.equals("Small")) {
+        if (fontSize.equals(getString(R.string.font_size_small))) {
             navigationView.setItemTextAppearance(R.style.NavigationViewSmall);
         }
-        if (fontSize.equals("Medium")) {
+        if (fontSize.equals(getString(R.string.font_size_medium))) {
             navigationView.setItemTextAppearance(R.style.NavigationViewMedium);
         }
-        if (fontSize.equals("Large")) {
+        if (fontSize.equals(getString(R.string.font_size_large))) {
             navigationView.setItemTextAppearance(R.style.NavigationViewLarge);
         }
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(

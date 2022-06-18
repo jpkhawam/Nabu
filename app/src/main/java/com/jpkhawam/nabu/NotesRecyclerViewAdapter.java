@@ -51,20 +51,20 @@ public class NotesRecyclerViewAdapter
         checkedCards.clear();
         // Get Font Size SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String fontSize = settings.getString("settings_fontsize", "Small");
+        String fontSize = settings.getString("settings_fontsize", context.getString(R.string.font_size_small));
 
         // Set Font Size Value According To Font Size SharedPreferences
-        if (fontSize.equals("Small")) {
+        if (fontSize.equals(context.getString(R.string.font_size_small))) {
             titleFontSizeInt = 17;
             contentFontSizeInt = 16;
             font_defaultSize = true;
         }
-        if (fontSize.equals("Medium")) {
+        if (fontSize.equals(context.getString(R.string.font_size_medium))) {
             titleFontSizeInt = (int) (17 * 1.5);
             contentFontSizeInt = (int) (16 * 1.5);
             font_mediumSize = true;
         }
-        if (fontSize.equals("Large")) {
+        if (fontSize.equals(context.getString(R.string.font_size_large))) {
             titleFontSizeInt = 17 * 2;
             contentFontSizeInt = 16 * 2;
             font_largeSize = true;
@@ -362,10 +362,10 @@ public class NotesRecyclerViewAdapter
 
             // Get Font Type SharedPreferences
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-            String fontType = settings.getString("settings_fonttype", "Default");
+            String fontType = settings.getString("settings_fonttype", context.getString(R.string.font_type_default));
 
             // Change Note Title and Content Font Type to Dyslexia-friendly According to Font Type SharedPreferences
-            if (fontType.equals("Dyslexia-friendly")) {
+            if (fontType.equals(context.getString(R.string.font_type_dyslexia))) {
                 Typeface dysBold = ResourcesCompat.getFont(context, R.font.opendyslexic_bold);
                 Typeface dysRegular = ResourcesCompat.getFont(context, R.font.opendyslexic_regular);
                 noteTitle.setTypeface(dysBold);
