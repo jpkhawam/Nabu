@@ -30,10 +30,10 @@ public class TrashActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         // Get Font Type SharedPreferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        String fontType = settings.getString("settings_fonttype", "Default");
+        String fontType = settings.getString("settings_fonttype", getString(R.string.font_type_default));
 
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
-        if (fontType.equals("Dyslexia-friendly")) {
+        if (fontType.equals(getString(R.string.font_type_dyslexia))) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
         }
         setContentView(R.layout.activity_trash);
@@ -105,15 +105,15 @@ public class TrashActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Get Font Size SharedPreferences
-        String fontSize = settings.getString("settings_fontsize", "Small");
+        String fontSize = settings.getString("settings_fontsize", getString(R.string.font_size_small));
         // Set NavigationView Font Size According To Font Size SharedPreferences}
-        if (fontSize.equals("Small")) {
+        if (fontSize.equals(getString(R.string.font_size_small))) {
             navigationView.setItemTextAppearance(R.style.NavigationViewSmall);
         }
-        if (fontSize.equals("Medium")) {
+        if (fontSize.equals(getString(R.string.font_size_medium))) {
             navigationView.setItemTextAppearance(R.style.NavigationViewMedium);
         }
-        if (fontSize.equals("Large")) {
+        if (fontSize.equals(getString(R.string.font_size_large))) {
             navigationView.setItemTextAppearance(R.style.NavigationViewLarge);
         }
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(

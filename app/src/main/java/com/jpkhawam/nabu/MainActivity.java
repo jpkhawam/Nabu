@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         // Get Font Type SharedPreferences
-        String fontType = settings.getString("settings_fonttype", "Default");
+        String fontType = settings.getString("settings_fonttype", getString(R.string.font_type_default));
 
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
-        if (fontType.equals("Dyslexia-friendly")) {
+        if (fontType.equals(getString(R.string.font_type_dyslexia))) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
         }
         setContentView(R.layout.activity_main);

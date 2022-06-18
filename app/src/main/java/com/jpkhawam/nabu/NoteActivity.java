@@ -46,10 +46,10 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences settings = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
         // Get Font Type SharedPreferences
-        String fontType = settings.getString("settings_fonttype", "Default");
+        String fontType = settings.getString("settings_fonttype", getString(R.string.font_type_default));
 
         // Add Dyslexia-Friendly fontFamily Style To The Default Theme According To Font Type SharedPreferences
-        if (fontType.equals("Dyslexia-friendly")) {
+        if (fontType.equals(getString(R.string.font_type_dyslexia))) {
             getTheme().applyStyle(R.style.DyslexiaTheme, false);
             getTheme().applyStyle(R.style.DyslexiaThemeExcludingLogo, false);
         }
@@ -61,18 +61,18 @@ public class NoteActivity extends AppCompatActivity {
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
         // Get Font Size SharedPreferences
-        String fontSize = settings.getString("settings_fontsize", "Small");
+        String fontSize = settings.getString("settings_fontsize", getString(R.string.font_size_small));
 
         // Set Font Size Value According To Font Size SharedPreferences
-        if (fontSize.equals("Small")) {
+        if (fontSize.equals(getString(R.string.font_size_small))) {
             editTitleFontSizeInt = 20;
             editContentFontSizeInt = 16;
         }
-        if (fontSize.equals("Medium")) {
+        if (fontSize.equals(getString(R.string.font_size_medium))) {
             editTitleFontSizeInt = (int) (20 * 1.5);
             editContentFontSizeInt = (int) (16 * 1.5);
         }
-        if (fontSize.equals("Large")) {
+        if (fontSize.equals(getString(R.string.font_size_large))) {
             editTitleFontSizeInt = 20 * 2;
             editContentFontSizeInt = 16 * 2;
         }
@@ -82,7 +82,7 @@ public class NoteActivity extends AppCompatActivity {
         editTextContent.setTextSize(editContentFontSizeInt);
 
         // Change Note Edit Title and Content Font Type to Dyslexia-friendly According To Font Type SharedPreferences
-        if (fontType.equals("Dyslexia-friendly")) {
+        if (fontType.equals(getString(R.string.font_type_dyslexia))) {
             Typeface dysBold = ResourcesCompat.getFont(this, R.font.opendyslexic_bold);
             Typeface dysRegular = ResourcesCompat.getFont(this, R.font.opendyslexic_regular);
             editTextTitle.setTypeface(dysBold);
