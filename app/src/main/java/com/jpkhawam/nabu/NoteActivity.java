@@ -189,7 +189,7 @@ public class NoteActivity extends AppCompatActivity {
                         outgoingIntent = new Intent(this, MainActivity.class);
                     if ((currentNote.getTitle() == null || currentNote.getTitle().equals(""))
                             && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
-                        Snackbar.make(parent, "Cannot archive empty note", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(parent, R.string.cannot_archive_empty_note, Snackbar.LENGTH_SHORT).show();
                     } else if (dataBaseHelper.isInArchive(currentNote)) {
                         dataBaseHelper.unarchiveNote(currentNote);
                         outgoingIntent.putExtra(UNARCHIVED_NOTE_IDENTIFIER_KEY, currentNote.getNoteIdentifier());
@@ -221,7 +221,7 @@ public class NoteActivity extends AppCompatActivity {
                         else copyData = currentNote.getContent();
                     }
                     if (!copyData.equals("")) {
-                        clipData = ClipData.newPlainText("Copied text", copyData);
+                        clipData = ClipData.newPlainText(getString(R.string.copied_text), copyData);
                         clipboardManager.setPrimaryClip(clipData);
                         Snackbar.make(parent, R.string.copied_text_clipboard, Snackbar.LENGTH_SHORT).show();
                     } else {
@@ -265,7 +265,7 @@ public class NoteActivity extends AppCompatActivity {
                     String output;
                     if ((currentNote.getTitle() == null || currentNote.getTitle().equals(""))
                             && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
-                        Snackbar.make(parent, "Cannot share empty note", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(parent, R.string.cannot_share_empty_note, Snackbar.LENGTH_SHORT).show();
                         return true;
                     } else if ((currentNote.getTitle() != null && !(Objects.equals(currentNote.getTitle(), ""))
                             && (currentNote.getContent() == null || currentNote.getContent().equals("")))) {
@@ -277,7 +277,7 @@ public class NoteActivity extends AppCompatActivity {
                         output = currentNote.getTitle() + "\n\n" + currentNote.getContent();
                     sendIntent.putExtra(Intent.EXTRA_TEXT, output);
                     sendIntent.setType("text/plain");
-                    sendIntent.putExtra(Intent.EXTRA_TITLE, "Sharing Note");
+                    sendIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.sharing_note));
                     Intent shareIntent = Intent.createChooser(sendIntent, null);
                     startActivity(shareIntent);
                     return true;
@@ -286,14 +286,14 @@ public class NoteActivity extends AppCompatActivity {
                     Intent outgoingIntent;
                     if ((currentNote.getTitle() == null || currentNote.getTitle().equals(""))
                             && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
-                        Snackbar.make(parent, "Cannot delete empty note", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(parent, R.string.cannot_delete_empty_note, Snackbar.LENGTH_SHORT).show();
                         return false;
                     }
                     if (dataBaseHelper.isInTrash(currentNote)) {
                         outgoingIntent = new Intent(this, TrashActivity.class);
                         new MaterialAlertDialogBuilder(this)
-                                .setTitle("Are you sure?")
-                                .setMessage("This will delete the note permanently")
+                                .setTitle(R.string.ask_are_you_sure)
+                                .setMessage(R.string.this_will_delete_the_note_permanently)
                                 .setPositiveButton(R.string.cancel, (dialogInterface, i) ->
                                         dialogInterface.dismiss())
                                 .setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
@@ -309,11 +309,11 @@ public class NoteActivity extends AppCompatActivity {
                         outgoingIntent = new Intent(this, MainActivity.class);
                     }
                     new MaterialAlertDialogBuilder(this)
-                            .setTitle("Send note to trash?")
-                            .setMessage("You would still be able to restore the note.")
+                            .setTitle(R.string.ask_send_note_to_trash)
+                            .setMessage(R.string.you_would_still_be_able_to_restore_the_note)
                             .setPositiveButton(R.string.cancel, (dialogInterface, i) ->
                                     dialogInterface.dismiss())
-                            .setNegativeButton("SEND TO TRASH", (dialogInterface, i) -> {
+                            .setNegativeButton(R.string.send_to_trash, (dialogInterface, i) -> {
                                 outgoingIntent.putExtra(DELETED_NOTE_KEY, currentNote.getNoteIdentifier());
                                 dataBaseHelper.deleteNote(currentNote);
                                 startActivity(outgoingIntent);

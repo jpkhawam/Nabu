@@ -73,8 +73,8 @@ public class TrashActivity extends AppCompatActivity
             boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
             boolean deletedNoteFromTrash = intentReceived.getBooleanExtra(NoteActivity.DELETED_NOTE_FROM_TRASH_KEY, false);
             if (archivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.note_archived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.unarchiveNote(archivedNoteId);
                             dataBaseHelper.deleteNote(archivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotesFromTrash());
@@ -84,8 +84,8 @@ public class TrashActivity extends AppCompatActivity
                         })
                         .show();
             } else if (unarchivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note unarchived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.note_unarchived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.archiveNote(unarchivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotesFromTrash());
                             adapter.setNotes(allNotes.get());
@@ -94,9 +94,9 @@ public class TrashActivity extends AppCompatActivity
                         })
                         .show();
             } else if (discardedNote) {
-                Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(drawerLayout, R.string.discarded_empty_note, Snackbar.LENGTH_SHORT).show();
             } else if (deletedNoteFromTrash) {
-                Snackbar.make(drawerLayout, "Note deleted successfully", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(drawerLayout, R.string.note_deleted_successfully, Snackbar.LENGTH_SHORT).show();
             }
         }
 

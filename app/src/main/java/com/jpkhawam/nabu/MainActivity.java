@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
                         })
                         .show();
             } else if (deletedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note sent to trash", Snackbar.LENGTH_SHORT)
+                Snackbar.make(drawerLayout, R.string.note_sent_to_trash, Snackbar.LENGTH_SHORT)
                         .setAction(R.string.undo, view -> {
                             dataBaseHelper.restoreNote(deletedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotes());

@@ -67,6 +67,19 @@
     <string name="discarded_empty_note">Discarded empty note</string>
     <string name="dyslexia_friendly_font">Dyslexia Friendly Font</string>
     <string name="font_size">Font Size</string>
+    <string name="note_deleted_successfully">Note deleted successfully</string>
+    <string name="ask_send_note_to_trash">Send note to trash?</string>
+    <string name="note_archived">Note archived</string>
+    <string name="note_unarchived">Note unarchived</string>
+    <string name="note_sent_to_trash">Note sent to trash</string>
+    <string name="cannot_share_empty_note">Cannot share empty note</string>
+    <string name="cannot_delete_empty_note">Cannot delete empty note</string>
+    <string name="ask_are_you_sure">Are you sure?</string>
+    <string name="cannot_archive_empty_note">Cannot archive empty note</string>
+    <string name="this_will_delete_the_note_permanently">This will delete the note permanently</string>
+    <string name="you_would_still_be_able_to_restore_the_note">You would still be able to restore the note.</string>
+    <string name="sharing_note">Sharing Note</string>
+    <string name="copied_text">Copied text</string>
 
     <string-array name="settings_fontsize">
         <item>Small</item>

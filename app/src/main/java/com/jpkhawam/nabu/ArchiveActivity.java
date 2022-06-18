@@ -73,8 +73,8 @@ public class ArchiveActivity extends AppCompatActivity
             long deletedNoteId = intentReceived.getLongExtra(NoteActivity.DELETED_NOTE_KEY, -1);
             boolean discardedNote = intentReceived.getBooleanExtra(NoteActivity.DISCARDED_NOTE_KEY, false);
             if (archivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note archived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.note_archived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.unarchiveNote(archivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotesFromArchive());
                             adapter.setNotes(allNotes.get());
@@ -83,8 +83,8 @@ public class ArchiveActivity extends AppCompatActivity
                         })
                         .show();
             } else if (unarchivedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note unarchived", Snackbar.LENGTH_SHORT)
-                        .setAction("Undo", view -> {
+                Snackbar.make(drawerLayout, R.string.note_unarchived, Snackbar.LENGTH_SHORT)
+                        .setAction(R.string.undo, view -> {
                             dataBaseHelper.archiveNote(unarchivedNoteId);
                             allNotes.set(dataBaseHelper.getAllNotesFromArchive());
                             adapter.setNotes(allNotes.get());
@@ -93,7 +93,7 @@ public class ArchiveActivity extends AppCompatActivity
                         })
                         .show();
             } else if (deletedNoteId != -1) {
-                Snackbar.make(drawerLayout, "Note sent to trash", Snackbar.LENGTH_SHORT)
+                Snackbar.make(drawerLayout, R.string.note_sent_to_trash, Snackbar.LENGTH_SHORT)
                         .setAction(R.string.undo, view -> {
                             dataBaseHelper.restoreNote(deletedNoteId);
                             dataBaseHelper.archiveNote(deletedNoteId);
@@ -104,7 +104,7 @@ public class ArchiveActivity extends AppCompatActivity
                         })
                         .show();
             } else if (discardedNote) {
-                Snackbar.make(drawerLayout, "Discarded empty note", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(drawerLayout, R.string.discarded_empty_note, Snackbar.LENGTH_SHORT).show();
             }
         }
 
