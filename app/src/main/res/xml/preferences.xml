@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
-        android:defaultValue="Small"
+        android:defaultValue="@string/font_size_small"
         android:dialogTitle="@string/font_size"
         android:entries="@array/settings_fontsize"
         android:entryValues="@array/settings_fontsize"
@@ -10,7 +10,7 @@
         android:title="@string/font_size" />
 
     <ListPreference
-        android:defaultValue="Default"
+        android:defaultValue="@string/font_type_default"
         android:dialogTitle="@string/dyslexia_friendly_font"
         android:entries="@array/settings_fonttype"
         android:entryValues="@array/settings_fonttype"

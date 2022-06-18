@@ -76,4 +76,19 @@
     <string name="note_unarchived">笔记存档行动被撤消</string>
     <string name="note_sent_to_trash">笔记被移动到垃圾箱</string>
     <string name="font_size_small">小</string>
+    <string name="font_size_medium">中</string>
+    <string name="font_size_large">大</string>
+    <string name="font_type_default">普通字体</string>
+    <string name="font_type_dyslexia">适合失读症患者的字体</string>
+
+    <string-array name="settings_fontsize">
+        <item>@string/font_size_small</item>
+        <item>@string/font_size_medium</item>
+        <item>@string/font_size_large</item>
+    </string-array>
+
+    <string-array name="settings_fonttype">
+        <item>@string/font_type_default</item>
+        <item>@string/font_type_dyslexia</item>
+    </string-array>
 </resources>

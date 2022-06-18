@@ -49,7 +49,6 @@
     <string name="nothing_in_trash">Nothing in trash!</string>
     <string name="nothing_in_archive">Nothing in Archive!</string>
     <string name="font_settings">Font Settings</string>
-    <string name="font_size_small">Small</string>
     <string name="accessibility_prompt">Do you need accessibility settings? Font size and a Dyslexia friendly font are available</string>
     <string name="accessibility_settings">Accessibility Settings</string>
     <string name="Yes">Yes</string>
@@ -80,15 +79,20 @@
     <string name="you_would_still_be_able_to_restore_the_note">You would still be able to restore the note.</string>
     <string name="sharing_note">Sharing Note</string>
     <string name="copied_text">Copied text</string>
+    <string name="font_size_small">Small</string>
+    <string name="font_size_medium">Medium</string>
+    <string name="font_size_large">Large</string>
+    <string name="font_type_default">Default</string>
+    <string name="font_type_dyslexia">Dyslexia-friendly</string>
 
     <string-array name="settings_fontsize">
-        <item>Small</item>
-        <item>Medium</item>
-        <item>Large</item>
+        <item>@string/font_size_small</item>
+        <item>@string/font_size_medium</item>
+        <item>@string/font_size_large</item>
     </string-array>
 
     <string-array name="settings_fonttype">
-        <item>Default</item>
-        <item>Dyslexia-friendly</item>
+        <item>@string/font_type_default</item>
+        <item>@string/font_type_dyslexia</item>
     </string-array>
 </resources>
