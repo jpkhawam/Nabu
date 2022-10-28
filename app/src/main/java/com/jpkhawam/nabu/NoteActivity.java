@@ -33,12 +33,12 @@ public class NoteActivity extends AppCompatActivity {
     public static final String DISCARDED_NOTE_KEY = "discardedNote";
     public static final String DELETED_NOTE_KEY = "deletedNoteId";
     public static final String DELETED_NOTE_FROM_TRASH_KEY = "deletedNoteFromTrash";
+    int editTitleFontSizeInt = 20;
+    int editContentFontSizeInt = 16;
     private Note currentNote;
     private CoordinatorLayout parent;
     private TextInputEditText editTextTitle;
     private TextInputEditText editTextContent;
-    int editTitleFontSizeInt = 20;
-    int editContentFontSizeInt = 16;
 
     @SuppressLint({"NonConstantResourceId"})
     @Override
@@ -161,10 +161,8 @@ public class NoteActivity extends AppCompatActivity {
                 outgoingIntent = new Intent(this, TrashActivity.class);
             else if (dataBaseHelper.isInArchive(currentNote))
                 outgoingIntent = new Intent(this, ArchiveActivity.class);
-            else
-                outgoingIntent = new Intent(this, MainActivity.class);
-            if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) &&
-                    (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
+            else outgoingIntent = new Intent(this, MainActivity.class);
+            if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
                 dataBaseHelper.deleteNote(currentNote);
                 dataBaseHelper.deleteNoteFromTrash(currentNote);
                 outgoingIntent.putExtra(DISCARDED_NOTE_KEY, true);
@@ -185,10 +183,8 @@ public class NoteActivity extends AppCompatActivity {
                         outgoingIntent = new Intent(this, TrashActivity.class);
                     else if (dataBaseHelper.isInArchive(currentNote))
                         outgoingIntent = new Intent(this, ArchiveActivity.class);
-                    else
-                        outgoingIntent = new Intent(this, MainActivity.class);
-                    if ((currentNote.getTitle() == null || currentNote.getTitle().equals(""))
-                            && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
+                    else outgoingIntent = new Intent(this, MainActivity.class);
+                    if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
                         Snackbar.make(parent, R.string.cannot_archive_empty_note, Snackbar.LENGTH_SHORT).show();
                     } else if (dataBaseHelper.isInArchive(currentNote)) {
                         dataBaseHelper.unarchiveNote(currentNote);
@@ -250,12 +246,10 @@ public class NoteActivity extends AppCompatActivity {
                             currentNote.setContent(pasteData);
                         }
                         editTextContent.setText(currentNote.getContent());
-                        Snackbar.make(parent, R.string.clipboard_pasted, Snackbar.LENGTH_SHORT)
-                                .setAction(R.string.undo, view -> {
-                                    currentNote.setContent(backUpText);
-                                    editTextContent.setText(backUpText);
-                                })
-                                .show();
+                        Snackbar.make(parent, R.string.clipboard_pasted, Snackbar.LENGTH_SHORT).setAction(R.string.undo, view -> {
+                            currentNote.setContent(backUpText);
+                            editTextContent.setText(backUpText);
+                        }).show();
                     }
                     return true;
 
@@ -263,18 +257,14 @@ public class NoteActivity extends AppCompatActivity {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
                     String output;
-                    if ((currentNote.getTitle() == null || currentNote.getTitle().equals(""))
-                            && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
+                    if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
                         Snackbar.make(parent, R.string.cannot_share_empty_note, Snackbar.LENGTH_SHORT).show();
                         return true;
-                    } else if ((currentNote.getTitle() != null && !(Objects.equals(currentNote.getTitle(), ""))
-                            && (currentNote.getContent() == null || currentNote.getContent().equals("")))) {
+                    } else if ((currentNote.getTitle() != null && !(Objects.equals(currentNote.getTitle(), "")) && (currentNote.getContent() == null || currentNote.getContent().equals("")))) {
                         output = currentNote.getTitle();
-                    } else if ((currentNote.getTitle() == null || Objects.equals(currentNote.getTitle(), ""))
-                            && (currentNote.getContent() != null && !currentNote.getContent().equals(""))) {
+                    } else if ((currentNote.getTitle() == null || Objects.equals(currentNote.getTitle(), "")) && (currentNote.getContent() != null && !currentNote.getContent().equals(""))) {
                         output = currentNote.getContent();
-                    } else
-                        output = currentNote.getTitle() + "\n\n" + currentNote.getContent();
+                    } else output = currentNote.getTitle() + "\n\n" + currentNote.getContent();
                     sendIntent.putExtra(Intent.EXTRA_TEXT, output);
                     sendIntent.setType("text/plain");
                     sendIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.sharing_note));
@@ -284,41 +274,28 @@ public class NoteActivity extends AppCompatActivity {
 
                 case R.id.note_delete:
                     Intent outgoingIntent;
-                    if ((currentNote.getTitle() == null || currentNote.getTitle().equals(""))
-                            && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
+                    if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
                         Snackbar.make(parent, R.string.cannot_delete_empty_note, Snackbar.LENGTH_SHORT).show();
                         return false;
                     }
                     if (dataBaseHelper.isInTrash(currentNote)) {
                         outgoingIntent = new Intent(this, TrashActivity.class);
-                        new MaterialAlertDialogBuilder(this)
-                                .setTitle(R.string.ask_are_you_sure)
-                                .setMessage(R.string.this_will_delete_the_note_permanently)
-                                .setPositiveButton(R.string.cancel, (dialogInterface, i) ->
-                                        dialogInterface.dismiss())
-                                .setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
-                                    dataBaseHelper.deleteNoteFromTrash(currentNote);
-                                    outgoingIntent.putExtra(DELETED_NOTE_FROM_TRASH_KEY, true);
-                                    startActivity(outgoingIntent);
-                                })
-                                .create().show();
+                        new MaterialAlertDialogBuilder(this).setTitle(R.string.ask_are_you_sure).setMessage(R.string.this_will_delete_the_note_permanently).setPositiveButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss()).setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
+                            dataBaseHelper.deleteNoteFromTrash(currentNote);
+                            outgoingIntent.putExtra(DELETED_NOTE_FROM_TRASH_KEY, true);
+                            startActivity(outgoingIntent);
+                        }).create().show();
                         return true;
                     } else if (dataBaseHelper.isInArchive(currentNote)) {
                         outgoingIntent = new Intent(this, ArchiveActivity.class);
                     } else {
                         outgoingIntent = new Intent(this, MainActivity.class);
                     }
-                    new MaterialAlertDialogBuilder(this)
-                            .setTitle(R.string.ask_send_note_to_trash)
-                            .setMessage(R.string.you_would_still_be_able_to_restore_the_note)
-                            .setPositiveButton(R.string.cancel, (dialogInterface, i) ->
-                                    dialogInterface.dismiss())
-                            .setNegativeButton(R.string.send_to_trash, (dialogInterface, i) -> {
-                                outgoingIntent.putExtra(DELETED_NOTE_KEY, currentNote.getNoteIdentifier());
-                                dataBaseHelper.deleteNote(currentNote);
-                                startActivity(outgoingIntent);
-                            })
-                            .create().show();
+                    new MaterialAlertDialogBuilder(this).setTitle(R.string.ask_send_note_to_trash).setMessage(R.string.you_would_still_be_able_to_restore_the_note).setPositiveButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss()).setNegativeButton(R.string.send_to_trash, (dialogInterface, i) -> {
+                        outgoingIntent.putExtra(DELETED_NOTE_KEY, currentNote.getNoteIdentifier());
+                        dataBaseHelper.deleteNote(currentNote);
+                        startActivity(outgoingIntent);
+                    }).create().show();
                     return true;
 
                 default:
@@ -336,10 +313,8 @@ public class NoteActivity extends AppCompatActivity {
             outgoingIntent = new Intent(this, TrashActivity.class);
         else if (dataBaseHelper.isInArchive(currentNote))
             outgoingIntent = new Intent(this, ArchiveActivity.class);
-        else
-            outgoingIntent = new Intent(this, MainActivity.class);
-        if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) &&
-                (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
+        else outgoingIntent = new Intent(this, MainActivity.class);
+        if ((currentNote.getTitle() == null || currentNote.getTitle().equals("")) && (currentNote.getContent() == null || currentNote.getContent().equals(""))) {
             dataBaseHelper.deleteNote(currentNote);
             dataBaseHelper.deleteNoteFromTrash(currentNote);
             outgoingIntent.putExtra(DISCARDED_NOTE_KEY, true);

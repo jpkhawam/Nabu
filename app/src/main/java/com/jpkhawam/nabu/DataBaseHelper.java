@@ -44,16 +44,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String createNotesTableStatement =
-                "CREATE TABLE " + NOTES_TABLE + " " + "(" +
-                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        COLUMN_NOTE_TITLE + " TEXT, " +
-                        COLUMN_NOTE_CONTENT + " TEXT, " +
-                        COLUMN_IN_TRASH + " BOOLEAN NOT NULL," +
-                        COLUMN_IN_ARCHIVE + " BOOLEAN NOT NULL," +
-                        COLUMN_DATE_CREATED + " TEXT NOT NULL, " +
-                        COLUMN_DATE_EDITED + " TEXT NOT NULL, " +
-                        COLUMN_DATE_SENT_TO_TRASH + " TEXT)";
+        String createNotesTableStatement = "CREATE TABLE " + NOTES_TABLE + " " + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_NOTE_TITLE + " TEXT, " + COLUMN_NOTE_CONTENT + " TEXT, " + COLUMN_IN_TRASH + " BOOLEAN NOT NULL," + COLUMN_IN_ARCHIVE + " BOOLEAN NOT NULL," + COLUMN_DATE_CREATED + " TEXT NOT NULL, " + COLUMN_DATE_EDITED + " TEXT NOT NULL, " + COLUMN_DATE_SENT_TO_TRASH + " TEXT)";
         sqLiteDatabase.execSQL(createNotesTableStatement);
     }
 
@@ -68,8 +59,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<Note> notes = new ArrayList<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        String queryString = "SELECT * FROM " + NOTES_TABLE +
-                " WHERE " + COLUMN_IN_TRASH + " = 0 AND " + COLUMN_IN_ARCHIVE + " = 0";
+        String queryString = "SELECT * FROM " + NOTES_TABLE + " WHERE " + COLUMN_IN_TRASH + " = 0 AND " + COLUMN_IN_ARCHIVE + " = 0";
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
 
@@ -97,8 +87,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<Note> notes = new ArrayList<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        String queryString = "SELECT * FROM " + NOTES_TABLE +
-                " WHERE " + COLUMN_IN_TRASH + " = 1 AND " + COLUMN_IN_ARCHIVE + " = 0";
+        String queryString = "SELECT * FROM " + NOTES_TABLE + " WHERE " + COLUMN_IN_TRASH + " = 1 AND " + COLUMN_IN_ARCHIVE + " = 0";
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
 
@@ -129,8 +118,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<Note> notes = new ArrayList<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        String queryString = "SELECT * FROM " + NOTES_TABLE +
-                " WHERE " + COLUMN_IN_TRASH + " = 0 AND " + COLUMN_IN_ARCHIVE + " = 1";
+        String queryString = "SELECT * FROM " + NOTES_TABLE + " WHERE " + COLUMN_IN_TRASH + " = 0 AND " + COLUMN_IN_ARCHIVE + " = 1";
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
 
@@ -229,8 +217,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_IN_TRASH, 1);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
         contentValues.put(COLUMN_DATE_SENT_TO_TRASH, String.valueOf(LocalDateTime.now()));
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
         sqLiteDatabase.close();
     }
 
@@ -244,8 +231,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 1);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
     }
 
@@ -256,8 +242,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      */
     public void deleteNoteFromTrash(Note note) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete(NOTES_TABLE, "ID = ?",
-                new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.delete(NOTES_TABLE, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
         sqLiteDatabase.close();
     }
 
@@ -272,8 +257,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
         contentValues.put(COLUMN_DATE_SENT_TO_TRASH, String.valueOf(LocalDateTime.now()));
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
         sqLiteDatabase.close();
     }
 
@@ -288,8 +272,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
         contentValues.put(COLUMN_DATE_SENT_TO_TRASH, String.valueOf(LocalDateTime.now()));
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
     }
 
@@ -303,8 +286,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 1);
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
         sqLiteDatabase.close();
     }
 
@@ -318,8 +300,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 1);
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
     }
 
@@ -331,8 +312,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                COLUMN_IN_ARCHIVE + " = ?", new String[]{String.valueOf(1)});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, COLUMN_IN_ARCHIVE + " = ?", new String[]{String.valueOf(1)});
         sqLiteDatabase.close();
     }
 
@@ -346,8 +326,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
         sqLiteDatabase.close();
     }
 
@@ -361,8 +340,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
-        sqLiteDatabase.update(NOTES_TABLE, contentValues,
-                "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
     }
 

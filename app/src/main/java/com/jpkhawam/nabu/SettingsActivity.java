@@ -46,10 +46,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         setSupportActionBar(toolbar);
 
         // Instantiate Settings Fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.SettingsConstraintLayout, new SettingsFragment())
-                .commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.SettingsConstraintLayout, new SettingsFragment()).commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Set NavigationView Font Size According To Font Size SharedPreferences}
@@ -62,8 +59,7 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         if (fontSize.equals("Large")) {
             navigationView.setItemTextAppearance(R.style.NavigationViewLarge);
         }
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();

@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Note {
+    private final LocalDateTime dateCreated;
     private long noteIdentifier;
     private String title;
     private String content;
-    private final LocalDateTime dateCreated;
     private LocalDateTime dateEdited;
 
     public Note(long noteIdentifier, String title, String content, LocalDateTime dateCreated, LocalDateTime dateEdited) {

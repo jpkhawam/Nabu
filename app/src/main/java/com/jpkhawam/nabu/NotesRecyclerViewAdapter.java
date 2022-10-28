@@ -27,21 +27,20 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
-public class NotesRecyclerViewAdapter
-        extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
+public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder> {
     public static final String MAIN_ACTIVITY = "MainActivity";
     public static final String ARCHIVE_ACTIVITY = "ArchiveActivity";
     public static final String TRASH_ACTIVITY = "TrashActivity";
+    protected static ArrayList<Note> selectedNotes = new ArrayList<>();
+    protected static ArrayList<MaterialCardView> checkedCards = new ArrayList<>();
+    private final Context context;
+    private final DrawerLayout drawerLayout;
     private int titleFontSizeInt = 17;
     private int contentFontSizeInt = 16;
     private boolean font_defaultSize = false;
     private boolean font_mediumSize = false;
     private boolean font_largeSize = false;
-    private final Context context;
-    private final DrawerLayout drawerLayout;
     private ArrayList<Note> notes = new ArrayList<>();
-    protected static ArrayList<Note> selectedNotes = new ArrayList<>();
-    protected static ArrayList<MaterialCardView> checkedCards = new ArrayList<>();
     private ActionMode mActionMode;
 
     public NotesRecyclerViewAdapter(Context context, DrawerLayout drawerLayout) {
@@ -74,9 +73,7 @@ public class NotesRecyclerViewAdapter
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.notes_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notes_list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -95,19 +92,15 @@ public class NotesRecyclerViewAdapter
         if (notes.get(position).getContent() != null && !notes.get(position).getContent().equals("")) {
             String noteContent = notes.get(position).getContent();
             int max_characters = 0;
-            if (font_defaultSize)
-                max_characters = 120;
-            else if (font_mediumSize)
-                max_characters = 30;
-            else if (font_largeSize)
-                max_characters = 26;
+            if (font_defaultSize) max_characters = 120;
+            else if (font_mediumSize) max_characters = 30;
+            else if (font_largeSize) max_characters = 26;
             if (noteContent.length() > max_characters) {
                 StringBuilder contentPreview = new StringBuilder();
                 Character current_character;
                 for (int i = 0; i < max_characters; i++) {
                     current_character = noteContent.charAt(i);
-                    if (current_character.equals(' ') && i > max_characters - 20)
-                        break;
+                    if (current_character.equals(' ') && i > max_characters - 20) break;
                     contentPreview.append(noteContent.charAt(i));
                 }
                 contentPreview = new StringBuilder(contentPreview.toString().concat("..."));
@@ -161,6 +154,15 @@ public class NotesRecyclerViewAdapter
         });
     }
 
+    @Override
+    public int getItemCount() {
+        return notes.size();
+    }
+
+    public void setNotes(ArrayList<Note> notes) {
+        this.notes = notes;
+    }
+
     class MyActionModeCallback implements ActionMode.Callback {
         private final Context context;
 
@@ -193,59 +195,51 @@ public class NotesRecyclerViewAdapter
             switch (menuItem.getItemId()) {
                 case R.id.note_send_to_trash:
                     if (currentActivity.equals(TRASH_ACTIVITY)) {
-                        new MaterialAlertDialogBuilder(context)
-                                .setTitle(R.string.confirm_action)
-                                .setMessage(R.string.are_you_sure_delete)
-                                .setPositiveButton(R.string.cancel, (dialogInterface, i) -> {
-                                    for (MaterialCardView materialCardView : checkedCards) {
-                                        materialCardView.setChecked(false);
-                                    }
-                                    selectedNotes.clear();
-                                    checkedCards.clear();
-                                })
-                                .setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
-                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
-                                        dataBaseHelper.deleteNoteFromTrash(note);
-                                    }
-                                    for (MaterialCardView materialCardView : checkedCards) {
-                                        materialCardView.setChecked(false);
-                                    }
-                                    selectedNotes.clear();
-                                    checkedCards.clear();
-                                    notifyDataSetChanged();
-                                })
-                                .show();
+                        new MaterialAlertDialogBuilder(context).setTitle(R.string.confirm_action).setMessage(R.string.are_you_sure_delete).setPositiveButton(R.string.cancel, (dialogInterface, i) -> {
+                            for (MaterialCardView materialCardView : checkedCards) {
+                                materialCardView.setChecked(false);
+                            }
+                            selectedNotes.clear();
+                            checkedCards.clear();
+                        }).setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
+                            for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                dataBaseHelper.deleteNoteFromTrash(note);
+                            }
+                            for (MaterialCardView materialCardView : checkedCards) {
+                                materialCardView.setChecked(false);
+                            }
+                            selectedNotes.clear();
+                            checkedCards.clear();
+                            notifyDataSetChanged();
+                        }).show();
                     } else {
                         for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
                             dataBaseHelper.deleteNote(note);
                         }
                         String finalCurrentActivity = currentActivity;
-                        Snackbar.make(drawerLayout, R.string.notes_sent_trash, Snackbar.LENGTH_SHORT)
-                                .setAction(R.string.Undo, view -> {
-                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
-                                        dataBaseHelper.restoreNote(note);
-                                        if (finalCurrentActivity.equals(ARCHIVE_ACTIVITY))
-                                            dataBaseHelper.archiveNote(note);
-                                    }
-                                    for (MaterialCardView materialCardView : checkedCards) {
-                                        materialCardView.setChecked(false);
-                                    }
-                                    selectedNotes.clear();
-                                    checkedCards.clear();
-                                    notifyDataSetChanged();
-                                })
-                                .addCallback(new Snackbar.Callback() {
-                                    @Override
-                                    public void onDismissed(Snackbar snackbar, int event) {
-                                        for (MaterialCardView materialCardView : checkedCards) {
-                                            materialCardView.setChecked(false);
-                                        }
-                                        selectedNotes.clear();
-                                        checkedCards.clear();
-                                        notifyDataSetChanged();
-                                    }
-                                })
-                                .show();
+                        Snackbar.make(drawerLayout, R.string.notes_sent_trash, Snackbar.LENGTH_SHORT).setAction(R.string.Undo, view -> {
+                            for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                dataBaseHelper.restoreNote(note);
+                                if (finalCurrentActivity.equals(ARCHIVE_ACTIVITY))
+                                    dataBaseHelper.archiveNote(note);
+                            }
+                            for (MaterialCardView materialCardView : checkedCards) {
+                                materialCardView.setChecked(false);
+                            }
+                            selectedNotes.clear();
+                            checkedCards.clear();
+                            notifyDataSetChanged();
+                        }).addCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                                for (MaterialCardView materialCardView : checkedCards) {
+                                    materialCardView.setChecked(false);
+                                }
+                                selectedNotes.clear();
+                                checkedCards.clear();
+                                notifyDataSetChanged();
+                            }
+                        }).show();
                     }
                     for (MaterialCardView materialCardView : checkedCards) {
                         materialCardView.setChecked(false);
@@ -259,63 +253,56 @@ public class NotesRecyclerViewAdapter
                     for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
                         if (currentActivity.equals(ARCHIVE_ACTIVITY))
                             dataBaseHelper.unarchiveNote(note);
-                        else
-                            dataBaseHelper.archiveNote(note);
+                        else dataBaseHelper.archiveNote(note);
                     }
                     notifyDataSetChanged();
                     String finalCurrentActivityArchive = currentActivity;
                     if (!currentActivity.equals(ARCHIVE_ACTIVITY)) {
-                        Snackbar.make(drawerLayout, R.string.notes_archived, Snackbar.LENGTH_SHORT)
-                                .setAction(R.string.Undo, view -> {
-                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
-                                        dataBaseHelper.unarchiveNote(note);
-                                        if (finalCurrentActivityArchive.equals(TRASH_ACTIVITY))
-                                            dataBaseHelper.deleteNote(note);
-                                    }
-                                    for (MaterialCardView materialCardView : checkedCards) {
-                                        materialCardView.setChecked(false);
-                                    }
-                                    selectedNotes.clear();
-                                    checkedCards.clear();
-                                    notifyDataSetChanged();
-                                })
-                                .addCallback(new Snackbar.Callback() {
-                                    @Override
-                                    public void onDismissed(Snackbar snackbar, int event) {
-                                        for (MaterialCardView materialCardView : checkedCards) {
-                                            materialCardView.setChecked(false);
-                                        }
-                                        selectedNotes.clear();
-                                        checkedCards.clear();
-                                        notifyDataSetChanged();
-                                    }
-                                })
-                                .show();
+                        Snackbar.make(drawerLayout, R.string.notes_archived, Snackbar.LENGTH_SHORT).setAction(R.string.Undo, view -> {
+                            for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                dataBaseHelper.unarchiveNote(note);
+                                if (finalCurrentActivityArchive.equals(TRASH_ACTIVITY))
+                                    dataBaseHelper.deleteNote(note);
+                            }
+                            for (MaterialCardView materialCardView : checkedCards) {
+                                materialCardView.setChecked(false);
+                            }
+                            selectedNotes.clear();
+                            checkedCards.clear();
+                            notifyDataSetChanged();
+                        }).addCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                                for (MaterialCardView materialCardView : checkedCards) {
+                                    materialCardView.setChecked(false);
+                                }
+                                selectedNotes.clear();
+                                checkedCards.clear();
+                                notifyDataSetChanged();
+                            }
+                        }).show();
                     } else {
-                        Snackbar.make(drawerLayout, R.string.notes_unarchived, Snackbar.LENGTH_SHORT)
-                                .setAction(R.string.Undo, view -> {
-                                    for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
-                                        dataBaseHelper.archiveNote(note);
-                                    }
-                                    for (MaterialCardView materialCardView : checkedCards) {
-                                        materialCardView.setChecked(false);
-                                    }
-                                    selectedNotes.clear();
-                                    checkedCards.clear();
-                                    notifyDataSetChanged();
-                                })
-                                .addCallback(new Snackbar.Callback() {
-                                    @Override
-                                    public void onDismissed(Snackbar snackbar, int event) {
-                                        for (MaterialCardView materialCardView : checkedCards) {
-                                            materialCardView.setChecked(false);
-                                        }
-                                        selectedNotes.clear();
-                                        checkedCards.clear();
-                                        notifyDataSetChanged();
-                                    }
-                                })
-                                .show();
+                        Snackbar.make(drawerLayout, R.string.notes_unarchived, Snackbar.LENGTH_SHORT).setAction(R.string.Undo, view -> {
+                            for (Note note : NotesRecyclerViewAdapter.selectedNotes) {
+                                dataBaseHelper.archiveNote(note);
+                            }
+                            for (MaterialCardView materialCardView : checkedCards) {
+                                materialCardView.setChecked(false);
+                            }
+                            selectedNotes.clear();
+                            checkedCards.clear();
+                            notifyDataSetChanged();
+                        }).addCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                                for (MaterialCardView materialCardView : checkedCards) {
+                                    materialCardView.setChecked(false);
+                                }
+                                selectedNotes.clear();
+                                checkedCards.clear();
+                                notifyDataSetChanged();
+                            }
+                        }).show();
                     }
                     for (MaterialCardView materialCardView : checkedCards) {
                         materialCardView.setChecked(false);
@@ -335,15 +322,6 @@ public class NotesRecyclerViewAdapter
                 materialCardView.setChecked(false);
             }
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return notes.size();
-    }
-
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -373,5 +351,4 @@ public class NotesRecyclerViewAdapter
             }
         }
     }
-
 }
