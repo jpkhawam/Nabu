@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
 
-        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotes());
+        AtomicReference<ArrayList<Note>> allNotes = new AtomicReference<>(dataBaseHelper.getAllNotes(false));
         NotesRecyclerViewAdapter adapter = new NotesRecyclerViewAdapter(this, drawerLayout);
         adapter.setNotes(allNotes.get());
         notesRecyclerView.setAdapter(adapter);
@@ -61,14 +61,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
-                allNotes.set(dataBaseHelper.getAllNotes());
+                allNotes.set(dataBaseHelper.getAllNotes(false));
                 adapter.setNotes(allNotes.get());
                 if (allNotes.get().isEmpty()) emptyNotes.setVisibility(View.VISIBLE);
                 else emptyNotes.setVisibility(View.GONE);
             }
         });
 
-        if (dataBaseHelper.getAllNotes().isEmpty()) {
+        if (dataBaseHelper.getAllNotes(false).isEmpty()) {
             emptyNotes.setVisibility(View.VISIBLE);
         } else {
             emptyNotes.setVisibility(View.GONE);
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (archivedNoteId != -1) {
                 Snackbar.make(drawerLayout, R.string.notes_archived, Snackbar.LENGTH_SHORT).setAction(R.string.undo, view -> {
                     dataBaseHelper.unarchiveNote(archivedNoteId);
-                    allNotes.set(dataBaseHelper.getAllNotes());
+                    allNotes.set(dataBaseHelper.getAllNotes(false));
                     adapter.setNotes(allNotes.get());
                     notesRecyclerView.setAdapter(adapter);
                     emptyNotes.setVisibility(View.GONE);
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (unarchivedNoteId != -1) {
                 Snackbar.make(drawerLayout, R.string.notes_unarchived, Snackbar.LENGTH_SHORT).setAction(R.string.undo, view -> {
                     dataBaseHelper.archiveNote(unarchivedNoteId);
-                    allNotes.set(dataBaseHelper.getAllNotes());
+                    allNotes.set(dataBaseHelper.getAllNotes(false));
                     adapter.setNotes(allNotes.get());
                     notesRecyclerView.setAdapter(adapter);
                     emptyNotes.setVisibility(View.GONE);
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (deletedNoteId != -1) {
                 Snackbar.make(drawerLayout, R.string.note_sent_to_trash, Snackbar.LENGTH_SHORT).setAction(R.string.undo, view -> {
                     dataBaseHelper.restoreNote(deletedNoteId);
-                    allNotes.set(dataBaseHelper.getAllNotes());
+                    allNotes.set(dataBaseHelper.getAllNotes(false));
                     adapter.setNotes(allNotes.get());
                     notesRecyclerView.setAdapter(adapter);
                     emptyNotes.setVisibility(View.GONE);

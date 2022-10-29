@@ -23,17 +23,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_IN_TRASH = "IN_TRASH";
     public static final String COLUMN_IN_ARCHIVE = "IN_ARCHIVE";
     public static final String COLUMN_DATE_SENT_TO_TRASH = "DATE_SENT_TO_TRASH";
+    public static final String COLUMN_IS_PINNED = "IS_PINNED";
 
-    /*
-            long noteIdentifier = cursor.getLong(0);
-            String noteTitle = cursor.getString(1);
-            String noteContent = cursor.getString(2);
-            boolean inTrash = cursor.getInt(3) != 0;
-            boolean inArchive = cursor.getInt(4) != 0;
-            LocalDateTime dateCreated = LocalDateTime.parse(cursor.getString(5), dateTimeFormatter);
-            LocalDateTime dateEdited = LocalDateTime.parse(cursor.getString(6), dateTimeFormatter);
-            LocalDateTime dateSentToTrash = LocalDateTime.parse(cursor.getString(7), dateTimeFormatter);
-     */
+/*
+    long noteIdentifier = cursor.getLong(0);
+    String noteTitle = cursor.getString(1);
+    String noteContent = cursor.getString(2);
+    boolean inTrash = cursor.getInt(3) != 0;
+    boolean inArchive = cursor.getInt(4) != 0;
+    LocalDateTime dateCreated = LocalDateTime.parse(cursor.getString(5), dateTimeFormatter);
+    LocalDateTime dateEdited = LocalDateTime.parse(cursor.getString(6), dateTimeFormatter);
+    LocalDateTime dateSentToTrash = LocalDateTime.parse(cursor.getString(7), dateTimeFormatter);
+    boolean isPinned = cursor.getInt(8) != 0;
+*/
 
     Context context;
 
@@ -44,7 +46,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String createNotesTableStatement = "CREATE TABLE " + NOTES_TABLE + " " + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_NOTE_TITLE + " TEXT, " + COLUMN_NOTE_CONTENT + " TEXT, " + COLUMN_IN_TRASH + " BOOLEAN NOT NULL," + COLUMN_IN_ARCHIVE + " BOOLEAN NOT NULL," + COLUMN_DATE_CREATED + " TEXT NOT NULL, " + COLUMN_DATE_EDITED + " TEXT NOT NULL, " + COLUMN_DATE_SENT_TO_TRASH + " TEXT)";
+        String createNotesTableStatement = "CREATE TABLE " + NOTES_TABLE + " " + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_NOTE_TITLE + " TEXT, " + COLUMN_NOTE_CONTENT + " TEXT, " + COLUMN_IN_TRASH + " BOOLEAN NOT NULL," + COLUMN_IN_ARCHIVE + " BOOLEAN NOT NULL," + COLUMN_DATE_CREATED + " TEXT NOT NULL, " + COLUMN_DATE_EDITED + " TEXT NOT NULL, " + COLUMN_DATE_SENT_TO_TRASH + " TEXT, " + COLUMN_IN_TRASH + " BOOLEAN NOT NULL)";
         sqLiteDatabase.execSQL(createNotesTableStatement);
     }
 
@@ -53,13 +55,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * @return a list of the notes in the notes_table in the database
+     * @param pinned if pinned is true, returns only pinned notes, otherwise returns only unpinned notes
+     * @return list of notes depending on pinned
      */
-    public ArrayList<Note> getAllNotes() {
+    public ArrayList<Note> getAllNotes(boolean pinned) {
         ArrayList<Note> notes = new ArrayList<>();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
-        String queryString = "SELECT * FROM " + NOTES_TABLE + " WHERE " + COLUMN_IN_TRASH + " = 0 AND " + COLUMN_IN_ARCHIVE + " = 0";
+        int getPinned = pinned ? 1 : 0;
+        String queryString = "SELECT * FROM " + NOTES_TABLE + " WHERE " + COLUMN_IN_TRASH + " = 0 AND " + COLUMN_IN_ARCHIVE + " = 0 AND " + COLUMN_IS_PINNED + " = " + getPinned;
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         final Cursor cursor = sqLiteDatabase.rawQuery(queryString, null);
 
@@ -154,6 +157,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_DATE_EDITED, note.getDateEdited());
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
+        contentValues.put(COLUMN_IS_PINNED, 0);
 
         final long insert = sqLiteDatabase.insert(NOTES_TABLE, null, contentValues);
         String queryString = "SELECT " + COLUMN_ID + " FROM " + NOTES_TABLE + " WHERE rowid = " + insert;
@@ -207,6 +211,62 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * PIN A NOTE
+     *
+     * @param note note to be pinned
+     */
+    public void pinNote(Note note) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_IN_TRASH, 0);
+        contentValues.put(COLUMN_IN_ARCHIVE, 0);
+        contentValues.put(COLUMN_IS_PINNED, 1);
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.close();
+    }
+
+    /**
+     * PIN A NOTE
+     *
+     * @param noteIdentifier of note to be pinned
+     */
+    public void pinNote(long noteIdentifier) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_IN_TRASH, 0);
+        contentValues.put(COLUMN_IN_ARCHIVE, 0);
+        contentValues.put(COLUMN_IS_PINNED, 1);
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.close();
+    }
+
+    /**
+     * UNPIN A NOTE
+     *
+     * @param note note to be unpinned
+     */
+    public void unpinNote(Note note) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_IS_PINNED, 0);
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
+        sqLiteDatabase.close();
+    }
+
+    /**
+     * UNPIN A NOTE
+     *
+     * @param noteIdentifier of note to be unpinned
+     */
+    public void unpinNote(long noteIdentifier) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_IS_PINNED, 0);
+        sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
+        sqLiteDatabase.close();
+    }
+
+    /**
      * SEND A NOTE FROM NOTES_TABLE TO TRASH
      *
      * @param note note to be sent to trash
@@ -216,6 +276,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 1);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
+        contentValues.put(COLUMN_IS_PINNED, 0);
         contentValues.put(COLUMN_DATE_SENT_TO_TRASH, String.valueOf(LocalDateTime.now()));
         sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
         sqLiteDatabase.close();
@@ -231,6 +292,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 1);
         contentValues.put(COLUMN_IN_ARCHIVE, 0);
+        contentValues.put(COLUMN_IS_PINNED, 0);
         sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
     }
@@ -286,6 +348,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 1);
+        contentValues.put(COLUMN_IS_PINNED, 0);
         sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(note.getNoteIdentifier())});
         sqLiteDatabase.close();
     }
@@ -300,6 +363,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_IN_TRASH, 0);
         contentValues.put(COLUMN_IN_ARCHIVE, 1);
+        contentValues.put(COLUMN_IS_PINNED, 0);
         sqLiteDatabase.update(NOTES_TABLE, contentValues, "ID = ?", new String[]{String.valueOf(noteIdentifier)});
         sqLiteDatabase.close();
     }
