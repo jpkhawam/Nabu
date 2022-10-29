@@ -1,0 +1,1 @@
+Initial app pre-release. You can file any issues or bugs at https://github.com/jpkhawam/Nabu/issues
