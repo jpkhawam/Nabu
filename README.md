@@ -1,5 +1,5 @@
 # Nabu - An Offline Note Taking App
-### Note: still in development! This is an early release currently.
+### Note: still in development! Any contributions are welcome :)
 ---
 
 Nabu is a simple note taking app, focused on looking as modern as possible, without a trade-off of features. 
@@ -8,8 +8,11 @@ This app has a great priority for accessibility before all, so if there is anyth
 
 Feel free to try it out and let me know what is missing or not working! Pull requests and issues are most welcome.
 
-# What is not implemented yet?
-Currently, pinning notes and adding reminders are not implemented. Everything else should be working.
+# Roadmap
+- [ ] Pinning notes
+- [ ] Adding reminders
+- [ ] Custom colors
+- [ ] More translations 
 
 # Screenshots
 
