@@ -1,0 +1,3 @@
+<i>Nabu</i> is an offline note taking app aimed to be modern-looking and capable, with a UI inspired by Google Keep's. It is focused on looking as modern as possible, without a trade-off of features.
+
+This app has a great priority for accessibility before all, so if there is anything lacking on that front please submit an issue. So far, font size can be set to x1, x1.5 and x2, and the font family can be changed to a dyslexia friendly font (opendyslexic). I also made sure to label everything so screen readers have a better time, and will try to translate the app as much as I can.
