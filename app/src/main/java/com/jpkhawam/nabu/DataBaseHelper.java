@@ -40,7 +40,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     Context context;
 
     public DataBaseHelper(@Nullable Context context) {
-        super(context, "notes.db", null, 1);
+        super(context, "notes.db", null, 2);
         this.context = context;
     }
 
@@ -51,7 +51,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        if (oldVersion == 1 && newVersion == 2) {
+            String addPinnedColumn = "ALTER TABLE " + NOTES_TABLE + " ADD " + COLUMN_IS_PINNED + " BOOLEAN NOT NULL;";
+            sqLiteDatabase.execSQL(addPinnedColumn);
+        }
     }
 
     /**
