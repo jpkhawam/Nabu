@@ -1,0 +1,1 @@
+- this version adds the ability to click on links in note titles and content

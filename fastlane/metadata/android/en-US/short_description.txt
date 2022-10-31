@@ -1,1 +1,1 @@
-simple offline note taking app
+Simple offline note taking app
