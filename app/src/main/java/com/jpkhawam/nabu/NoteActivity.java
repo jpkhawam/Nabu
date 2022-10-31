@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.util.Linkify;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -58,6 +59,18 @@ public class NoteActivity extends AppCompatActivity {
         parent = findViewById(R.id.note_layout);
         editTextTitle = findViewById(R.id.input_note_title);
         editTextContent = findViewById(R.id.input_note_content);
+
+        editTextContent.setLinksClickable(true);
+        editTextContent.setAutoLinkMask(Linkify.WEB_URLS);
+        editTextContent.setMovementMethod(MyMovementMethod.getInstance());
+        // If the edit text contains previous text with potential links
+        Linkify.addLinks(editTextContent, Linkify.WEB_URLS);
+
+        editTextTitle.setLinksClickable(true);
+        editTextTitle.setAutoLinkMask(Linkify.WEB_URLS);
+        editTextTitle.setMovementMethod(MyMovementMethod.getInstance());
+        // If the edit text contains previous text with potential links
+        Linkify.addLinks(editTextTitle, Linkify.WEB_URLS);
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
         // Get Font Size SharedPreferences
@@ -130,6 +143,7 @@ public class NoteActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                Linkify.addLinks(editTextContent, Linkify.WEB_URLS);
             }
         });
 
@@ -151,6 +165,7 @@ public class NoteActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                Linkify.addLinks(editTextContent, Linkify.WEB_URLS);
             }
         });
 
