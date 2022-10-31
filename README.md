@@ -11,9 +11,10 @@ This app has a great priority for accessibility before all, so if there is anyth
 
 Feel free to try it out and let me know what is missing or not working! Pull requests and issues are most welcome.
 
-The app icon is a modified svg from the Papirus Icon Theme. You can find their GitHub repo here: [https://github.com/PapirusDevelopmentTeam/papirus-icon-theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme). 
-You can find the original svg here: [https://github.com/PapirusDevelopmentTeam/papirus-icon-theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme).
-The icon is likely temporary until I can get a custom one done.
+The app icon is a modified svg from the Papirus Icon Theme:
+- You can find their GitHub repo here: [https://github.com/PapirusDevelopmentTeam/papirus-icon-theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme). 
+- You can find the original svg here: [https://github.com/PapirusDevelopmentTeam/papirus-icon-theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme).
+- The icon is likely temporary until I can get a custom one done.
 
 # Roadmap
 - [ ] Pinning notes
