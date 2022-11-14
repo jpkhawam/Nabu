@@ -96,8 +96,8 @@ public class TrashActivity extends AppCompatActivity implements NavigationView.O
 
         Toolbar toolbar = findViewById(R.id.main_toolbar_trash);
         toolbar.setOnMenuItemClickListener(item -> {
-            if(item.getItemId() == R.id.empty_trash) {
-                if(dataBaseHelper.getAllNotesFromTrash().isEmpty()) {
+            if (item.getItemId() == R.id.empty_trash) {
+                if (dataBaseHelper.getAllNotesFromTrash().isEmpty()) {
                     Snackbar.make(findViewById(R.id.mainLayout), R.string.trash_is_empty, Snackbar.LENGTH_SHORT).show();
                     return true;
                 }
