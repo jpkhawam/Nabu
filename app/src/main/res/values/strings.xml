@@ -76,6 +76,7 @@
     <string name="ask_are_you_sure">Are you sure?</string>
     <string name="cannot_archive_empty_note">Cannot archive empty note</string>
     <string name="this_will_delete_the_note_permanently">This will delete the note permanently</string>
+    <string name="delete_notes_permanently">This will delete notes permanently</string>
     <string name="you_would_still_be_able_to_restore_the_note">You would still be able to restore the note.</string>
     <string name="sharing_note">Sharing Note</string>
     <string name="copied_text">Copied text</string>
@@ -84,6 +85,8 @@
     <string name="font_size_large">Large</string>
     <string name="font_type_default">Default</string>
     <string name="font_type_dyslexia">Dyslexia-friendly</string>
+    <string name="empty_trash">Empty trash</string>
+    <string name="trash_is_empty">Trash is empty! There is nothing to delete</string>
 
     <string-array name="settings_fontsize">
         <item>@string/font_size_small</item>

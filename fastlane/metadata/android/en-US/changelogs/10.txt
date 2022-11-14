@@ -1,0 +1,1 @@
+- added option to delete all notes from trash at once. thank you @adamtkac!
