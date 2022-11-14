@@ -80,6 +80,8 @@
     <string name="font_size_large">大</string>
     <string name="font_type_default">普通字体</string>
     <string name="font_type_dyslexia">适合失读症患者的字体</string>
+    <string name="empty_trash">清空垃圾桶</string>
+    <string name="trash_is_empty">垃圾是空的！没有什么可删除的</string>
 
     <string-array name="settings_fontsize">
         <item>@string/font_size_small</item>
@@ -91,4 +93,5 @@
         <item>@string/font_type_default</item>
         <item>@string/font_type_dyslexia</item>
     </string-array>
+    <string name="delete_notes_permanently">这将永久删除笔记</string>
 </resources>
