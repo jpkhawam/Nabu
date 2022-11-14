@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -94,7 +95,23 @@ public class TrashActivity extends AppCompatActivity implements NavigationView.O
         }
 
         Toolbar toolbar = findViewById(R.id.main_toolbar_trash);
-        setSupportActionBar(toolbar);
+        toolbar.setOnMenuItemClickListener(item -> {
+            if(item.getItemId() == R.id.empty_trash) {
+                if(dataBaseHelper.getAllNotesFromTrash().isEmpty()) {
+                    Snackbar.make(findViewById(R.id.mainLayout), R.string.trash_is_empty, Snackbar.LENGTH_SHORT).show();
+                    return true;
+                }
+                Intent outgoingIntent = new Intent(this, TrashActivity.class);
+                new MaterialAlertDialogBuilder(this).setTitle(R.string.ask_are_you_sure).setMessage(R.string.delete_notes_permanently).setPositiveButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss()).setNegativeButton(R.string.delete_permanently, (dialogInterface, i) -> {
+                    dataBaseHelper.emptyTrash();
+                    outgoingIntent.putExtra("deletedNoteFromTrash", true);
+                    startActivity(outgoingIntent);
+                }).create().show();
+                return true;
+            } else {
+                return false;
+            }
+        });
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Get Font Size SharedPreferences
